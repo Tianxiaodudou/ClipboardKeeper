@@ -117,7 +117,15 @@ jobs:
           tag_name: v${{ steps.version.outputs.VN }}
           name: v${{ steps.version.outputs.VN }}
           files: dist/*.apk
-          generate_release_notes: true
+          body: |
+            ## 剪贴板警察 ${{ steps.version.outputs.VN }}
+
+            - Hook：ClipboardService 的 setPrimaryClip / getPrimaryClip
+            - 作用域：系统框架（system）
+            - 目标：Android 14~16 + KernelSU + LSPosed
+
+            > 若本仓库未配置签名 secrets（KEYSTORE_BASE64 / KEYSTORE_PASSWORD / KEY_ALIAS / KEY_PASSWORD），
+            > 该 APK 为 debug 签名，仅用于自测；正式使用前请配置密钥，否则后续版本签名不一致需卸载重装。
 
       - name: Remove keystore
         if: always()
