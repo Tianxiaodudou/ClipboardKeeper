@@ -10,8 +10,25 @@ def appVersionCode = (project.findProperty('versionCodeOverride')
 def appVersionName = (project.findProperty('versionNameOverride')
         ?: versionProps.getProperty('versionName', '0.1.0')).toString().trim()
 
+// 签名密钥来源优先级：CI 环境变量 > 仓库内 signing/keystore.properties
+def signingProps = new Properties()
+def signingPropsFile = rootProject.file('signing/keystore.properties')
+if (signingPropsFile.exists()) {
+    signingPropsFile.withInputStream { signingProps.load(it) }
+}
+
 def keystoreFile = System.getenv('KEYSTORE_FILE')
-def keystoreType = System.getenv('KEYSTORE_TYPE') ?: 'PKCS12'
+if (!keystoreFile && signingProps.getProperty('storeFile')) {
+    keystoreFile = rootProject.file('signing/' + signingProps.getProperty('storeFile')).absolutePath
+}
+def keystoreType = System.getenv('KEYSTORE_TYPE')
+        ?: signingProps.getProperty('storeType', 'PKCS12')
+def keystorePassword = System.getenv('KEYSTORE_PASSWORD')
+        ?: signingProps.getProperty('storePassword')
+def keystoreAlias = System.getenv('KEY_ALIAS')
+        ?: signingProps.getProperty('keyAlias')
+def keystoreKeyPassword = System.getenv('KEY_PASSWORD')
+        ?: signingProps.getProperty('keyPassword')
 
 android {
     namespace 'com.tianxiaodudou.clipboardpolice'
@@ -30,9 +47,9 @@ android {
             if (keystoreFile) {
                 storeFile file(keystoreFile)
                 storeType keystoreType
-                storePassword System.getenv('KEYSTORE_PASSWORD')
-                keyAlias System.getenv('KEY_ALIAS')
-                keyPassword System.getenv('KEY_PASSWORD')
+                storePassword keystorePassword
+                keyAlias keystoreAlias
+                keyPassword keystoreKeyPassword
             }
         }
     }

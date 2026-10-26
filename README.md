@@ -42,35 +42,20 @@ CI 若发现 `v<versionName>` tag 已存在，则先算出下一个版本、用�
 
     gradle assembleRelease
 
-### 签名（固定密钥，绝不入库）
+### 签名（固定密钥，随仓库提供）
 
-release **只使用固定密钥签名**，已彻底移除 debug 签名回退：
+本仓库为**私有仓库**，release 签名密钥直接放在仓库里，CI 不需要任何 secrets：
 
-- `main` 分支构建：必须配置 `KEYSTORE_BASE64`，否则 workflow 直接失败，不产出 APK
-- 其他分支：未配置时用一次性临时密钥签名，仅作编译校验，产物不进入 Release
-- keystore 类型自动识别（JKS 魔数 `feedfeed`，其余按 PKCS12），也可用 `KEYSTORE_TYPE` 显式指定
-- 每次构建都执行 `apksigner verify --print-certs`，未签名直接终止，并把证书 SHA-256 写进 `ci/build.log`
-- job 结束删除解码出的 keystore
+- `signing/clipboardpolice-release.p12` —— PKCS12 固定密钥（4096 位 RSA，有效期 100 年）
+- `signing/keystore.properties` —— `storeFile / storeType / storePassword / keyAlias / keyPassword`
+- 证书 SHA-256：`5C:40:E3:D5:EF:EB:02:C3:EE:E7:34:B3:5F:30:14:DF:58:78:F1:2A:9A:10:80:CB:E7:29:C6:15:37:B9:92:C2`
+- 签名来源优先级：CI 环境变量（`KEYSTORE_FILE`/`KEYSTORE_PASSWORD`/`KEY_ALIAS`/`KEY_PASSWORD`/`KEYSTORE_TYPE`）> `signing/keystore.properties`
 
-Secrets（4 个）：`KEYSTORE_BASE64`、`KEYSTORE_PASSWORD`、`KEY_ALIAS`、`KEY_PASSWORD`。
+硬约束：
 
-生成密钥（二选一，PKCS12 可用）：
-
-    # keytool（JKS）
-    keytool -genkeypair -v -keystore release.jks -alias clipboardpolice \
-      -keyalg RSA -keysize 4096 -validity 36500 \
-      -storepass <storePassword> -keypass <keyPassword> \
-      -dname "CN=ClipboardPolice,O=ClipboardPolice"
-    base64 -w0 release.jks > keystore.b64
-
-    # openssl（PKCS12）
-    openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem \
-      -days 36500 -subj "/CN=ClipboardPolice/O=ClipboardPolice"
-    openssl pkcs12 -export -in cert.pem -inkey key.pem -name clipboardpolice \
-      -out release.p12 -passout pass:<密码>
-    base64 -w0 release.p12 > keystore.b64
-
-把 `keystore.b64` 的单行内容填进 `KEYSTORE_BASE64`。
+- **不再有 debug 签名回退**：缺密钥时 workflow 直接失败（`::error::`），产物必须通过 `apksigner verify`，证书 SHA-256 写进 `ci-log` 分支的 `ci/build.log`
+- 这份密钥就是应用身份：**仓库必须保持私有**，一旦转公开请立刻换密钥（已装机用户需卸载重装）
+- 密钥丢失后无法覆盖升级已安装版本，请另存一份
 
 ## 使用
 
