@@ -3,6 +3,7 @@ package com.tianxiaodudou.clipboardpolice.ui;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,6 +11,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import com.tianxiaodudou.clipboardpolice.R;
 
 /**
  * 刷新流程：su 读临时文件 → 解析还原转义 → 批量插入 → 按规则裁剪 → 清空临时文件 → 查列表。
@@ -22,6 +25,8 @@ public final class ClipSync {
     }
 
     /** 列表最多展示最近 500 条 */
+    private static final String TAG = "ClipboardPolice";
+
     public static final int LIST_LIMIT = 500;
     public static final String KEY_MAX_RECORDS = "clipboard_watch_max_records";
     public static final int DEFAULT_MAX_RECORDS = 10000;
@@ -39,7 +44,8 @@ public final class ClipSync {
 
     public static void refresh(Context context, Callback callback) {
         if (!RUNNING.compareAndSet(false, true)) {
-            deliver(callback, false, "刷新进行中", 0, Collections.emptyList());
+            // message 为 null 表示"正在刷新中"，由界面自己决定怎么提示
+            deliver(callback, false, null, 0, Collections.emptyList());
             return;
         }
         Context appContext = context.getApplicationContext();
@@ -50,7 +56,7 @@ public final class ClipSync {
             List<ClipRecord> records = Collections.emptyList();
             try {
                 if (!RootShell.ensureRoot()) {
-                    message = "未获得 Root 权限";
+                    message = appContext.getString(R.string.refresh_no_root);
                 } else {
                     RootShell.prepareTmp();
                     List<ClipRecord> parsed = new ArrayList<>();
@@ -69,7 +75,8 @@ public final class ClipSync {
                     ok = true;
                 }
             } catch (Throwable t) {
-                message = t.getClass().getSimpleName() + ": " + t.getMessage();
+                Log.e(TAG, "refresh failed", t);
+                message = appContext.getString(R.string.refresh_internal);
             } finally {
                 RUNNING.set(false);
             }

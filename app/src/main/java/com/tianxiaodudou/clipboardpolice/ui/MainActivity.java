@@ -149,7 +149,11 @@ public class MainActivity extends AppCompatActivity implements ClipAdapter.Liste
                 updateEmptyView();
                 if (manual) toast(getString(R.string.refresh_done, inserted));
             } else if (manual) {
-                toast(getString(R.string.refresh_failed, message));
+                if (message == null) {
+                    toast(getString(R.string.refresh_busy));
+                } else {
+                    toast(getString(R.string.refresh_failed, message));
+                }
             }
         });
     }
@@ -188,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements ClipAdapter.Liste
             manager.setPrimaryClip(ClipData.newPlainText(label, text == null ? "" : text));
             toast(getString(R.string.copied, label));
         } catch (Throwable t) {
-            toast(getString(R.string.refresh_failed, String.valueOf(t.getMessage())));
+            toast(getString(R.string.copy_failed, getString(R.string.refresh_internal)));
         }
     }
 

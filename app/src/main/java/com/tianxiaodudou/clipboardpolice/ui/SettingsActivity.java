@@ -188,12 +188,48 @@ public class SettingsActivity extends AppCompatActivity {
             boolean ok = RootShell.writeSetting(key, value);
             mainHandler.post(() -> {
                 if (ok) {
-                    toast(getString(R.string.saved, key + "=" + value));
+                    toast(getString(R.string.saved, settingLabel(key), valueLabel(key, value)));
                 } else {
-                    toast(getString(R.string.save_failed, key));
+                    toast(getString(R.string.save_failed, settingLabel(key)));
                 }
             });
         }, "settings-save").start();
+    }
+
+    /** 设置项的中文名，用于提示文案 */
+    private String settingLabel(String key) {
+        switch (key) {
+            case KEY_WRITE_ENABLED:
+                return getString(R.string.set_write_enabled);
+            case KEY_WRITE_THROTTLE:
+                return getString(R.string.set_write_throttle);
+            case KEY_READ_ENABLED:
+                return getString(R.string.set_read_enabled);
+            case KEY_READ_THROTTLE:
+                return getString(R.string.set_read_throttle);
+            case ClipSync.KEY_MAX_RECORDS:
+                return getString(R.string.set_max_records);
+            default:
+                return key;
+        }
+    }
+
+    /** 设置值的中文展示，避免把 1 / 0 / 1000 这些原始值直接弹给用户 */
+    private String valueLabel(String key, String value) {
+        switch (key) {
+            case KEY_WRITE_ENABLED:
+            case KEY_READ_ENABLED:
+                return "1".equals(value)
+                        ? getString(R.string.state_on) : getString(R.string.state_off);
+            case KEY_WRITE_THROTTLE:
+            case KEY_READ_THROTTLE:
+                return "0".equals(value)
+                        ? getString(R.string.value_no_throttle) : getString(R.string.value_ms, value);
+            case ClipSync.KEY_MAX_RECORDS:
+                return getString(R.string.value_records, value);
+            default:
+                return value;
+        }
     }
 
     private void checkUpdate() {
