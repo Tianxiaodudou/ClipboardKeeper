@@ -43,6 +43,7 @@ jobs:
           java-version: '17'
 
       - name: Set up Gradle
+        id: gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
@@ -61,6 +62,7 @@ jobs:
           echo "KEYSTORE_FILE=$RUNNER_TEMP/ks/release.jks" >> "$GITHUB_ENV"
 
       - name: Build release APK
+        id: build
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -72,6 +74,7 @@ jobs:
             -PversionNameOverride=${{ steps.version.outputs.VN }} 2>&1 | tee build.log
 
       - name: Package artifact
+        id: pack
         run: |
           set -uo pipefail
           mkdir -p dist
@@ -83,6 +86,8 @@ jobs:
           ls -l dist
 
       - name: Upload artifact
+        id: upload
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: ClipboardPolice-${{ steps.version.outputs.VN }}
@@ -135,6 +140,8 @@ jobs:
             echo "status=${JOB_STATUS}"
           } > ci/status.txt
           {
+            echo "== step outcomes =="
+            echo "gradle=${{ steps.gradle.outcome }} build=${{ steps.build.outcome }} pack=${{ steps.pack.outcome }} upload=${{ steps.upload.outcome }}"
             echo "== ls dist =="
             ls -l dist || true
             echo "== apk files =="
