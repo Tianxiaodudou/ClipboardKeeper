@@ -1,852 +1,234 @@
-gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Cause 3: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve androidx.annotation:annotation:1.3.0.
-Required by:
-    project :app > androidx.appcompat:appcompat:1.7.0
-Caused by: org.gradle.api.GradleException: Cannot find a version of 'androidx.annotation:annotation' that satisfies the version constraints:
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:1.9.1'
-   Constraint path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:{strictly 1.6.0}' because of the following reason: version resolved in configuration ':app:releaseRuntimeClasspath' by consistent resolution
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.3.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.2.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.6.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.cursoradapter:cursoradapter:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.drawerlayout:drawerlayout:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.savedstate:savedstate:1.2.1' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.customview:customview:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.versionedparcelable:versionedparcelable:1.1.1' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.collection:collection:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.core:core-ktx:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.viewpager:viewpager:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable-animated:1.1.0' (compile) --> 'androidx.interpolator:interpolator:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-common:2.6.2' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-common:2.2.0' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.lifecycle:lifecycle-livedata:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-runtime:2.2.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
 
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.validateGraph(DependencyGraphBuilder.java:379)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:166)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DependencyGraphResolver.resolve(DependencyGraphResolver.java:121)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.doResolve(DefaultConfigurationResolver.java:386)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:279)
-	at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:93)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:790)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:782)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphInBuildOperation(DefaultConfiguration.java:782)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Cause 4: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve androidx.annotation:annotation:1.1.0.
-Required by:
-    project :app > androidx.recyclerview:recyclerview:1.3.2
-    project :app > androidx.activity:activity:1.7.0
-    project :app > androidx.fragment:fragment:1.5.4
-    project :app > androidx.savedstate:savedstate:1.2.1
-    project :app > androidx.vectordrawable:vectordrawable:1.1.0
-    project :app > androidx.lifecycle:lifecycle-runtime:2.6.2
-    project :app > androidx.lifecycle:lifecycle-viewmodel:2.6.2
-    project :app > androidx.versionedparcelable:versionedparcelable:1.1.1
-    project :app > androidx.collection:collection:1.1.0
-    project :app > androidx.core:core-ktx:1.13.0
-    project :app > androidx.lifecycle:lifecycle-common:2.6.2
-    project :app > androidx.arch.core:core-common:2.2.0
-    project :app > androidx.arch.core:core-runtime:2.2.0
-Caused by: org.gradle.api.GradleException: Cannot find a version of 'androidx.annotation:annotation' that satisfies the version constraints:
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:1.9.1'
-   Constraint path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:{strictly 1.6.0}' because of the following reason: version resolved in configuration ':app:releaseRuntimeClasspath' by consistent resolution
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.3.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.2.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.6.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.cursoradapter:cursoradapter:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.drawerlayout:drawerlayout:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.savedstate:savedstate:1.2.1' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.customview:customview:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.versionedparcelable:versionedparcelable:1.1.1' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.collection:collection:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.core:core-ktx:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.viewpager:viewpager:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable-animated:1.1.0' (compile) --> 'androidx.interpolator:interpolator:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-common:2.6.2' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-common:2.2.0' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.lifecycle:lifecycle-livedata:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-runtime:2.2.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
+Welcome to Gradle 8.9!
 
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.validateGraph(DependencyGraphBuilder.java:379)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:166)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DependencyGraphResolver.resolve(DependencyGraphResolver.java:121)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.doResolve(DefaultConfigurationResolver.java:386)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:279)
-	at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:93)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:790)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:782)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphInBuildOperation(DefaultConfiguration.java:782)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Cause 5: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve androidx.annotation:annotation:1.2.0.
-Required by:
-    project :app > androidx.appcompat:appcompat-resources:1.7.0
-Caused by: org.gradle.api.GradleException: Cannot find a version of 'androidx.annotation:annotation' that satisfies the version constraints:
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:1.9.1'
-   Constraint path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:{strictly 1.6.0}' because of the following reason: version resolved in configuration ':app:releaseRuntimeClasspath' by consistent resolution
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.3.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.2.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.6.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.cursoradapter:cursoradapter:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.drawerlayout:drawerlayout:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.savedstate:savedstate:1.2.1' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.customview:customview:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.versionedparcelable:versionedparcelable:1.1.1' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.collection:collection:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.core:core-ktx:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.viewpager:viewpager:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable-animated:1.1.0' (compile) --> 'androidx.interpolator:interpolator:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-common:2.6.2' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-common:2.2.0' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.lifecycle:lifecycle-livedata:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-runtime:2.2.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
+Here are the highlights of this release:
+ - Enhanced Error and Warning Messages
+ - IDE Integration Improvements
+ - Daemon JVM Information
 
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.validateGraph(DependencyGraphBuilder.java:379)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:166)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DependencyGraphResolver.resolve(DependencyGraphResolver.java:121)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.doResolve(DefaultConfigurationResolver.java:386)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:279)
-	at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:93)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:790)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:782)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphInBuildOperation(DefaultConfiguration.java:782)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Cause 6: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve androidx.annotation:annotation:1.6.0.
-Required by:
-    project :app > androidx.core:core:1.13.0
-Caused by: org.gradle.api.GradleException: Cannot find a version of 'androidx.annotation:annotation' that satisfies the version constraints:
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:1.9.1'
-   Constraint path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:{strictly 1.6.0}' because of the following reason: version resolved in configuration ':app:releaseRuntimeClasspath' by consistent resolution
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.3.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.2.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.6.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.cursoradapter:cursoradapter:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.drawerlayout:drawerlayout:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.savedstate:savedstate:1.2.1' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.customview:customview:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.versionedparcelable:versionedparcelable:1.1.1' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.collection:collection:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.core:core-ktx:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.viewpager:viewpager:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable-animated:1.1.0' (compile) --> 'androidx.interpolator:interpolator:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-common:2.6.2' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-common:2.2.0' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.lifecycle:lifecycle-livedata:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-runtime:2.2.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
+For more details see https://docs.gradle.org/8.9/release-notes.html
 
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.validateGraph(DependencyGraphBuilder.java:379)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:166)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DependencyGraphResolver.resolve(DependencyGraphResolver.java:121)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.doResolve(DefaultConfigurationResolver.java:386)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:279)
-	at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:93)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:790)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:782)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphInBuildOperation(DefaultConfiguration.java:782)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
-Cause 7: org.gradle.internal.resolve.ModuleVersionResolveException: Could not resolve androidx.annotation:annotation:1.0.0.
-Required by:
-    project :app > androidx.cursoradapter:cursoradapter:1.0.0
-    project :app > androidx.drawerlayout:drawerlayout:1.0.0
-    project :app > androidx.customview:customview:1.0.0
-    project :app > androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2
-    project :app > androidx.loader:loader:1.0.0
-    project :app > androidx.viewpager:viewpager:1.0.0
-    project :app > androidx.interpolator:interpolator:1.0.0
-Caused by: org.gradle.api.GradleException: Cannot find a version of 'androidx.annotation:annotation' that satisfies the version constraints:
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:1.9.1'
-   Constraint path 'ClipboardPolice:app:unspecified' --> 'androidx.annotation:annotation:{strictly 1.6.0}' because of the following reason: version resolved in configuration ':app:releaseRuntimeClasspath' by consistent resolution
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.3.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.2.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.6.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.cursoradapter:cursoradapter:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.drawerlayout:drawerlayout:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.savedstate:savedstate:1.2.1' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.recyclerview:recyclerview:1.3.2' (releaseVariantReleaseApiPublication) --> 'androidx.customview:customview:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.core:core:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.versionedparcelable:versionedparcelable:1.1.1' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.collection:collection:1.1.0' (compile) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.core:core-ktx:1.13.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.viewpager:viewpager:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.appcompat:appcompat-resources:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.vectordrawable:vectordrawable-animated:1.1.0' (compile) --> 'androidx.interpolator:interpolator:1.0.0' (compile) --> 'androidx.annotation:annotation:1.0.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-common:2.6.2' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.activity:activity:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.lifecycle:lifecycle-runtime:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-common:2.2.0' (apiElements) --> 'androidx.annotation:annotation:1.1.0'
-   Dependency path 'ClipboardPolice:app:unspecified' --> 'androidx.appcompat:appcompat:1.7.0' (releaseVariantReleaseApiPublication) --> 'androidx.fragment:fragment:1.5.4' (releaseVariantReleaseApiPublication) --> 'androidx.loader:loader:1.0.0' (compile) --> 'androidx.lifecycle:lifecycle-livedata:2.6.2' (releaseVariantReleaseApiPublication) --> 'androidx.arch.core:core-runtime:2.2.0' (releaseVariantReleaseApiPublication) --> 'androidx.annotation:annotation:1.1.0'
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.9/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:mergeReleaseNativeLibs NO-SOURCE
+> Task :app:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:extractReleaseNativeSymbolTables NO-SOURCE
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:generateReleaseBuildConfig
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:javaPreCompileRelease
+> Task :app:generateReleaseResValues
+> Task :app:checkReleaseAarMetadata
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+> Task :app:mergeReleaseResources
+> Task :app:processReleaseMainManifest
+> Task :app:packageReleaseResources
+> Task :app:parseReleaseLocalResources
+> Task :app:processReleaseManifest
+> Task :app:desugarReleaseFileDependencies
+> Task :app:processReleaseManifestForPackage
+> Task :app:mergeReleaseStartupProfile
+> Task :app:processReleaseResources
+> Task :app:mergeExtDexRelease
 
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.validateGraph(DependencyGraphBuilder.java:379)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.graph.builder.DependencyGraphBuilder.resolve(DependencyGraphBuilder.java:166)
-	at org.gradle.api.internal.artifacts.ivyservice.resolveengine.DependencyGraphResolver.resolve(DependencyGraphResolver.java:121)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.doResolve(DefaultConfigurationResolver.java:386)
-	at org.gradle.api.internal.artifacts.ivyservice.DefaultConfigurationResolver.resolveGraph(DefaultConfigurationResolver.java:279)
-	at org.gradle.api.internal.artifacts.ivyservice.ShortCircuitEmptyConfigurationResolver.resolveGraph(ShortCircuitEmptyConfigurationResolver.java:93)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:790)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$1.call(DefaultConfiguration.java:782)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphInBuildOperation(DefaultConfiguration.java:782)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.lambda$resolveExclusivelyIfRequired$5(DefaultConfiguration.java:774)
-	at org.gradle.api.internal.project.DefaultProjectStateRegistry$CalculatedModelValueImpl.update(DefaultProjectStateRegistry.java:505)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveExclusivelyIfRequired(DefaultConfiguration.java:769)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.resolveGraphIfRequired(DefaultConfiguration.java:762)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration.access$1200(DefaultConfiguration.java:161)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:736)
-	at org.gradle.api.internal.artifacts.configurations.DefaultConfiguration$ResolverResultsResolutionResultProvider.getValue(DefaultConfiguration.java:697)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionResultProvider$1.getValue(ResolutionResultProvider.java:53)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.getSelectedArtifacts(ResolutionBackedFileCollection.java:95)
-	at org.gradle.api.internal.artifacts.configurations.ResolutionBackedFileCollection.visitContents(ResolutionBackedFileCollection.java:73)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$calculateFinalizedValue$1(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection$UnresolvedItemsCollector.visitContents(DefaultConfigurableFileCollection.java:594)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.calculateFinalizedValue(DefaultConfigurableFileCollection.java:391)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.finalizeNow(DefaultConfigurableFileCollection.java:120)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.lambda$visitChildren$2(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.provider.ValueState.finalizeOnReadIfNeeded(ValueState.java:139)
-	at org.gradle.api.internal.file.collections.DefaultConfigurableFileCollection.visitChildren(DefaultConfigurableFileCollection.java:415)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:67)
-	at org.gradle.api.internal.file.collections.UnpackingVisitor.add(UnpackingVisitor.java:92)
-	at org.gradle.api.internal.file.DefaultFileCollectionFactory$ResolvingFileCollection.visitChildren(DefaultFileCollectionFactory.java:306)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.api.internal.file.CompositeFileCollection.lambda$visitContents$0(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.tasks.PropertyFileCollection.visitChildren(PropertyFileCollection.java:48)
-	at org.gradle.api.internal.file.CompositeFileCollection.visitContents(CompositeFileCollection.java:113)
-	at org.gradle.api.internal.file.AbstractFileCollection.visitStructure(AbstractFileCollection.java:360)
-	at org.gradle.internal.fingerprint.impl.DefaultFileCollectionSnapshotter.snapshot(DefaultFileCollectionSnapshotter.java:47)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter$InputCollectingVisitor.visitInputFileProperty(DefaultInputFingerprinter.java:133)
-	at org.gradle.api.internal.tasks.execution.TaskExecution.visitRegularInputs(TaskExecution.java:324)
-	at org.gradle.internal.execution.impl.DefaultInputFingerprinter.fingerprintInputProperties(DefaultInputFingerprinter.java:63)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionStateWithOutputs(AbstractCaptureStateBeforeExecutionStep.java:109)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.lambda$captureExecutionState$0(AbstractCaptureStateBeforeExecutionStep.java:74)
-	at org.gradle.internal.execution.steps.BuildOperationStep$1.call(BuildOperationStep.java:37)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.internal.execution.steps.BuildOperationStep.operation(BuildOperationStep.java:34)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.captureExecutionState(AbstractCaptureStateBeforeExecutionStep.java:69)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:62)
-	at org.gradle.internal.execution.steps.AbstractCaptureStateBeforeExecutionStep.execute(AbstractCaptureStateBeforeExecutionStep.java:43)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.executeWithNonEmptySources(AbstractSkipEmptyWorkStep.java:125)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:56)
-	at org.gradle.internal.execution.steps.AbstractSkipEmptyWorkStep.execute(AbstractSkipEmptyWorkStep.java:36)
-	at org.gradle.internal.execution.steps.legacy.MarkSnapshottingInputsStartedStep.execute(MarkSnapshottingInputsStartedStep.java:38)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:36)
-	at org.gradle.internal.execution.steps.LoadPreviousExecutionStateStep.execute(LoadPreviousExecutionStateStep.java:23)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:75)
-	at org.gradle.internal.execution.steps.HandleStaleOutputsStep.execute(HandleStaleOutputsStep.java:41)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.lambda$execute$0(AssignMutableWorkspaceStep.java:35)
-	at org.gradle.api.internal.tasks.execution.TaskExecution$4.withWorkspace(TaskExecution.java:289)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:31)
-	at org.gradle.internal.execution.steps.AssignMutableWorkspaceStep.execute(AssignMutableWorkspaceStep.java:22)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:40)
-	at org.gradle.internal.execution.steps.ChoosePipelineStep.execute(ChoosePipelineStep.java:23)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.lambda$execute$2(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:67)
-	at org.gradle.internal.execution.steps.ExecuteWorkBuildOperationFiringStep.execute(ExecuteWorkBuildOperationFiringStep.java:39)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:46)
-	at org.gradle.internal.execution.steps.IdentityCacheStep.execute(IdentityCacheStep.java:34)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:48)
-	at org.gradle.internal.execution.steps.IdentifyStep.execute(IdentifyStep.java:35)
-	at org.gradle.internal.execution.impl.DefaultExecutionEngine$1.execute(DefaultExecutionEngine.java:61)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.executeIfValid(ExecuteActionsTaskExecuter.java:127)
-	at org.gradle.api.internal.tasks.execution.ExecuteActionsTaskExecuter.execute(ExecuteActionsTaskExecuter.java:116)
-	at org.gradle.api.internal.tasks.execution.FinalizePropertiesTaskExecuter.execute(FinalizePropertiesTaskExecuter.java:46)
-	at org.gradle.api.internal.tasks.execution.ResolveTaskExecutionModeExecuter.execute(ResolveTaskExecutionModeExecuter.java:51)
-	at org.gradle.api.internal.tasks.execution.SkipTaskWithNoActionsExecuter.execute(SkipTaskWithNoActionsExecuter.java:57)
-	at org.gradle.api.internal.tasks.execution.SkipOnlyIfTaskExecuter.execute(SkipOnlyIfTaskExecuter.java:74)
-	at org.gradle.api.internal.tasks.execution.CatchExceptionTaskExecuter.execute(CatchExceptionTaskExecuter.java:36)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.executeTask(EventFiringTaskExecuter.java:77)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:55)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter$1.call(EventFiringTaskExecuter.java:52)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
-	at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
-	at org.gradle.api.internal.tasks.execution.EventFiringTaskExecuter.execute(EventFiringTaskExecuter.java:52)
-	at org.gradle.execution.plan.LocalTaskNodeExecutor.execute(LocalTaskNodeExecutor.java:42)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:331)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$InvokeNodeExecutorsAction.execute(DefaultTaskExecutionGraph.java:318)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.lambda$execute$0(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.internal.operations.CurrentBuildOperationRef.with(CurrentBuildOperationRef.java:85)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:314)
-	at org.gradle.execution.taskgraph.DefaultTaskExecutionGraph$BuildOperationAwareExecutionAction.execute(DefaultTaskExecutionGraph.java:303)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.execute(DefaultPlanExecutor.java:459)
-	at org.gradle.execution.plan.DefaultPlanExecutor$ExecutorWorker.run(DefaultPlanExecutor.java:376)
-	at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
-	at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+> Task :app:compileReleaseJavaWithJavac
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/hook/HookEntry.java:300: error: cannot find symbol
+            ctx.sendBroadcastAsUser(intent, UserHandle.ALL);
+                                                      ^
+  symbol:   variable ALL
+  location: class UserHandle
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:39: error: package R does not exist
+        setContentView(R.layout.activity_main);
+                        ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:41: error: package R does not exist
+        recycler = findViewById(R.id.recycler);
+                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:42: error: package R does not exist
+        emptyView = findViewById(R.id.emptyView);
+                                  ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:43: error: package R does not exist
+        rootBanner = findViewById(R.id.rootBanner);
+                                   ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:44: error: package R does not exist
+        btnRefresh = findViewById(R.id.btnRefresh);
+                                   ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:45: error: package R does not exist
+        btnClear = findViewById(R.id.btnClear);
+                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:46: error: package R does not exist
+        btnSettings = findViewById(R.id.btnSettings);
+                                    ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:109: error: package R does not exist
+        if (manual) toast(getString(R.string.refreshing));
+                                     ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:114: error: package R does not exist
+                if (manual) toast(getString(R.string.refresh_done, inserted));
+                                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:116: error: package R does not exist
+                toast(getString(R.string.refresh_failed, message));
+                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:126: error: package R does not exist
+                .setPositiveButton(R.string.confirm, (dialog, which) -> clearAll())
+                                    ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:125: error: package R does not exist
+                .setNegativeButton(R.string.cancel, null)
+                                    ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:124: error: package R does not exist
+                .setMessage(R.string.clear_confirm_msg)
+                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:123: error: package R does not exist
+                .setTitle(R.string.clear_confirm_title)
+                           ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:134: error: package R does not exist
+            toast(getString(R.string.cleared));
+                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:153: error: package R does not exist
+            toast(getString(R.string.copied, label));
+                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:155: error: package R does not exist
+            toast(getString(R.string.refresh_failed, String.valueOf(t.getMessage())));
+                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:50: error: package R does not exist
+                .inflate(R.layout.item_clip, parent, false);
+                          ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: reference to setText is ambiguous
+        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
+                   ^
+  both method setText(CharSequence) in TextView and method setText(int) in TextView match
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: package R does not exist
+        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
+                                       ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: package R does not exist
+        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
+                                                           ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:61: error: package R does not exist
+                isWrite ? R.color.write_blue : R.color.read_gray));
+                           ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:61: error: package R does not exist
+                isWrite ? R.color.write_blue : R.color.read_gray));
+                                                ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:77: error: package R does not exist
+                listener.onLongPressCopy(holder.itemView.getContext().getString(R.string.copy_package),
+                                                                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:84: error: package R does not exist
+                listener.onLongPressCopy(holder.itemView.getContext().getString(R.string.copy_content),
+                                                                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:104: error: package R does not exist
+            tvOp = itemView.findViewById(R.id.tvOp);
+                                          ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:105: error: package R does not exist
+            tvTime = itemView.findViewById(R.id.tvTime);
+                                            ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:106: error: package R does not exist
+            tvPkg = itemView.findViewById(R.id.tvPkg);
+                                           ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:107: error: package R does not exist
+            tvContent = itemView.findViewById(R.id.tvContent);
+                                               ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:37: error: package R does not exist
+        setContentView(R.layout.activity_settings);
+                        ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:40: error: package R does not exist
+        spWriteThrottle = findViewById(R.id.spWriteThrottle);
+                                        ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:41: error: package R does not exist
+        spReadThrottle = findViewById(R.id.spReadThrottle);
+                                       ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:42: error: package R does not exist
+        spMaxRecords = findViewById(R.id.spMaxRecords);
+                                     ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:43: error: package R does not exist
+        swReadEnabled = findViewById(R.id.swReadEnabled);
+                                      ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:44: error: package R does not exist
+        btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
+                                       ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:46: error: package R does not exist
+        setupSpinner(spWriteThrottle, R.array.throttle_entries, R.array.throttle_values,
+                                       ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:46: error: package R does not exist
+        setupSpinner(spWriteThrottle, R.array.throttle_entries, R.array.throttle_values,
+                                                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:48: error: package R does not exist
+        setupSpinner(spReadThrottle, R.array.throttle_entries, R.array.throttle_values,
+                                      ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:48: error: package R does not exist
+        setupSpinner(spReadThrottle, R.array.throttle_entries, R.array.throttle_values,
+                                                                ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:50: error: package R does not exist
+        setupSpinner(spMaxRecords, R.array.max_records_entries, R.array.max_records_values,
+                                    ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:50: error: package R does not exist
+        setupSpinner(spMaxRecords, R.array.max_records_entries, R.array.max_records_values,
+                                                                 ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:103: error: package R does not exist
+                selectValue(spWriteThrottle, R.array.throttle_values, writeThrottle, "1000");
+                                              ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:104: error: package R does not exist
+                selectValue(spReadThrottle, R.array.throttle_values, readThrottle, "1000");
+                                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:105: error: package R does not exist
+                selectValue(spMaxRecords, R.array.max_records_values, maxRecords,
+                                           ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:115: error: package R does not exist
+                    Toast.makeText(this, R.string.need_root, Toast.LENGTH_LONG).show();
+                                          ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:137: error: package R does not exist
+                    toast(getString(R.string.saved, key + "=" + value));
+                                     ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:139: error: package R does not exist
+                    toast(getString(R.string.save_failed, key));
+                                     ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:146: error: package R does not exist
+        toast(getString(R.string.checking_update));
+                         ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:153: error: package R does not exist
+                        .setPositiveButton(R.string.ok, null)
+                                            ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:151: error: package R does not exist
+                        .setTitle(R.string.update_title)
+                                   ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:152: error: package R does not exist
+                        .setMessage(getString(R.string.update_failed, message))
+                                               ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:162: error: package R does not exist
+                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                                            ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:161: error: package R does not exist
+                        .setNegativeButton(R.string.cancel, null)
+                                            ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:159: error: package R does not exist
+                        .setTitle(R.string.update_title)
+                                   ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:160: error: package R does not exist
+                        .setMessage(getString(R.string.update_found, version, current))
+                                               ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:164: error: package R does not exist
+                            toast(getString(R.string.download_started));
+                                             ^
+/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:168: error: package R does not exist
+                toast(getString(R.string.update_none, current));
+                                 ^
+58 errors
 
+> Task :app:compileReleaseJavaWithJavac FAILED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793019358372.json
 
-BUILD FAILED in 57s
-19 actionable tasks: 19 executed
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileReleaseJavaWithJavac'.
+> Compilation failed; see the compiler error output for details.
+
+* Try:
+> Run with --info option to get more log output.
+> Run with --scan to get full insights.
+
+BUILD FAILED in 1m 40s
+21 actionable tasks: 21 executed
