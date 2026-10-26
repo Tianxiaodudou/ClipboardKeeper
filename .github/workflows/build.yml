@@ -73,9 +73,12 @@ jobs:
 
       - name: Package artifact
         run: |
-          set -euo pipefail
+          set -uo pipefail
           mkdir -p dist
-          SRC="$(find app/build/outputs/apk/release -name '*.apk' | head -1)"
+          SRC="$(find app/build/outputs/apk/release -name '*.apk' -print -quit || true)"
+          echo "apk source: ${SRC}"
+          find app/build/outputs -name '*.apk' || true
+          if [ -z "${SRC}" ]; then echo "no apk produced"; exit 1; fi
           cp "$SRC" "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk"
           ls -l dist
 
@@ -131,10 +134,19 @@ jobs:
             echo "version=${{ steps.version.outputs.VN }} (${{ steps.version.outputs.VC }})"
             echo "status=${JOB_STATUS}"
           } > ci/status.txt
+          {
+            echo "== ls dist =="
+            ls -l dist || true
+            echo "== apk files =="
+            find app/build/outputs -name '*.apk' || true
+            echo "== git status =="
+            git status --short | head -20
+            echo "== run log =="
+          } >> ci/build.log
           if [ -f build.log ]; then
-            tail -c 120000 build.log > ci/build.log
+            tail -c 120000 build.log >> ci/build.log
           else
-            echo "no build.log produced" > ci/build.log
+            echo "no build.log produced" >> ci/build.log
           fi
           git add -f ci
           git commit -m "ci: build #${{ github.run_number }} ${JOB_STATUS} on ${{ github.ref_name }}" || echo "no changes"
