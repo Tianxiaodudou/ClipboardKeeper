@@ -213,7 +213,7 @@ jobs:
             echo "== git status =="
             git status --short | head -20
             echo "== run log =="
-          } >> ci/build.log
+          } > ci/build.log
           if [ -f build.log ]; then
             tail -c 120000 build.log >> ci/build.log
           else
