@@ -54,6 +54,8 @@ public class HookEntry extends XposedModule {
     private Context systemContext;
     private File logFile;
     private int logLines = -1;
+    /** 主路径一旦写失败（多为 SELinux），后续固定用回退路径 */
+    private boolean fallbackLocked;
 
     // ---------------------------------------------------------------- 生命周期
 
@@ -316,7 +318,7 @@ public class HookEntry extends XposedModule {
     private void appendRecord(String operation, String pkg, String content) {
         try {
             File file = resolveLogFile();
-            if (logLines < 0) logLines = countLines(file);
+            if (logLines < 0 || file.length() == 0L) logLines = 0;
             byte[] line = (System.currentTimeMillis() + "\t" + operation + "\t" + pkg + "\t"
                     + escape(content) + "\n").getBytes(StandardCharsets.UTF_8);
             boolean needReset = logLines >= MAX_LINES || file.length() + line.length > MAX_BYTES;
@@ -331,7 +333,8 @@ public class HookEntry extends XposedModule {
             }
             logLines++;
         } catch (Throwable t) {
-            // 下次重新解析路径，允许主路径恢复后可写
+            // 主路径写失败就锁定回退路径，避免每条事件都重试
+            fallbackLocked = true;
             logFile = null;
             logLines = -1;
             log(Log.ERROR, TAG, "append temp log failed", t);
@@ -339,9 +342,9 @@ public class HookEntry extends XposedModule {
     }
 
     private File resolveLogFile() {
-        if (logFile != null && logFile.canWrite()) return logFile;
+        if (logFile != null) return logFile;
         File primary = new File(PRIMARY_TMP);
-        if (writable(primary)) {
+        if (!fallbackLocked && writable(primary)) {
             logFile = primary;
             return primary;
         }

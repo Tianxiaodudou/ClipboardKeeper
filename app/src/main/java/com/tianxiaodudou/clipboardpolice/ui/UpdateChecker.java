@@ -4,6 +4,8 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ public final class UpdateChecker {
     private static final String REPO = "Tianxiaodudou/ClipboardPolice";
     private static final String API = "https://api.github.com/repos/" + REPO + "/releases/latest";
     private static final String USER_AGENT = "ClipboardPolice-UpdateChecker";
+    private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     public interface Callback {
         void onResult(boolean ok, String version, String apkUrl, String message);
@@ -80,7 +83,7 @@ public final class UpdateChecker {
             String finalUrl = apkUrl;
             String finalMessage = message;
             if (callback != null) {
-                callback.onResult(finalOk, finalVersion, finalUrl, finalMessage);
+                MAIN.post(() -> callback.onResult(finalOk, finalVersion, finalUrl, finalMessage));
             }
         }, "update-check").start();
     }
