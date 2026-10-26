@@ -42,16 +42,35 @@ CI 若发现 `v<versionName>` tag 已存在，则先算出下一个版本、用�
 
     gradle assembleRelease
 
-### 签名（Secrets，绝不入库）
+### 签名（固定密钥，绝不入库）
 
+release **只使用固定密钥签名**，已彻底移除 debug 签名回退：
+
+- `main` 分支构建：必须配置 `KEYSTORE_BASE64`，否则 workflow 直接失败，不产出 APK
+- 其他分支：未配置时用一次性临时密钥签名，仅作编译校验，产物不进入 Release
+- keystore 类型自动识别（JKS 魔数 `feedfeed`，其余按 PKCS12），也可用 `KEYSTORE_TYPE` 显式指定
+- 每次构建都执行 `apksigner verify --print-certs`，未签名直接终止，并把证书 SHA-256 写进 `ci/build.log`
+- job 结束删除解码出的 keystore
+
+Secrets（4 个）：`KEYSTORE_BASE64`、`KEYSTORE_PASSWORD`、`KEY_ALIAS`、`KEY_PASSWORD`。
+
+生成密钥（二选一，PKCS12 可用）：
+
+    # keytool（JKS）
     keytool -genkeypair -v -keystore release.jks -alias clipboardpolice \
-      -keyalg RSA -keysize 2048 -validity 36500 \
+      -keyalg RSA -keysize 4096 -validity 36500 \
       -storepass <storePassword> -keypass <keyPassword> \
-      -dname "CN=ClipboardPolice"
-    base64 -w0 release.jks > release.jks.b64
+      -dname "CN=ClipboardPolice,O=ClipboardPolice"
+    base64 -w0 release.jks > keystore.b64
 
-仓库 Secrets：`KEYSTORE_BASE64`、`KEYSTORE_PASSWORD`、`KEY_ALIAS`、`KEY_PASSWORD`。
-未配置时 CI 退回 debug 签名（APK 仍可安装，仅用于自测）；每次 job 结束都会删除解码出的 keystore。
+    # openssl（PKCS12）
+    openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem \
+      -days 36500 -subj "/CN=ClipboardPolice/O=ClipboardPolice"
+    openssl pkcs12 -export -in cert.pem -inkey key.pem -name clipboardpolice \
+      -out release.p12 -passout pass:<密码>
+    base64 -w0 release.p12 > keystore.b64
+
+把 `keystore.b64` 的单行内容填进 `KEYSTORE_BASE64`。
 
 ## 使用
 

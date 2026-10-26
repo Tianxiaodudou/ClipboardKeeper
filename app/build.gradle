@@ -11,6 +11,7 @@ def appVersionName = (project.findProperty('versionNameOverride')
         ?: versionProps.getProperty('versionName', '0.1.0')).toString().trim()
 
 def keystoreFile = System.getenv('KEYSTORE_FILE')
+def keystoreType = System.getenv('KEYSTORE_TYPE') ?: 'PKCS12'
 
 android {
     namespace 'com.tianxiaodudou.clipboardpolice'
@@ -28,6 +29,7 @@ android {
         release {
             if (keystoreFile) {
                 storeFile file(keystoreFile)
+                storeType keystoreType
                 storePassword System.getenv('KEYSTORE_PASSWORD')
                 keyAlias System.getenv('KEY_ALIAS')
                 keyPassword System.getenv('KEY_PASSWORD')
@@ -37,8 +39,8 @@ android {
 
     buildTypes {
         release {
-            // CI 注入 keystore 时用 release 签名，否则退回 debug 签名（保证 APK 始终可安装）
-            signingConfig keystoreFile ? signingConfigs.release : signingConfigs.debug
+            // 只使用固定签名密钥；未提供时产物不签名（CI 会直接拦截，绝不回退 debug 签名）
+            signingConfig keystoreFile ? signingConfigs.release : null
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

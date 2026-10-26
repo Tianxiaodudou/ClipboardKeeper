@@ -51,25 +51,49 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Decode keystore
+      - name: Prepare signing key
+        id: keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
-        run: |
-          set -euo pipefail
-          if [ -z "${KEYSTORE_BASE64:-}" ]; then
-            echo "KEYSTORE_BASE64 未配置，本次使用 debug 签名"
-            exit 0
-          fi
-          mkdir -p "$RUNNER_TEMP/ks"
-          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/ks/release.jks"
-          echo "KEYSTORE_FILE=$RUNNER_TEMP/ks/release.jks" >> "$GITHUB_ENV"
-
-      - name: Build release APK
-        id: build
-        env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          KS="$RUNNER_TEMP/ks/release.keystore"
+          mkdir -p "$RUNNER_TEMP/ks"
+          if [ -n "${KEYSTORE_BASE64:-}" ]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$KS"
+            echo "signing: 使用仓库 secrets 中的固定密钥"
+          elif [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "::error::未配置 KEYSTORE_BASE64：main 分支发布必须使用固定签名密钥，禁止 debug 签名"
+            exit 1
+          else
+            echo "::warning::未配置 KEYSTORE_BASE64：本次仅编译校验，使用一次性临时密钥，产物不发布"
+            openssl req -x509 -newkey rsa:2048 -nodes -keyout "$RUNNER_TEMP/ks/verify.key" \
+              -out "$RUNNER_TEMP/ks/verify.crt" -days 1 \
+              -subj "/CN=ClipboardPolice-VerifyOnly/O=ClipboardPolice"
+            openssl pkcs12 -export -in "$RUNNER_TEMP/ks/verify.crt" \
+              -inkey "$RUNNER_TEMP/ks/verify.key" -name clipboardpolice \
+              -out "$KS" -passout pass:verifyonly
+            KEYSTORE_PASSWORD=verifyonly
+            KEY_ALIAS=clipboardpolice
+            KEY_PASSWORD=verifyonly
+          fi
+          MAGIC=$(head -c 4 "$KS" | od -An -tx1 | tr -d ' \n')
+          case "$MAGIC" in
+            feedfeed) TYPE=JKS ;;
+            *) TYPE=PKCS12 ;;
+          esac
+          echo "signing: file=$KS magic=$MAGIC type=$TYPE"
+          echo "KEYSTORE_FILE=$KS" >> "$GITHUB_ENV"
+          echo "KEYSTORE_TYPE=$TYPE" >> "$GITHUB_ENV"
+          echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+
+      - name: Build release APK
+        id: build
         run: |
           set -o pipefail
           gradle --no-daemon --console=plain assembleRelease \
@@ -91,7 +115,7 @@ jobs:
       - name: Verify APK payload
         run: |
           set -uo pipefail
-          APK="$(ls dist/*.apk | head -1)"
+          APK=$(ls dist/*.apk | head -1)
           {
             echo "== APK entries =="
             unzip -l "$APK" | grep -E "META-INF/xposed|classes[0-9]*\\.dex|AndroidManifest.xml" || true
@@ -101,7 +125,21 @@ jobs:
             unzip -p "$APK" META-INF/xposed/scope.list || true
             echo "== java_init.list =="
             unzip -p "$APK" META-INF/xposed/java_init.list || true
+            echo "== signing =="
           } | tee -a build.log
+          APKSIGNER=$(command -v apksigner || true)
+          if [ -z "$APKSIGNER" ]; then
+            APKSIGNER=$(ls -d "${ANDROID_HOME:-$ANDROID_SDK_ROOT}"/build-tools/*/apksigner 2>/dev/null | tail -1)
+          fi
+          if [ -z "$APKSIGNER" ]; then
+            echo "apksigner not found, skip signature check"
+          elif "$APKSIGNER" verify --print-certs "$APK" >> build.log 2>&1; then
+            echo "APK signed OK"
+            grep -i "certificate SHA-256" build.log | tail -2 || true
+          else
+            echo "APK 未签名或签名校验失败，终止"
+            exit 1
+          fi
 
       - name: Upload artifact
         id: upload
