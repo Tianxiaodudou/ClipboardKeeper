@@ -2,7 +2,7 @@
 gradle=success build=success pack=success upload=failure
 == ls dist ==
 total 6344
--rw-r--r-- 1 runner runner 6495447 Oct 26 13:35 0.1.2-ClipboardPolice.apk
+-rw-r--r-- 1 runner runner 6495447 Oct 26 14:07 0.1.1-ClipboardPolice.apk
 == apk files ==
 app/build/outputs/apk/release/app-release.apk
 == git status ==
@@ -28,14 +28,14 @@ Daemon will be stopped at the end of the build
 > Task :app:generateReleaseResources
 > Task :app:createReleaseCompatibleScreenManifests
 > Task :app:extractDeepLinksRelease
-> Task :app:mergeReleaseResources
 > Task :app:processReleaseMainManifest
-> Task :app:packageReleaseResources
-> Task :app:parseReleaseLocalResources
+> Task :app:mergeReleaseResources
 > Task :app:processReleaseManifest
+> Task :app:packageReleaseResources
+> Task :app:processReleaseManifestForPackage
 > Task :app:desugarReleaseFileDependencies
 > Task :app:mergeReleaseStartupProfile
-> Task :app:processReleaseManifestForPackage
+> Task :app:parseReleaseLocalResources
 > Task :app:mergeExtDexRelease
 > Task :app:mergeReleaseArtProfile
 > Task :app:mergeReleaseShaders
@@ -61,9 +61,9 @@ Daemon will be stopped at the end of the build
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793021734316.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793023607172.json
 
-BUILD SUCCESSFUL in 26s
+BUILD SUCCESSFUL in 33s
 40 actionable tasks: 40 executed
 == APK entries ==
   5997936  1981-01-01 01:01   classes.dex
