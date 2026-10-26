@@ -8,11 +8,11 @@
         <item name="android:statusBarColor">@color/primary_dark</item>
     </style>
 
-    <style name="Theme.ClipboardPolice.Settings" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.ClipboardPolice.Settings" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>
         <item name="android:windowBackground">@color/window_bg</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
+        <item name="android:statusBarColor">@color/primary</item>
     </style>
 </resources>

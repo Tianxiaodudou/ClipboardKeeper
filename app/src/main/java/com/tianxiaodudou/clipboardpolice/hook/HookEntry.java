@@ -40,6 +40,7 @@ public class HookEntry extends XposedModule {
     private static final int MAX_LINES = 200;
     private static final long MAX_BYTES = 200L * 1024L;
 
+    private static final String KEY_WRITE_ENABLED = "clipboard_watch_write_enabled";
     private static final String KEY_WRITE_THROTTLE = "clipboard_watch_broadcast_throttle_ms";
     private static final String KEY_READ_ENABLED = "clipboard_watch_read_enabled";
     private static final String KEY_READ_THROTTLE = "clipboard_watch_read_throttle_ms";
@@ -172,6 +173,7 @@ public class HookEntry extends XposedModule {
     // -------------------------------------------------------------- 写入监测
 
     private void onWrite(XposedInterface.Chain chain) {
+        if (setting(KEY_WRITE_ENABLED, 1L) != 1L) return;
         ClipData clip = null;
         String pkg = null;
         List<Object> args = chain.getArgs();

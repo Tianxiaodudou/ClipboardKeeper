@@ -33,6 +33,7 @@ push 到 `main` → GitHub Actions 构建 + 发版；任何分支的 push 只做
 CI 用 `GITHUB_TOKEN` 查 `v<versionName>` 对应的 **Release** 是否存在（不看 git tag，删 tag 也不影响）：
 已发布则先算出下一个版本再构建（`-PversionCodeOverride/-PversionNameOverride`），查询失败时同样递增，保证版本单调不重复；
 构建成功后再提交 `chore(release): vX [skip ci]` 并创建 tag/Release；APK 命名 `<versionName>-ClipboardPolice.apk`。
+Release 创建成功后，workflow 会自动删掉仓库里其它旧 Release（只保留刚发的这一个，tag 保留不动）。
 每次构建（成功或失败）都会把 `ci/status.txt`（run/branch/version/status/各步骤 outcome）和 `ci/build.log`
 推到 `ci-log` 分支，便于在没有 Actions 权限时查结果。提交信息含 `[skip ci]` 时 workflow 直接跳过。
 
@@ -64,10 +65,12 @@ CI 用 `GITHUB_TOKEN` 查 `v<versionName>` 对应的 **Release** 是否存在（
 2. LSPosed 启用本模块，作用域只勾「系统框架」，重启设备。
 3. 打开应用 → 首次自动检测 Root 并刷新列表。
 
-设置项（写入 `Settings.Global`，Hook 用 `Settings.Global.getLong` 读，读不到用默认值）：
+设置项（写入 `Settings.Global`，Hook 用 `Settings.Global.getLong` 读，读不到用默认值）；
+界面里「写入广播节流」只在启用写入监测时显示，「读取监测节流」只在启用读取监测时显示：
 
 | 键 | 可选值 | 默认 |
 |---|---|---|
+| `clipboard_watch_write_enabled` | 0/1 | 1 |
 | `clipboard_watch_broadcast_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
 | `clipboard_watch_read_enabled` | 0/1 | 0 |
 | `clipboard_watch_read_throttle_ms` | 0/500/1000/2000/5000 | 1000 |

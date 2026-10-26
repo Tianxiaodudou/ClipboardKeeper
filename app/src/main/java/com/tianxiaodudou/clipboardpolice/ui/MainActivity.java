@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,6 +15,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ClipAdapter.Liste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        applyInsets();
 
         recycler = findViewById(R.id.recycler);
         emptyView = findViewById(R.id.emptyView);
@@ -77,6 +84,32 @@ public class MainActivity extends AppCompatActivity implements ClipAdapter.Liste
             // 忽略
         }
         super.onPause();
+    }
+
+    /** targetSdk 35 起强制 edge-to-edge：自己把状态栏/导航栏高度让出来，顶部卡片仍延伸到状态栏后面 */
+    private void applyInsets() {
+        View root = findViewById(R.id.root);
+        View header = findViewById(R.id.header);
+        Window window = getWindow();
+        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setNavigationBarColor(Color.TRANSPARENT);
+        WindowInsetsControllerCompat controller =
+                WindowCompat.getInsetsController(window, window.getDecorView());
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(true);
+
+        final int headerTop = header.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            header.setPadding(header.getPaddingLeft(), headerTop + bars.top,
+                    header.getPaddingRight(), header.getPaddingBottom());
+            RecyclerView list = findViewById(R.id.recycler);
+            list.setPadding(list.getPaddingLeft(), list.getPaddingTop(), list.getPaddingRight(),
+                    bars.bottom + Math.round(12 * getResources().getDisplayMetrics().density));
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(root);
     }
 
     // ------------------------------------------------------------------ Root

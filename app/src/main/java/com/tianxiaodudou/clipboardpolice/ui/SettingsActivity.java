@@ -1,49 +1,66 @@
 package com.tianxiaodudou.clipboardpolice.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.tianxiaodudou.clipboardpolice.R;
 
 /** 设置项全部写入 Settings.Global（su 写，Hook 读）。 */
 public class SettingsActivity extends AppCompatActivity {
 
+    public static final String KEY_WRITE_ENABLED = "clipboard_watch_write_enabled";
     public static final String KEY_WRITE_THROTTLE = "clipboard_watch_broadcast_throttle_ms";
     public static final String KEY_READ_ENABLED = "clipboard_watch_read_enabled";
     public static final String KEY_READ_THROTTLE = "clipboard_watch_read_throttle_ms";
 
+    private SwitchCompat swWriteEnabled;
+    private SwitchCompat swReadEnabled;
     private Spinner spWriteThrottle;
     private Spinner spReadThrottle;
     private Spinner spMaxRecords;
-    private SwitchCompat swReadEnabled;
     private Button btnCheckUpdate;
+    private View rowWriteThrottle;
+    private View rowReadThrottle;
 
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private boolean loading = true;
+    private boolean rootGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        applyInsets();
 
+        ImageButton btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
+        swWriteEnabled = findViewById(R.id.swWriteEnabled);
+        swReadEnabled = findViewById(R.id.swReadEnabled);
         spWriteThrottle = findViewById(R.id.spWriteThrottle);
         spReadThrottle = findViewById(R.id.spReadThrottle);
         spMaxRecords = findViewById(R.id.spMaxRecords);
-        swReadEnabled = findViewById(R.id.swReadEnabled);
         btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
+        rowWriteThrottle = findViewById(R.id.rowWriteThrottle);
+        rowReadThrottle = findViewById(R.id.rowReadThrottle);
 
         setupSpinner(spWriteThrottle, R.array.throttle_entries, R.array.throttle_values,
                 KEY_WRITE_THROTTLE, "1000");
@@ -52,7 +69,13 @@ public class SettingsActivity extends AppCompatActivity {
         setupSpinner(spMaxRecords, R.array.max_records_entries, R.array.max_records_values,
                 ClipSync.KEY_MAX_RECORDS, String.valueOf(ClipSync.DEFAULT_MAX_RECORDS));
 
+        swWriteEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            updateThrottleVisibility();
+            if (loading) return;
+            saveSetting(KEY_WRITE_ENABLED, isChecked ? "1" : "0");
+        });
         swReadEnabled.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            updateThrottleVisibility();
             if (loading) return;
             saveSetting(KEY_READ_ENABLED, isChecked ? "1" : "0");
         });
@@ -61,13 +84,32 @@ public class SettingsActivity extends AppCompatActivity {
         loadSettings();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    private void applyInsets() {
+        View root = findViewById(R.id.root);
+        View header = findViewById(R.id.header);
+        android.view.Window window = getWindow();
+        window.setStatusBarColor(Color.TRANSPARENT);
+        window.setNavigationBarColor(Color.TRANSPARENT);
+        WindowInsetsControllerCompat controller =
+                WindowCompat.getInsetsController(window, window.getDecorView());
+        controller.setAppearanceLightStatusBars(false);
+        controller.setAppearanceLightNavigationBars(true);
+
+        final int headerTop = header.getPaddingTop();
+        ViewCompat.setOnApplyWindowInsetsListener(root, (view, windowInsets) -> {
+            Insets bars = windowInsets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            header.setPadding(header.getPaddingLeft(), headerTop + bars.top,
+                    header.getPaddingRight(), header.getPaddingBottom());
+            return windowInsets;
+        });
+        ViewCompat.requestApplyInsets(root);
+    }
+
+    /** 节流设置只在对应监测开关打开时才显示 */
+    private void updateThrottleVisibility() {
+        rowWriteThrottle.setVisibility(swWriteEnabled.isChecked() ? View.VISIBLE : View.GONE);
+        rowReadThrottle.setVisibility(swReadEnabled.isChecked() ? View.VISIBLE : View.GONE);
     }
 
     private void setupSpinner(Spinner spinner, int entriesRes, int valuesRes,
@@ -96,6 +138,7 @@ public class SettingsActivity extends AppCompatActivity {
         loading = true;
         new Thread(() -> {
             boolean granted = RootShell.ensureRoot();
+            String writeEnabled = RootShell.readSetting(KEY_WRITE_ENABLED, "1");
             String writeThrottle = RootShell.readSetting(KEY_WRITE_THROTTLE, "1000");
             String readThrottle = RootShell.readSetting(KEY_READ_THROTTLE, "1000");
             String maxRecords = RootShell.readSetting(ClipSync.KEY_MAX_RECORDS,
@@ -106,7 +149,12 @@ public class SettingsActivity extends AppCompatActivity {
                 selectValue(spReadThrottle, R.array.throttle_values, readThrottle, "1000");
                 selectValue(spMaxRecords, R.array.max_records_values, maxRecords,
                         String.valueOf(ClipSync.DEFAULT_MAX_RECORDS));
+                swWriteEnabled.setChecked(!"0".equals(writeEnabled.trim()));
                 swReadEnabled.setChecked("1".equals(readEnabled.trim()));
+                updateThrottleVisibility();
+
+                rootGranted = granted;
+                swWriteEnabled.setEnabled(granted);
                 swReadEnabled.setEnabled(granted);
                 spWriteThrottle.setEnabled(granted);
                 spReadThrottle.setEnabled(granted);
@@ -132,6 +180,10 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void saveSetting(String key, String value) {
+        if (!rootGranted) {
+            toast(getString(R.string.need_root));
+            return;
+        }
         new Thread(() -> {
             boolean ok = RootShell.writeSetting(key, value);
             mainHandler.post(() -> {

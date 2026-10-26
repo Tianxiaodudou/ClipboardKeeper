@@ -25,12 +25,16 @@
     <string name="saved">已保存：%1$s</string>
     <string name="save_failed">保存失败：%1$s</string>
 
+    <string name="set_write_enabled">启用写入监测</string>
     <string name="set_write_throttle">写入广播节流</string>
     <string name="set_read_enabled">启用读取监测</string>
     <string name="set_read_throttle">读取监测节流</string>
     <string name="set_max_records">记录上限</string>
     <string name="set_check_update">检查更新</string>
     <string name="set_hint">以上设置写入 Settings.Global，Hook 侧实时读取。</string>
+    <string name="back">返回</string>
+    <string name="about_title">这个应用是怎么工作的</string>
+    <string name="about_body">① 记录来源：系统的剪贴板服务（ClipboardService）是所有复制和读取的必经之路。本模块通过 LSPosed 注入系统框架进程，在它的写入方法 setPrimaryClip、读取方法 getPrimaryClip 上装监听，拿到"谁、什么时间、写了或读了什么"。\n\n② 临时中转：监听结果先写进临时文件 /data/local/tmp/clipboard_watch.tmp（SELinux 禁止系统进程写这里时会自动改用 /data/system/clipboard_watch.tmp），每行格式：时间 \t 写入/读取 \t 包名 \t 内容。系统进程只写这个文本文件，从不碰数据库。\n\n③ 入库：你打开本应用，或它收到模块发出的刷新广播时，应用以 root 身份读取临时文件 → 还原转义 → 批量写入 /data/data/com.tianxiaodudou.clipboardpolice/databases/clipboard.db → 按上限裁剪 → 清空临时文件 → 刷新列表。\n\n【每个设置项在哪一步起作用】\n\n• 启用写入监测：控制第 ① 步的写入监听。关闭后复制行为照常发生，但不再记录、也不再发刷新广播，列表里不会再出现新的 [写] 记录。\n\n• 写入广播节流：控制第 ③ 步"通知应用刷新"的频率。同一个包名在一个窗口内连续复制，临时文件仍然逐条记录，但只通知一次刷新，避免界面反复刷新。设为 0 表示每次都通知。\n\n• 启用读取监测：控制第 ① 步的读取监听。关闭后不再记录"谁读走了剪贴板"。很多应用会频繁读取，所以默认关闭，更省电也更干净。\n\n• 读取监测节流：同一个包名在一个窗口内多次读取，只记录一条，防止刷屏。\n\n• 记录上限：限制数据库总条数（保底 1000 条）。只有超过上限才裁剪，从最旧的记录开始删。裁剪不是每条都做，而是"每插入 100 条"或"距上次裁剪满 5 分钟"才触发一次。\n\n• 检查更新：到 GitHub Releases 查询最新版本，比当前版本新就用系统下载器开始下载。不会自动安装，需要你手动点安装包。\n\n【数据在哪、怎么清】\n\n全部只存在本机：临时文件 + 本应用私有数据库。点顶部的"清空"会同时删除数据库和临时文件；卸载应用会删掉数据库。</string>
 
     <string name="checking_update">正在检查更新…</string>
     <string name="update_found">发现新版本 %1$s（当前 %2$s），是否下载？</string>

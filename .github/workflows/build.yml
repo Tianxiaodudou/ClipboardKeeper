@@ -163,6 +163,29 @@ jobs:
             > 旧版本 v0.1.0 / v0.1.1 为 debug 签名，若已安装请先卸载再装本版本。
 
 
+      # 只保留最新一个 Release：旧版本连同附件一起删掉（tag 保留，版本递增只认 Release 是否存在）
+      - name: Prune old releases
+        if: github.ref == 'refs/heads/main' && success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          KEEP="v${{ steps.version.outputs.VN }}"
+          echo "keep release: $KEEP"
+          gh release list --limit 200 --json tagName,createdAt \
+            --jq 'sort_by(.createdAt) | reverse | .[].tagName' > "$RUNNER_TEMP/releases.txt"
+          while IFS= read -r tag; do
+            [ -z "$tag" ] && continue
+            if [ "$tag" = "$KEEP" ]; then
+              echo "keep $tag"
+              continue
+            fi
+            echo "delete old release: $tag"
+            gh release delete "$tag" --yes || true
+          done < "$RUNNER_TEMP/releases.txt"
+          echo "== remaining releases =="
+          gh release list --limit 20
+
       # 把本次构建结果推到 ci-log 分支，便于在没有 Actions 权限时查结果
       - name: Publish CI result
         if: always()
