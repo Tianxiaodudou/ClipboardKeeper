@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">剪贴板警察</string>
+    <string name="settings_title">设置</string>
+    <string name="refresh">刷新</string>
+    <string name="clear">清空</string>
+    <string name="settings">设置</string>
+    <string name="empty_list">暂无剪贴板记录</string>
+    <string name="root_missing">Root 未授权：本模块需在 KernelSU 管理器中为本应用开启 Root 权限</string>
+    <string name="op_write">[写]</string>
+    <string name="op_read">[读]</string>
+    <string name="copy_package">包名</string>
+    <string name="copy_content">内容</string>
+    <string name="copied">已复制%1$s</string>
+    <string name="clear_confirm_title">清空记录</string>
+    <string name="clear_confirm_msg">将删除数据库全部记录并清空临时文件，确定继续？</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="ok">好</string>
+    <string name="refreshing">正在刷新…</string>
+    <string name="refresh_done">已刷新，新增 %1$d 条</string>
+    <string name="refresh_failed">刷新失败：%1$s</string>
+    <string name="cleared">已清空</string>
+    <string name="need_root">需要 Root 权限</string>
+    <string name="saved">已保存：%1$s</string>
+    <string name="save_failed">保存失败：%1$s</string>
+
+    <string name="set_write_throttle">写入广播节流</string>
+    <string name="set_read_enabled">启用读取监测</string>
+    <string name="set_read_throttle">读取监测节流</string>
+    <string name="set_max_records">记录上限</string>
+    <string name="set_check_update">检查更新</string>
+    <string name="set_hint">以上设置写入 Settings.Global，Hook 侧实时读取。</string>
+
+    <string name="checking_update">正在检查更新…</string>
+    <string name="update_found">发现新版本 %1$s（当前 %2$s），是否下载？</string>
+    <string name="update_none">已是最新版本（%1$s）</string>
+    <string name="update_failed">检查更新失败：%1$s</string>
+    <string name="download_started">已开始下载，完成后请在通知栏或下载目录手动安装</string>
+    <string name="update_title">检查更新</string>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="throttle_entries">
+        <item>0（不节流）</item>
+        <item>500 毫秒</item>
+        <item>1000 毫秒（默认）</item>
+        <item>2000 毫秒</item>
+        <item>5000 毫秒</item>
+    </string-array>
+    <string-array name="throttle_values">
+        <item>0</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+    </string-array>
+
+    <string-array name="max_records_entries">
+        <item>1000</item>
+        <item>5000</item>
+        <item>10000（默认）</item>
+        <item>20000</item>
+        <item>50000</item>
+    </string-array>
+    <string-array name="max_records_values">
+        <item>1000</item>
+        <item>5000</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>50000</item>
+    </string-array>
+</resources>
