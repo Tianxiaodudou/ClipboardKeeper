@@ -80,22 +80,50 @@ public class HookEntry extends XposedModule {
 
     // ------------------------------------------------------------------- Hook
 
+    private static final String[] TARGET_CLASSES = {
+            "com.android.server.clipboard.ClipboardService",
+            // 真正声明 getPrimaryClip / setPrimaryClip 的 Binder 实现
+            "com.android.server.clipboard.ClipboardService$ClipboardImpl",
+    };
+
     private synchronized void install(ClassLoader cl) {
         if (installed || cl == null) return;
         installed = true;
         try {
-            Class<?> service = Class.forName("com.android.server.clipboard.ClipboardService", false, cl);
+            StringBuilder hooked = new StringBuilder();
             int writes = 0;
             int reads = 0;
-            for (Method m : service.getDeclaredMethods()) {
-                String name = m.getName();
-                if (name.contains("setPrimaryClip")) {
-                    if (hookWrite(m)) writes++;
-                } else if ("getPrimaryClip".equals(name)) {
-                    if (hookRead(m)) reads++;
+            int classes = 0;
+            for (String className : TARGET_CLASSES) {
+                Class<?> clazz;
+                try {
+                    clazz = Class.forName(className, false, cl);
+                } catch (Throwable t) {
+                    log(Log.WARN, TAG, "class not found: " + className);
+                    continue;
+                }
+                for (Class<?> k = clazz; k != null && k != Object.class; k = k.getSuperclass()) {
+                    classes++;
+                    for (Method m : k.getDeclaredMethods()) {
+                        String name = m.getName();
+                        if (name.contains("setPrimaryClip")) {
+                            if (hookWrite(m)) {
+                                writes++;
+                                hooked.append('\n').append("  W ").append(k.getSimpleName())
+                                        .append('#').append(name);
+                            }
+                        } else if (name.contains("getPrimaryClip")) {
+                            if (hookRead(m)) {
+                                reads++;
+                                hooked.append('\n').append("  R ").append(k.getSimpleName())
+                                        .append('#').append(name);
+                            }
+                        }
+                    }
                 }
             }
-            log(Log.INFO, TAG, "hooks installed: write=" + writes + ", read=" + reads);
+            log(Log.INFO, TAG, "hooks installed: classes=" + classes + ", write=" + writes
+                    + ", read=" + reads + hooked);
         } catch (Throwable t) {
             log(Log.ERROR, TAG, "install hooks failed", t);
         }
@@ -173,6 +201,8 @@ public class HookEntry extends XposedModule {
     // -------------------------------------------------------------- 读取监测
 
     private void onRead(XposedInterface.Chain chain, Object result) {
+        // getPrimaryClipDescription / getPrimaryClipSource 之类不算读取
+        if (!(result instanceof ClipData)) return;
         if (setting(KEY_READ_ENABLED, 0L) != 1L) return;
 
         String pkg = null;
@@ -189,8 +219,7 @@ public class HookEntry extends XposedModule {
         long window = setting(KEY_READ_THROTTLE, 1000L);
         if (!throttle(readStamp, pkg, window)) return;
 
-        ClipData clip = result instanceof ClipData ? (ClipData) result : null;
-        appendRecord("read", pkg, clipToText(clip));
+        appendRecord("read", pkg, clipToText((ClipData) result));
         sendUpdated();
     }
 
