@@ -18,8 +18,8 @@ Daemon will be stopped at the end of the build
 > Task :app:extractReleaseNativeSymbolTables NO-SOURCE
 > Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
 > Task :app:generateReleaseBuildConfig
-> Task :app:checkReleaseDuplicateClasses
 > Task :app:javaPreCompileRelease
+> Task :app:checkReleaseDuplicateClasses
 > Task :app:generateReleaseResValues
 > Task :app:checkReleaseAarMetadata
 > Task :app:mapReleaseSourceSetPaths
@@ -36,199 +36,30 @@ Daemon will be stopped at the end of the build
 > Task :app:mergeReleaseStartupProfile
 > Task :app:processReleaseResources
 > Task :app:mergeExtDexRelease
-
 > Task :app:compileReleaseJavaWithJavac
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/hook/HookEntry.java:300: error: cannot find symbol
-            ctx.sendBroadcastAsUser(intent, UserHandle.ALL);
-                                                      ^
-  symbol:   variable ALL
-  location: class UserHandle
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:39: error: package R does not exist
-        setContentView(R.layout.activity_main);
-                        ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:41: error: package R does not exist
-        recycler = findViewById(R.id.recycler);
-                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:42: error: package R does not exist
-        emptyView = findViewById(R.id.emptyView);
-                                  ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:43: error: package R does not exist
-        rootBanner = findViewById(R.id.rootBanner);
-                                   ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:44: error: package R does not exist
-        btnRefresh = findViewById(R.id.btnRefresh);
-                                   ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:45: error: package R does not exist
-        btnClear = findViewById(R.id.btnClear);
-                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:46: error: package R does not exist
-        btnSettings = findViewById(R.id.btnSettings);
-                                    ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:109: error: package R does not exist
-        if (manual) toast(getString(R.string.refreshing));
-                                     ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:114: error: package R does not exist
-                if (manual) toast(getString(R.string.refresh_done, inserted));
-                                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:116: error: package R does not exist
-                toast(getString(R.string.refresh_failed, message));
-                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:126: error: package R does not exist
-                .setPositiveButton(R.string.confirm, (dialog, which) -> clearAll())
-                                    ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:125: error: package R does not exist
-                .setNegativeButton(R.string.cancel, null)
-                                    ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:124: error: package R does not exist
-                .setMessage(R.string.clear_confirm_msg)
-                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:123: error: package R does not exist
-                .setTitle(R.string.clear_confirm_title)
-                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:134: error: package R does not exist
-            toast(getString(R.string.cleared));
-                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:153: error: package R does not exist
-            toast(getString(R.string.copied, label));
-                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/MainActivity.java:155: error: package R does not exist
-            toast(getString(R.string.refresh_failed, String.valueOf(t.getMessage())));
-                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:50: error: package R does not exist
-                .inflate(R.layout.item_clip, parent, false);
-                          ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: reference to setText is ambiguous
-        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
-                   ^
-  both method setText(CharSequence) in TextView and method setText(int) in TextView match
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: package R does not exist
-        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
-                                       ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:59: error: package R does not exist
-        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
-                                                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:61: error: package R does not exist
-                isWrite ? R.color.write_blue : R.color.read_gray));
-                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:61: error: package R does not exist
-                isWrite ? R.color.write_blue : R.color.read_gray));
-                                                ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:77: error: package R does not exist
-                listener.onLongPressCopy(holder.itemView.getContext().getString(R.string.copy_package),
-                                                                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:84: error: package R does not exist
-                listener.onLongPressCopy(holder.itemView.getContext().getString(R.string.copy_content),
-                                                                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:104: error: package R does not exist
-            tvOp = itemView.findViewById(R.id.tvOp);
-                                          ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:105: error: package R does not exist
-            tvTime = itemView.findViewById(R.id.tvTime);
-                                            ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:106: error: package R does not exist
-            tvPkg = itemView.findViewById(R.id.tvPkg);
-                                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/ClipAdapter.java:107: error: package R does not exist
-            tvContent = itemView.findViewById(R.id.tvContent);
-                                               ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:37: error: package R does not exist
-        setContentView(R.layout.activity_settings);
-                        ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:40: error: package R does not exist
-        spWriteThrottle = findViewById(R.id.spWriteThrottle);
-                                        ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:41: error: package R does not exist
-        spReadThrottle = findViewById(R.id.spReadThrottle);
-                                       ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:42: error: package R does not exist
-        spMaxRecords = findViewById(R.id.spMaxRecords);
-                                     ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:43: error: package R does not exist
-        swReadEnabled = findViewById(R.id.swReadEnabled);
-                                      ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:44: error: package R does not exist
-        btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
-                                       ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:46: error: package R does not exist
-        setupSpinner(spWriteThrottle, R.array.throttle_entries, R.array.throttle_values,
-                                       ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:46: error: package R does not exist
-        setupSpinner(spWriteThrottle, R.array.throttle_entries, R.array.throttle_values,
-                                                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:48: error: package R does not exist
-        setupSpinner(spReadThrottle, R.array.throttle_entries, R.array.throttle_values,
-                                      ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:48: error: package R does not exist
-        setupSpinner(spReadThrottle, R.array.throttle_entries, R.array.throttle_values,
-                                                                ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:50: error: package R does not exist
-        setupSpinner(spMaxRecords, R.array.max_records_entries, R.array.max_records_values,
-                                    ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:50: error: package R does not exist
-        setupSpinner(spMaxRecords, R.array.max_records_entries, R.array.max_records_values,
-                                                                 ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:103: error: package R does not exist
-                selectValue(spWriteThrottle, R.array.throttle_values, writeThrottle, "1000");
-                                              ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:104: error: package R does not exist
-                selectValue(spReadThrottle, R.array.throttle_values, readThrottle, "1000");
-                                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:105: error: package R does not exist
-                selectValue(spMaxRecords, R.array.max_records_values, maxRecords,
-                                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:115: error: package R does not exist
-                    Toast.makeText(this, R.string.need_root, Toast.LENGTH_LONG).show();
-                                          ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:137: error: package R does not exist
-                    toast(getString(R.string.saved, key + "=" + value));
-                                     ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:139: error: package R does not exist
-                    toast(getString(R.string.save_failed, key));
-                                     ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:146: error: package R does not exist
-        toast(getString(R.string.checking_update));
-                         ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:153: error: package R does not exist
-                        .setPositiveButton(R.string.ok, null)
-                                            ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:151: error: package R does not exist
-                        .setTitle(R.string.update_title)
-                                   ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:152: error: package R does not exist
-                        .setMessage(getString(R.string.update_failed, message))
-                                               ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:162: error: package R does not exist
-                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                                            ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:161: error: package R does not exist
-                        .setNegativeButton(R.string.cancel, null)
-                                            ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:159: error: package R does not exist
-                        .setTitle(R.string.update_title)
-                                   ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:160: error: package R does not exist
-                        .setMessage(getString(R.string.update_found, version, current))
-                                               ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:164: error: package R does not exist
-                            toast(getString(R.string.download_started));
-                                             ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/SettingsActivity.java:168: error: package R does not exist
-                toast(getString(R.string.update_none, current));
-                                 ^
-58 errors
+> Task :app:dexBuilderRelease
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeDexRelease
+> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:compressReleaseAssets
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:processReleaseJavaRes
+> Task :app:compileReleaseArtProfile
+> Task :app:optimizeReleaseResources
+> Task :app:collectReleaseDependencies
+> Task :app:sdkReleaseDependencyData
+> Task :app:mergeReleaseJavaResource
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793019517220.json
 
-> Task :app:compileReleaseJavaWithJavac FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1793019358372.json
-
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:compileReleaseJavaWithJavac'.
-> Compilation failed; see the compiler error output for details.
-
-* Try:
-> Run with --info option to get more log output.
-> Run with --scan to get full insights.
-
-BUILD FAILED in 1m 40s
-21 actionable tasks: 21 executed
+BUILD SUCCESSFUL in 1m 53s
+40 actionable tasks: 40 executed
