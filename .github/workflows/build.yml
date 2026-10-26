@@ -132,7 +132,11 @@ jobs:
             echo "status=${JOB_STATUS}"
           } > ci/status.txt
           if [ -f build.log ]; then
-            tail -c 120000 build.log > ci/build.log
+            {
+              grep -vE '^[[:space:]]+at ' build.log | head -n 250
+              echo '... (中间省略) ...'
+              grep -vE '^[[:space:]]+at ' build.log | tail -c 60000
+            } > ci/build.log
           else
             echo "no build.log produced" > ci/build.log
           fi
