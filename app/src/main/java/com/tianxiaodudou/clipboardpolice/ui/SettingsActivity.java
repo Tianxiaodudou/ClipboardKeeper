@@ -15,6 +15,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.tianxiaodudou.clipboardpolice.R;
+
 /** 设置项全部写入 Settings.Global（su 写，Hook 读）。 */
 public class SettingsActivity extends AppCompatActivity {
 

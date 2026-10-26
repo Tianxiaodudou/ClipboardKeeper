@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
-import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.Log;
 
@@ -297,7 +296,7 @@ public class HookEntry extends XposedModule {
             Intent intent = new Intent(ACTION_UPDATED);
             intent.setPackage(MODULE_PKG);
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
-            ctx.sendBroadcastAsUser(intent, UserHandle.ALL);
+            ctx.sendBroadcastAsUser(intent, android.os.Process.myUserHandle());
         } catch (Throwable t) {
             log(Log.WARN, TAG, "send broadcast failed", t);
         }

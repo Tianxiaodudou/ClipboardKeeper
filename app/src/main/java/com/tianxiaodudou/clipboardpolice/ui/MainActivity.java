@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.tianxiaodudou.clipboardpolice.R;
+
 /** 主界面：列表 + 刷新 / 清空 / 设置。 */
 public class MainActivity extends AppCompatActivity implements ClipAdapter.Listener {
 
