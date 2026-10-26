@@ -30,7 +30,8 @@ LSPosed 模块（libxposed API 102）：记录系统剪贴板的**写入**与**�
 
 push 到 `main` → GitHub Actions 构建 + 发版；任何分支的 push 只做构建校验（便于先验证再合并）。
 版本号存放在仓库根 `version.properties`（`versionCode` / `versionName`），规则 `a.b.c`：`c` 超 9 进 `b`，`b` 超 9 进 `a`。
-CI 若发现 `v<versionName>` tag 已存在，则先算出下一个版本、用它构建（`-PversionCodeOverride/-PversionNameOverride`），
+CI 用 `GITHUB_TOKEN` 查 `v<versionName>` 对应的 **Release** 是否存在（不看 git tag，删 tag 也不影响）：
+已发布则先算出下一个版本再构建（`-PversionCodeOverride/-PversionNameOverride`），查询失败时同样递增，保证版本单调不重复；
 构建成功后再提交 `chore(release): vX [skip ci]` 并创建 tag/Release；APK 命名 `<versionName>-ClipboardPolice.apk`。
 每次构建（成功或失败）都会把 `ci/status.txt`（run/branch/version/status/各步骤 outcome）和 `ci/build.log`
 推到 `ci-log` 分支，便于在没有 Actions 权限时查结果。提交信息含 `[skip ci]` 时 workflow 直接跳过。

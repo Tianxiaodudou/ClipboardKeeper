@@ -22,12 +22,22 @@ jobs:
 
       - name: Resolve version
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           read_prop() { grep -E "^$1=" version.properties | head -1 | cut -d= -f2 | tr -d '[:space:]'; }
           VC="$(read_prop versionCode)"
           VN="$(read_prop versionName)"
-          if git rev-parse -q --verify "refs/tags/v${VN}" >/dev/null 2>&1; then
+          # 版本是否已发布只看 Release 是否存在（不依赖 git tag，tag 删了也不影响递增）
+          CODE="$(curl -s -o /dev/null -w '%{http_code}' \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "Accept: application/vnd.github+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/v${VN}")" || CODE=""
+          echo "release check v${VN} -> HTTP $CODE"
+          # 只有确定“该版本还没发过”（404）才沿用当前版本；200 或查询异常(401/403/5xx/空)
+          # 都递增，保证版本单调、绝不重复发布同一个版本号
+          if [ "$CODE" != "404" ]; then
             IFS=. read -r A B C <<< "${VN}"
             C=$((C+1))
             if [ "${C}" -gt 9 ]; then C=0; B=$((B+1)); fi
