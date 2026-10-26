@@ -74,7 +74,6 @@ configurations.configureEach {
 dependencies {
     // 必须 compileOnly：打进 APK 会使用模块自身副本，导致 Hook 静默失效
     compileOnly 'io.github.libxposed:api:102.0.0'
-    compileOnly 'androidx.annotation:annotation:1.9.1'
 
     implementation 'com.github.topjohnwu.libsu:core:5.2.1'
     // libsu 传递 kotlin-stdlib-jdk7/jdk8 1.6.21，与 kotlin-stdlib 1.8 重复类，统一到 1.8
