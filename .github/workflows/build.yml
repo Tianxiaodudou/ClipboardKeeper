@@ -88,6 +88,21 @@ jobs:
           cp "$SRC" "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk"
           ls -l dist
 
+      - name: Verify APK payload
+        run: |
+          set -uo pipefail
+          APK="$(ls dist/*.apk | head -1)"
+          {
+            echo "== APK entries =="
+            unzip -l "$APK" | grep -E "META-INF/xposed|classes[0-9]*\\.dex|AndroidManifest.xml" || true
+            echo "== module.prop =="
+            unzip -p "$APK" META-INF/xposed/module.prop || true
+            echo "== scope.list =="
+            unzip -p "$APK" META-INF/xposed/scope.list || true
+            echo "== java_init.list =="
+            unzip -p "$APK" META-INF/xposed/java_init.list || true
+          } | tee -a build.log
+
       - name: Upload artifact
         id: upload
         continue-on-error: true
