@@ -159,7 +159,7 @@ public class HookEntry extends XposedModule {
 
         String content = clipToText(clip);
         // 内层实现（setPrimaryClipNoLock 等）会被同样匹配到，按短窗口去重，避免重复记录
-        if (!throttle(writeDedup, pkg + '\u0000' + content.hashCode(), WRITE_DEDUP_MS)) return;
+        if (!throttle(writeDedup, pkg + "#" + content.hashCode(), WRITE_DEDUP_MS)) return;
 
         appendRecord("write", pkg, content);
 
