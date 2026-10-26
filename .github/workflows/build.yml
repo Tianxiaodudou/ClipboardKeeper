@@ -11,6 +11,8 @@ permissions:
 
 jobs:
   build:
+    # 提交信息含 [skip ci] 时跳过（版本递增提交用 GITHUB_TOKEN 推送，本身不会再触发）
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

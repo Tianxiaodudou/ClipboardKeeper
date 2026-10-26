@@ -9,3 +9,4 @@ build/
 *.jks
 *.keystore
 /dist/
+.ci.log

@@ -32,7 +32,11 @@ push 到 `main` → GitHub Actions 构建 + 发版；任何分支的 push 只做
 版本号存放在仓库根 `version.properties`（`versionCode` / `versionName`），规则 `a.b.c`：`c` 超 9 进 `b`，`b` 超 9 进 `a`。
 CI 若发现 `v<versionName>` tag 已存在，则先算出下一个版本、用它构建（`-PversionCodeOverride/-PversionNameOverride`），
 构建成功后再提交 `chore(release): vX [skip ci]` 并创建 tag/Release；APK 命名 `<versionName>-ClipboardPolice.apk`。
-构建失败时 CI 会把日志推到 `ci-log` 分支（`ci/build-<run>.log`），便于排查。
+每次构建（成功或失败）都会把 `ci/status.txt`（run/branch/version/status/各步骤 outcome）和 `ci/build.log`
+推到 `ci-log` 分支，便于在没有 Actions 权限时查结果。提交信息含 `[skip ci]` 时 workflow 直接跳过。
+
+> 首次发版（v0.1.0）若尚未配置签名 secrets，APK 为 debug 签名，仅用于自测；配置密钥后请重新发版，
+> 否则新旧 APK 签名不同，安装新版本需先卸载。
 
 本地构建（可选，需要 JDK 17 + Android SDK 35）：
 
