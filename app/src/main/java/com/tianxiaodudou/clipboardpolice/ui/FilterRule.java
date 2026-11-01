@@ -2,6 +2,8 @@ package com.tianxiaodudou.clipboardpolice.ui;
 
 import android.content.Context;
 
+import com.tianxiaodudou.clipboardpolice.R;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
