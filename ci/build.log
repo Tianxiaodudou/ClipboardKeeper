@@ -8,8 +8,8 @@ Daemon will be stopped at the end of the build
 > Task :app:extractReleaseNativeSymbolTables NO-SOURCE
 > Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
 > Task :app:generateReleaseBuildConfig
-> Task :app:checkReleaseDuplicateClasses
 > Task :app:javaPreCompileRelease
+> Task :app:checkReleaseDuplicateClasses
 > Task :app:generateReleaseResValues
 > Task :app:checkReleaseAarMetadata
 > Task :app:mapReleaseSourceSetPaths
@@ -22,37 +22,57 @@ Daemon will be stopped at the end of the build
 > Task :app:parseReleaseLocalResources
 > Task :app:processReleaseManifest
 > Task :app:desugarReleaseFileDependencies
-> Task :app:processReleaseManifestForPackage
 > Task :app:mergeReleaseStartupProfile
+> Task :app:processReleaseManifestForPackage
 > Task :app:processReleaseResources
-> Task :app:mergeExtDexRelease
 
 > Task :app:compileReleaseJavaWithJavac
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/FilterRule.java:46: error: package R does not exist
-                logicOr ? R.string.filter_summary_any : R.string.filter_summary_all,
-                           ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/FilterRule.java:46: error: package R does not exist
-                logicOr ? R.string.filter_summary_any : R.string.filter_summary_all,
-                                                         ^
-/home/runner/work/ClipboardPolice/ClipboardPolice/app/src/main/java/com/tianxiaodudou/clipboardpolice/ui/FilterRule.java:48: error: package R does not exist
-        return negate ? context.getString(R.string.filter_summary_negate, base) : base;
-                                           ^
 Note: Some input files use or override a deprecated API.
 Note: Recompile with -Xlint:deprecation for details.
-3 errors
 
-> Task :app:compileReleaseJavaWithJavac FAILED
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793548340709.json
+> Task :app:mergeExtDexRelease
+> Task :app:dexBuilderRelease
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeDexRelease
+> Task :app:mergeReleaseGlobalSynthetics
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseAssets
+> Task :app:compressReleaseAssets
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:processReleaseJavaRes
+> Task :app:compileReleaseArtProfile
+> Task :app:optimizeReleaseResources
+> Task :app:collectReleaseDependencies
+> Task :app:mergeReleaseJavaResource
+> Task :app:sdkReleaseDependencyData
+> Task :app:validateSigningRelease
+> Task :app:writeReleaseAppMetadata
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793548428007.json
 
-FAILURE: Build failed with an exception.
-
-* What went wrong:
-Execution failed for task ':app:compileReleaseJavaWithJavac'.
-> Compilation failed; see the compiler error output for details.
-
-* Try:
-> Run with --info option to get more log output.
-> Run with --scan to get full insights.
-
-BUILD FAILED in 31s
-21 actionable tasks: 21 executed
+BUILD SUCCESSFUL in 33s
+40 actionable tasks: 40 executed
+== APK entries ==
+  6033648  1981-01-01 01:01   classes.dex
+       49  1981-01-01 01:01   META-INF/xposed/java_init.list
+       56  1981-01-01 01:01   META-INF/xposed/module.prop
+        7  1981-01-01 01:01   META-INF/xposed/scope.list
+     7100  1981-01-01 01:01   AndroidManifest.xml
+== module.prop ==
+minApiVersion=101
+targetApiVersion=102
+staticScope=true
+== scope.list ==
+system
+== java_init.list ==
+com.tianxiaodudou.clipboardpolice.hook.HookEntry
+== signing ==
+V2 Signer: certificate DN: O=ClipboardPolice, CN=ClipboardPolice
+V2 Signer: certificate SHA-256 digest: 5c40e3d5efeb02c3eee734b35f3014df5878f12a9a1080cbe729c61537b992c2
+V2 Signer: certificate SHA-1 digest: 8eaeda800dbf91cfcd0ba0d87ea69de640507e1a
+V2 Signer: certificate MD5 digest: 9bf8c3950e09d1027f0c752728596702

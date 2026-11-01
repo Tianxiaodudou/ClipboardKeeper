@@ -1,8 +1,10 @@
-run=21
+run=22
 ref=main
 version=0.2.0 (7)
-status=failure
+status=success
 
 == step outcomes ==
-build=failure pack=skipped upload=skipped
+build=success pack=success upload=success
 == ls dist ==
+total 6412
+-rw-r--r-- 1 runner runner 6565216 Nov  1 15:54 0.2.0-ClipboardPolice.apk
