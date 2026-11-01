@@ -61,15 +61,32 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Check signing key
+      - name: Prepare signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           set -euo pipefail
-          if [ -f signing/keystore.properties ] && [ -f signing/clipboardpolice-release.p12 ]; then
-            echo "signing: 使用仓库内固定密钥"
-          else
-            echo "::error::缺少 signing/ 固定签名密钥：禁止用 debug 签名发布"
+          if [ -z "${KEYSTORE_BASE64:-}" ]; then
+            echo "::error::未配置 KEYSTORE_BASE64：发版必须使用固定签名密钥，禁止 debug 签名"
             exit 1
           fi
+          mkdir -p "$RUNNER_TEMP/signing"
+          KS="$RUNNER_TEMP/signing/release.bin"
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$KS"
+          MAGIC=$(head -c 4 "$KS" | od -An -tx1 | tr -d ' \n')
+          case "$MAGIC" in
+            feedfeed) TYPE=JKS ;;
+            *) TYPE=PKCS12 ;;
+          esac
+          echo "signing: magic=$MAGIC type=$TYPE bytes=$(wc -c < "$KS")"
+          echo "KEYSTORE_FILE=$KS" >> "$GITHUB_ENV"
+          echo "KEYSTORE_TYPE=$TYPE" >> "$GITHUB_ENV"
+          echo "KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
 
       - name: Build release APK
         id: build
@@ -174,6 +191,10 @@ jobs:
           done < "$RUNNER_TEMP/releases.txt"
           echo "== remaining releases =="
           gh release list --limit 20
+
+      - name: Remove signing key
+        if: always()
+        run: rm -rf "$RUNNER_TEMP/signing"
 
       - name: Publish CI result
         if: always()

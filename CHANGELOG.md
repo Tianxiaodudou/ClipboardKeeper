@@ -1,5 +1,11 @@
 # 更新日志
 
+## [0.2.1] - 2026-11-02
+
+### 变更
+- 发版签名改用 GitHub Secrets（KEYSTORE_BASE64 / KEYSTORE_PASSWORD / KEY_ALIAS / KEY_PASSWORD），仓库内不再保存任何签名密钥文件
+- CI 解码密钥后写到 job 临时目录，job 结束立即删除；缺失 secret 直接失败，不回退 debug 签名
+
 ## [0.2.0] - 2026-11-02
 
 ### 新增

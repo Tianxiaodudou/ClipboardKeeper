@@ -46,20 +46,25 @@ Release 创建成功后，workflow 会自动删掉仓库里其它旧 Release（�
 
     gradle assembleRelease
 
-### 签名（固定密钥，随仓库提供）
+### 签名（GitHub Secrets，仓库内不保存密钥）
 
-本仓库为**私有仓库**，release 签名密钥直接放在仓库里，CI 不需要任何 secrets：
+release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secrets 里：
 
-- `signing/clipboardpolice-release.p12` —— PKCS12 固定密钥（4096 位 RSA，有效期 100 年）
-- `signing/keystore.properties` —— `storeFile / storeType / storePassword / keyAlias / keyPassword`
-- 证书 SHA-256：`5C:40:E3:D5:EF:EB:02:C3:EE:E7:34:B3:5F:30:14:DF:58:78:F1:2A:9A:10:80:CB:E7:29:C6:15:37:B9:92:C2`
-- 签名来源优先级：CI 环境变量（`KEYSTORE_FILE`/`KEYSTORE_PASSWORD`/`KEY_ALIAS`/`KEY_PASSWORD`/`KEYSTORE_TYPE`）> `signing/keystore.properties`
+- `KEYSTORE_BASE64`：keystore 文件的 Base64（单行）
+- `KEYSTORE_PASSWORD` / `KEY_ALIAS` / `KEY_PASSWORD`
+- CI 在 job 内解码到 `$RUNNER_TEMP/signing/`，类型按魔数自动识别（JKS `feedfeed` / 其它按 PKCS12），job 结束（含失败）立即删除
+- 缺 `KEYSTORE_BASE64` 直接 `::error::` 失败，不回退 debug 签名
+- 每次构建用 `apksigner verify --print-certs` 校验，证书 SHA-256 写进 `ci-log` 分支
 
-硬约束：
+生成密钥（一次性，产物别入库）：
 
-- **不再有 debug 签名回退**：缺密钥时 workflow 直接失败（`::error::`），产物必须通过 `apksigner verify`，证书 SHA-256 写进 `ci-log` 分支的 `ci/build.log`
-- 这份密钥就是应用身份：**仓库必须保持私有**，一旦转公开请立刻换密钥（已装机用户需卸载重装）
-- 密钥丢失后无法覆盖升级已安装版本，请另存一份
+    openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem \
+      -days 36500 -subj "/CN=ClipboardPolice/O=ClipboardPolice"
+    openssl pkcs12 -export -in cert.pem -inkey key.pem -name clipboardpolice \
+      -out release.p12 -passout pass:<密码>
+    base64 -w0 release.p12 > keystore.b64
+
+把 `keystore.b64` 的单行内容填进 `KEYSTORE_BASE64`；本地构建同样通过环境变量传入。
 
 ## 使用
 
