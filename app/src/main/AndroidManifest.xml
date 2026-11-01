@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:allowBackup="false"
@@ -27,6 +28,30 @@
             android:label="@string/settings_title"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/Theme.ClipboardPolice.Settings" />
+
+        <activity
+            android:name=".ui.FilterRulesActivity"
+            android:exported="false"
+            android:label="@string/filter_title"
+            android:parentActivityName=".ui.SettingsActivity"
+            android:theme="@style/Theme.ClipboardPolice.Settings" />
+
+        <activity
+            android:name=".ui.FilterRuleEditActivity"
+            android:exported="false"
+            android:label="@string/filter_title"
+            android:parentActivityName=".ui.FilterRulesActivity"
+            android:theme="@style/Theme.ClipboardPolice.Settings" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

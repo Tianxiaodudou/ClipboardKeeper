@@ -29,4 +29,17 @@
         <item>20000</item>
         <item>50000</item>
     </string-array>
+
+    <string-array name="filter_op_entries">
+        <item>@string/op_contains</item>
+        <item>@string/op_not_contains</item>
+        <item>@string/op_starts</item>
+        <item>@string/op_not_starts</item>
+        <item>@string/op_ends</item>
+        <item>@string/op_not_ends</item>
+        <item>@string/op_equals</item>
+        <item>@string/op_not_equals</item>
+        <item>@string/op_regex</item>
+        <item>@string/op_not_regex</item>
+    </string-array>
 </resources>

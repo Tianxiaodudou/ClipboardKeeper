@@ -9,6 +9,7 @@
     <string name="root_missing">Root 未授权：本模块需在 KernelSU 管理器中为本应用开启 Root 权限</string>
     <string name="op_write">[写]</string>
     <string name="op_read">[读]</string>
+    <string name="op_blocked">[拦]</string>
     <string name="copy_package">包名</string>
     <string name="copy_content">内容</string>
     <string name="copied">已复制%1$s到剪贴板</string>
@@ -52,4 +53,53 @@
     <string name="value_no_throttle">不节流</string>
     <string name="value_ms">%1$s 毫秒</string>
     <string name="value_records">%1$s 条</string>
+
+    <string name="set_filter_rules">过滤规则</string>
+    <string name="set_filter_rules_hint">命中规则的复制内容会被直接拦截</string>
+
+    <string name="filter_title">过滤规则</string>
+    <string name="filter_add">新建规则</string>
+    <string name="filter_edit">编辑</string>
+    <string name="filter_delete">删除</string>
+    <string name="filter_unnamed">（未命名规则）</string>
+    <string name="filter_disabled_name">%1$s（已停用）</string>
+    <string name="filter_summary_all">满足全部 %1$d 条条件</string>
+    <string name="filter_summary_any">满足任一 %1$d 条条件</string>
+    <string name="filter_summary_negate">%1$s 时反而不拦截，整体取反</string>
+    <string name="filter_empty">还没有过滤规则。\n\n规则会在写入剪贴板的那一刻做匹配：命中就把这次写入直接拦掉，内容不会留在剪贴板里（口令、验证码、推广文案都适用）。</string>
+    <string name="filter_name">规则名称</string>
+    <string name="filter_name_hint">例如：拦截淘宝口令</string>
+    <string name="filter_enabled">启用此规则</string>
+    <string name="filter_logic">条件之间的关系</string>
+    <string name="filter_logic_all">满足全部条件（与）</string>
+    <string name="filter_logic_any">满足任一条件（或）</string>
+    <string name="filter_negate">整体反向（非）：条件整体不成立时才拦截</string>
+    <string name="filter_conditions">匹配条件</string>
+    <string name="filter_value_hint">要匹配的内容</string>
+    <string name="filter_add_condition">添加条件</string>
+    <string name="filter_remove_condition">删除该条件</string>
+    <string name="filter_save">保存规则</string>
+    <string name="filter_saved">规则已保存</string>
+    <string name="filter_save_failed">规则保存失败：%1$s</string>
+    <string name="filter_delete_confirm">确定删除规则「%1$s」？</string>
+    <string name="filter_need_condition">至少添加一个条件</string>
+
+    <string name="op_contains">包含</string>
+    <string name="op_not_contains">不包含</string>
+    <string name="op_starts">开头是</string>
+    <string name="op_not_starts">开头不是</string>
+    <string name="op_ends">结尾是</string>
+    <string name="op_not_ends">结尾不是</string>
+    <string name="op_equals">完全等于</string>
+    <string name="op_not_equals">不等于</string>
+    <string name="op_regex">正则匹配</string>
+    <string name="op_not_regex">正则不匹配</string>
+
+    <string name="update_changelog">更新日志</string>
+    <string name="update_no_changelog">（本次更新未提供更新日志）</string>
+    <string name="update_download">下载更新</string>
+    <string name="update_downloading">正在下载… %1$d%%</string>
+    <string name="update_download_failed">下载失败：%1$s</string>
+    <string name="update_install_failed">无法启动安装：请在系统设置里允许本应用「安装未知应用」</string>
+    <string name="update_installing">下载完成，正在启动安装…</string>
 </resources>

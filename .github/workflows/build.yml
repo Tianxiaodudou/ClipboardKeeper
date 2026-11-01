@@ -2,17 +2,14 @@ name: Build & Release
 
 on:
   push:
-    branches: ['**']
+    tags: ['v*']
   workflow_dispatch:
 
 permissions:
   contents: write
-  actions: write
 
 jobs:
   build:
-    # 提交信息含 [skip ci] 时跳过（版本递增提交用 GITHUB_TOKEN 推送，本身不会再触发）
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,32 +19,32 @@ jobs:
 
       - name: Resolve version
         id: version
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           read_prop() { grep -E "^$1=" version.properties | head -1 | cut -d= -f2 | tr -d '[:space:]'; }
-          VC="$(read_prop versionCode)"
-          VN="$(read_prop versionName)"
-          # 版本是否已发布只看 Release 是否存在（不依赖 git tag，tag 删了也不影响递增）
-          CODE="$(curl -s -o /dev/null -w '%{http_code}' \
-            -H "Authorization: Bearer $GH_TOKEN" \
-            -H "Accept: application/vnd.github+json" \
-            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/releases/tags/v${VN}")" || CODE=""
-          echo "release check v${VN} -> HTTP $CODE"
-          # 只有确定“该版本还没发过”（404）才沿用当前版本；200 或查询异常(401/403/5xx/空)
-          # 都递增，保证版本单调、绝不重复发布同一个版本号
-          if [ "$CODE" != "404" ]; then
-            IFS=. read -r A B C <<< "${VN}"
-            C=$((C+1))
-            if [ "${C}" -gt 9 ]; then C=0; B=$((B+1)); fi
-            if [ "${B}" -gt 9 ]; then B=0; A=$((A+1)); fi
-            VN="${A}.${B}.${C}"
-            VC=$((VC+1))
+          CUR_CODE="$(read_prop versionCode)"
+          CUR_NAME="$(read_prop versionName)"
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            VN="${GITHUB_REF_NAME#v}"
+            VC=$((CUR_CODE + 1))
+          else
+            VN="$CUR_NAME"
+            VC="$CUR_CODE"
           fi
-          echo "VN=${VN}" >> "$GITHUB_OUTPUT"
-          echo "VC=${VC}" >> "$GITHUB_OUTPUT"
-          echo "resolved version ${VN} (${VC})"
+          echo "VN=$VN" >> "$GITHUB_OUTPUT"
+          echo "VC=$VC" >> "$GITHUB_OUTPUT"
+          echo "resolved version $VN ($VC)"
+
+      - name: Prepare changelog
+        run: |
+          set -euo pipefail
+          if python3 tools/changelog.py CHANGELOG.md "${{ steps.version.outputs.VN }}" > release_body.md; then
+            echo "changelog found"
+          else
+            echo "::error::CHANGELOG.md 里没有 ${{ steps.version.outputs.VN }} 的段落，发版必须先写更新日志"
+            exit 1
+          fi
+          wc -c release_body.md
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -56,7 +53,6 @@ jobs:
           java-version: '17'
 
       - name: Set up Gradle
-        id: gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
@@ -65,12 +61,11 @@ jobs:
         run: |
           set -euo pipefail
           if [ -f signing/keystore.properties ] && [ -f signing/clipboardpolice-release.p12 ]; then
-            echo "signing: 使用仓库内固定密钥 signing/clipboardpolice-release.p12"
+            echo "signing: 使用仓库内固定密钥"
           else
             echo "::error::缺少 signing/ 固定签名密钥：禁止用 debug 签名发布"
             exit 1
           fi
-
 
       - name: Build release APK
         id: build
@@ -87,7 +82,6 @@ jobs:
           mkdir -p dist
           SRC="$(find app/build/outputs/apk/release -name '*.apk' -print -quit || true)"
           echo "apk source: ${SRC}"
-          find app/build/outputs -name '*.apk' || true
           if [ -z "${SRC}" ]; then echo "no apk produced"; exit 1; fi
           cp "$SRC" "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk"
           ls -l dist
@@ -98,7 +92,7 @@ jobs:
           APK=$(ls dist/*.apk | head -1)
           {
             echo "== APK entries =="
-            unzip -l "$APK" | grep -E "META-INF/xposed|classes[0-9]*\\.dex|AndroidManifest.xml" || true
+            unzip -l "$APK" | grep -E "META-INF/xposed|classes[0-9]*\.dex|AndroidManifest.xml" || true
             echo "== module.prop =="
             unzip -p "$APK" META-INF/xposed/module.prop || true
             echo "== scope.list =="
@@ -130,7 +124,7 @@ jobs:
           path: dist/*.apk
 
       - name: Commit version bump
-        if: github.ref == 'refs/heads/main' && success()
+        if: github.ref_type == 'tag' && success()
         run: |
           set -euo pipefail
           printf 'versionCode=%s\nversionName=%s\n' \
@@ -146,32 +140,23 @@ jobs:
           git push origin HEAD:main
 
       - name: Create GitHub Release
-        if: github.ref == 'refs/heads/main' && success()
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.version.outputs.VN }}
-          name: v${{ steps.version.outputs.VN }}
-          files: dist/*.apk
-          body: |
-            ## 剪贴板警察 ${{ steps.version.outputs.VN }}
+        if: github.ref_type == 'tag' && success()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release create "v${{ steps.version.outputs.VN }}" \
+            "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk" \
+            --title "v${{ steps.version.outputs.VN }}" \
+            --notes-file release_body.md
 
-            - Hook：ClipboardService 的 setPrimaryClip / getPrimaryClip
-            - 作用域：系统框架（system）
-            - 目标：Android 14~16 + KernelSU + LSPosed
-
-            > 固定签名：密钥随仓库提供（`signing/`，私有仓库），每次构建都会打印证书 SHA-256 到 `ci-log` 分支的日志。
-            > 旧版本 v0.1.0 / v0.1.1 为 debug 签名，若已安装请先卸载再装本版本。
-
-
-      # 只保留最新一个 Release：旧版本连同附件一起删掉（tag 保留，版本递增只认 Release 是否存在）
       - name: Prune old releases
-        if: github.ref == 'refs/heads/main' && success()
+        if: github.ref_type == 'tag' && success()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
           KEEP="v${{ steps.version.outputs.VN }}"
-          echo "keep release: $KEEP"
           gh release list --limit 200 --json tagName,createdAt \
             --jq 'sort_by(.createdAt) | reverse | .[].tagName' > "$RUNNER_TEMP/releases.txt"
           while IFS= read -r tag; do
@@ -186,7 +171,6 @@ jobs:
           echo "== remaining releases =="
           gh release list --limit 20
 
-      # 把本次构建结果推到 ci-log 分支，便于在没有 Actions 权限时查结果
       - name: Publish CI result
         if: always()
         env:
@@ -199,26 +183,20 @@ jobs:
           mkdir -p ci
           {
             echo "run=${{ github.run_number }}"
-            echo "branch=${{ github.ref_name }}"
+            echo "ref=${{ github.ref_name }}"
             echo "version=${{ steps.version.outputs.VN }} (${{ steps.version.outputs.VC }})"
             echo "status=${JOB_STATUS}"
-          } > ci/status.txt
-          {
+            echo ""
             echo "== step outcomes =="
-            echo "gradle=${{ steps.gradle.outcome }} build=${{ steps.build.outcome }} pack=${{ steps.pack.outcome }} upload=${{ steps.upload.outcome }}"
+            echo "build=${{ steps.build.outcome }} pack=${{ steps.pack.outcome }} upload=${{ steps.upload.outcome }}"
             echo "== ls dist =="
             ls -l dist || true
-            echo "== apk files =="
-            find app/build/outputs -name '*.apk' || true
-            echo "== git status =="
-            git status --short | head -20
-            echo "== run log =="
-          } > ci/build.log
+          } > ci/status.txt
           if [ -f build.log ]; then
-            tail -c 120000 build.log >> ci/build.log
+            tail -c 120000 build.log > ci/build.log
           else
-            echo "no build.log produced" >> ci/build.log
+            echo "no build.log produced" > ci/build.log
           fi
           git add -f ci
-          git commit -m "ci: build #${{ github.run_number }} ${JOB_STATUS} on ${{ github.ref_name }}" || echo "no changes"
+          git commit -m "ci: run #${{ github.run_number }} ${JOB_STATUS}" || echo "no changes"
           git push -f origin ci-log

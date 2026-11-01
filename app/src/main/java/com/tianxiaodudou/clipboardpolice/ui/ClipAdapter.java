@@ -57,10 +57,12 @@ public class ClipAdapter extends RecyclerView.Adapter<ClipAdapter.ClipViewHolder
     public void onBindViewHolder(@NonNull ClipViewHolder holder, int position) {
         ClipRecord record = items.get(position);
         boolean isWrite = "write".equals(record.operation);
+        boolean isBlocked = "blocked".equals(record.operation);
 
-        holder.tvOp.setText(isWrite ? R.string.op_write : R.string.op_read);
+        holder.tvOp.setText(isBlocked ? R.string.op_blocked
+                : (isWrite ? R.string.op_write : R.string.op_read));
         holder.tvOp.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),
-                isWrite ? R.color.write_blue : R.color.read_gray));
+                isBlocked ? R.color.blocked_red : (isWrite ? R.color.write_blue : R.color.read_gray)));
         holder.tvTime.setText(timeFormat.format(new Date(record.timestamp)));
         holder.tvPkg.setText(record.sourcePackage);
         holder.tvContent.setText(record.content);

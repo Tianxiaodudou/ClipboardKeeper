@@ -1,6 +1,7 @@
 package com.tianxiaodudou.clipboardpolice.ui;
 
 import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -80,6 +81,8 @@ public class SettingsActivity extends AppCompatActivity {
             saveSetting(KEY_READ_ENABLED, isChecked ? "1" : "0");
         });
 
+        findViewById(R.id.rowFilterRules).setOnClickListener(v ->
+                startActivity(new Intent(this, FilterRulesActivity.class)));
         btnCheckUpdate.setOnClickListener(v -> checkUpdate());
         loadSettings();
     }
@@ -234,7 +237,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void checkUpdate() {
         toast(getString(R.string.checking_update));
-        UpdateChecker.check(this, (ok, version, apkUrl, message) -> {
+        UpdateChecker.check(this, (ok, version, apkUrl, changelog, message) -> {
             String current = UpdateChecker.currentVersion(this);
             if (!ok) {
                 new AlertDialog.Builder(this)
@@ -245,15 +248,8 @@ public class SettingsActivity extends AppCompatActivity {
                 return;
             }
             if (UpdateChecker.compare(version, current) > 0) {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.update_title)
-                        .setMessage(getString(R.string.update_found, version, current))
-                        .setNegativeButton(R.string.cancel, null)
-                        .setPositiveButton(R.string.confirm, (dialog, which) -> {
-                            UpdateChecker.download(this, version, apkUrl);
-                            toast(getString(R.string.download_started));
-                        })
-                        .show();
+                // 始终带更新日志：四路兜底后仍为空时弹窗内显示占位文案
+                UpdateDialog.show(this, version, apkUrl, changelog);
             } else {
                 toast(getString(R.string.update_none, current));
             }

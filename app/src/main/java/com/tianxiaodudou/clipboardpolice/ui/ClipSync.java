@@ -133,7 +133,8 @@ public final class ClipSync {
                 continue;
             }
             String operation = cols[1].trim();
-            if (!"write".equals(operation) && !"read".equals(operation)) continue;
+            if (!"write".equals(operation) && !"read".equals(operation)
+                    && !"blocked".equals(operation)) continue;
             String pkg = cols[2].trim();
             if (pkg.isEmpty()) pkg = "unknown";
             ClipRecord record = new ClipRecord();

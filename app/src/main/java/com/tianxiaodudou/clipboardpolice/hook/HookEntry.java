@@ -41,6 +41,7 @@ public class HookEntry extends XposedModule {
     private static final long MAX_BYTES = 200L * 1024L;
 
     private static final String KEY_WRITE_ENABLED = "clipboard_watch_write_enabled";
+    private static final String KEY_FILTER_RULES = "clipboard_watch_filter_rules";
     private static final String KEY_WRITE_THROTTLE = "clipboard_watch_broadcast_throttle_ms";
     private static final String KEY_READ_ENABLED = "clipboard_watch_read_enabled";
     private static final String KEY_READ_THROTTLE = "clipboard_watch_read_throttle_ms";
@@ -57,6 +58,9 @@ public class HookEntry extends XposedModule {
     private int logLines = -1;
     /** 主路径一旦写失败（多为 SELinux），后续固定用回退路径 */
     private boolean fallbackLocked;
+    /** 过滤规则原始串 + 解析结果缓存，规则未变就不重新解析 */
+    private volatile String filterRaw;
+    private volatile FilterRuleSet filterRuleSet;
 
     // ---------------------------------------------------------------- 生命周期
 
@@ -136,11 +140,14 @@ public class HookEntry extends XposedModule {
             deoptimize(m);
             hook(m).setExceptionMode(XposedInterface.ExceptionMode.PROTECTIVE)
                     .intercept(chain -> {
+                        boolean blocked = false;
                         try {
-                            onWrite(chain);
+                            blocked = onWrite(chain);
                         } catch (Throwable t) {
                             log(Log.ERROR, TAG, "write hook error: " + safeName(chain), t);
+                            blocked = false;
                         }
+                        if (blocked) return blockedValue(chain);
                         return chain.proceed();
                     });
             return true;
@@ -172,8 +179,9 @@ public class HookEntry extends XposedModule {
 
     // -------------------------------------------------------------- 写入监测
 
-    private void onWrite(XposedInterface.Chain chain) {
-        if (setting(KEY_WRITE_ENABLED, 1L) != 1L) return;
+    /** 返回 true 表示被过滤规则拦截，调用方应短路（不把内容写进剪贴板） */
+    private boolean onWrite(XposedInterface.Chain chain) {
+        if (setting(KEY_WRITE_ENABLED, 1L) != 1L) return false;
         ClipData clip = null;
         String pkg = null;
         List<Object> args = chain.getArgs();
@@ -185,12 +193,23 @@ public class HookEntry extends XposedModule {
                 pkg = (String) arg;
             }
         }
-        if (clip == null) return;
+        if (clip == null) return false;
         if (pkg == null || pkg.isEmpty()) pkg = "unknown";
 
         String content = clipToText(clip);
         // 内层实现（setPrimaryClipNoLock 等）会被同样匹配到，按短窗口去重，避免重复记录
-        if (!throttle(writeDedup, pkg + "#" + content.hashCode(), WRITE_DEDUP_MS)) return;
+        if (!throttle(writeDedup, pkg + "#" + content.hashCode(), WRITE_DEDUP_MS)) return false;
+
+        String hit = matchFilter(content);
+        if (hit != null) {
+            appendRecord("blocked", pkg, content);
+            long blockWindow = setting(KEY_WRITE_THROTTLE, 1000L);
+            if (throttle(broadcastStamp, pkg + "|blocked", blockWindow)) {
+                sendUpdated();
+            }
+            log(Log.INFO, TAG, "blocked by rule [" + hit + "] pkg=" + pkg);
+            return true;
+        }
 
         appendRecord("write", pkg, content);
 
@@ -198,6 +217,7 @@ public class HookEntry extends XposedModule {
         if (throttle(broadcastStamp, pkg + "|write", window)) {
             sendUpdated();
         }
+        return false;
     }
 
     // -------------------------------------------------------------- 读取监测
@@ -223,6 +243,176 @@ public class HookEntry extends XposedModule {
 
         appendRecord("read", pkg, clipToText((ClipData) result));
         sendUpdated();
+    }
+
+    // -------------------------------------------------------------- 过滤规则
+
+    private String matchFilter(String content) {
+        try {
+            String raw = settingString(KEY_FILTER_RULES);
+            if (raw == null || raw.trim().isEmpty()) return null;
+            if (!raw.equals(filterRaw)) {
+                filterRuleSet = FilterRuleSet.parse(raw);
+                filterRaw = raw;
+            }
+            FilterRuleSet rules = filterRuleSet;
+            return rules == null ? null : rules.match(content);
+        } catch (Throwable t) {
+            log(Log.WARN, TAG, "filter match failed", t);
+            return null;
+        }
+    }
+
+    private String settingString(String key) {
+        try {
+            Context ctx = systemContext();
+            if (ctx == null) return "";
+            String value = Settings.Global.getString(ctx.getContentResolver(), key);
+            return value == null ? "" : value;
+        } catch (Throwable t) {
+            return "";
+        }
+    }
+
+    /** 拦截写入时按被 Hook 方法的返回类型给出安全的短路值 */
+    private static Object blockedValue(XposedInterface.Chain chain) {
+        try {
+            java.lang.reflect.Method method = (java.lang.reflect.Method) chain.getExecutable();
+            Class<?> type = method.getReturnType();
+            if (type == void.class) return null;
+            if (type == boolean.class) return Boolean.FALSE;
+            if (type == int.class) return 0;
+            if (type == long.class) return 0L;
+            return null;
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    /** 规则集合：与 App 侧 FilterRule 的 JSON 约定保持一致 */
+    private static final class FilterRuleSet {
+        private final Rule[] rules;
+
+        private FilterRuleSet(Rule[] rules) {
+            this.rules = rules;
+        }
+
+        String match(String content) {
+            if (content == null || rules == null) return null;
+            for (Rule rule : rules) {
+                if (rule.matches(content)) return rule.name;
+            }
+            return null;
+        }
+
+        static FilterRuleSet parse(String raw) {
+            try {
+                org.json.JSONObject root = new org.json.JSONObject(raw);
+                org.json.JSONArray array = root.optJSONArray("rules");
+                if (array == null) return null;
+                java.util.List<Rule> parsed = new java.util.ArrayList<>();
+                for (int i = 0; i < array.length(); i++) {
+                    org.json.JSONObject obj = array.optJSONObject(i);
+                    if (obj == null) continue;
+                    org.json.JSONArray conds = obj.optJSONArray("conditions");
+                    if (conds == null) continue;
+                    java.util.List<Condition> list = new java.util.ArrayList<>();
+                    for (int j = 0; j < conds.length(); j++) {
+                        org.json.JSONObject item = conds.optJSONObject(j);
+                        if (item == null) continue;
+                        String op = item.optString("op", "");
+                        String value = item.optString("value", "");
+                        if (op.isEmpty() || value.isEmpty()) continue;
+                        list.add(new Condition(op, value));
+                    }
+                    if (list.isEmpty()) continue;
+                    parsed.add(new Rule(obj.optString("name", "规则" + (i + 1)),
+                            obj.optBoolean("enabled", true),
+                            "OR".equalsIgnoreCase(obj.optString("logic", "AND")),
+                            obj.optBoolean("negate", false),
+                            list.toArray(new Condition[0])));
+                }
+                return parsed.isEmpty() ? null : new FilterRuleSet(parsed.toArray(new Rule[0]));
+            } catch (Throwable t) {
+                return null;
+            }
+        }
+    }
+
+    private static final class Rule {
+        final String name;
+        final boolean enabled;
+        final boolean any;
+        final boolean negate;
+        final Condition[] conditions;
+
+        Rule(String name, boolean enabled, boolean any, boolean negate, Condition[] conditions) {
+            this.name = name;
+            this.enabled = enabled;
+            this.any = any;
+            this.negate = negate;
+            this.conditions = conditions;
+        }
+
+        boolean matches(String text) {
+            if (!enabled || conditions.length == 0) return false;
+            boolean all = true;
+            boolean some = false;
+            for (Condition cond : conditions) {
+                boolean hit = cond.matches(text);
+                all &= hit;
+                some |= hit;
+            }
+            boolean mid = any ? some : all;
+            return negate ? !mid : mid;
+        }
+    }
+
+    private static final class Condition {
+        final String op;
+        final String value;
+        final java.util.regex.Pattern pattern;
+
+        Condition(String op, String value) {
+            this.op = op;
+            this.value = value;
+            java.util.regex.Pattern compiled = null;
+            if ("regex".equals(op) || "not_regex".equals(op)) {
+                try {
+                    compiled = java.util.regex.Pattern.compile(value);
+                } catch (Throwable t) {
+                    compiled = null;
+                }
+            }
+            this.pattern = compiled;
+        }
+
+        boolean matches(String text) {
+            switch (op) {
+                case "contains":
+                    return text.contains(value);
+                case "not_contains":
+                    return !text.contains(value);
+                case "starts_with":
+                    return text.startsWith(value);
+                case "not_starts_with":
+                    return !text.startsWith(value);
+                case "ends_with":
+                    return text.endsWith(value);
+                case "not_ends_with":
+                    return !text.endsWith(value);
+                case "equals":
+                    return text.equals(value);
+                case "not_equals":
+                    return !text.equals(value);
+                case "regex":
+                    return pattern != null && pattern.matcher(text).find();
+                case "not_regex":
+                    return pattern != null && !pattern.matcher(text).find();
+                default:
+                    return false;
+            }
+        }
     }
 
     // ------------------------------------------------------------------ 工具

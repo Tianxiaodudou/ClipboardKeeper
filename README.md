@@ -28,7 +28,9 @@ LSPosed 模块（libxposed API 102）：记录系统剪贴板的**写入**与**�
 
 ## 构建与发版（全部云端）
 
-push 到 `main` → GitHub Actions 构建 + 发版；任何分支的 push 只做构建校验（便于先验证再合并）。
+**打 tag 触发**：`git tag v0.2.0 && git push origin v0.2.0` → 构建、签名、发版（需要验证可用 `workflow_dispatch` 手动跑）。
+发版前必须在 `CHANGELOG.md` 写好该版本段落，CI 会用它作为 Release 正文；缺段落会直接失败。
+Release 创建成功后自动删除旧 Release，只保留最新一个。
 版本号存放在仓库根 `version.properties`（`versionCode` / `versionName`），规则 `a.b.c`：`c` 超 9 进 `b`，`b` 超 9 进 `a`。
 CI 用 `GITHUB_TOKEN` 查 `v<versionName>` 对应的 **Release** 是否存在（不看 git tag，删 tag 也不影响）：
 已发布则先算出下一个版本再构建（`-PversionCodeOverride/-PversionNameOverride`），查询失败时同样递增，保证版本单调不重复；
@@ -75,6 +77,21 @@ Release 创建成功后，workflow 会自动删掉仓库里其它旧 Release（�
 | `clipboard_watch_read_enabled` | 0/1 | 0 |
 | `clipboard_watch_read_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
 | `clipboard_watch_max_records` | 1000/5000/10000/20000/50000 | 10000 |
+| `clipboard_watch_filter_rules` | JSON 字符串（由界面维护） | 空 |
+
+## 过滤规则
+
+界面：设置 → 过滤规则，可新建多条规则，每条独立启用/停用。
+
+- 条件之间可选「满足全部（与）」或「满足任一（或）」，整条规则可再取反（非）
+- 条件类型：包含、不包含、开头是、开头不是、结尾是、结尾不是、完全等于、不等于、正则匹配、正则不匹配
+- 命中时 Hook 直接短路这次写入：内容不会进入剪贴板，记录以 [拦] 入库
+- 规则以 JSON 存在 `Settings.Global` 的 `clipboard_watch_filter_rules`，Hook 侧按原始串变化重新解析
+
+## 检查更新
+
+- 查 GitHub Releases 最新版，弹窗内含**更新日志**（四路依次兜底：Release 正文 → jsDelivr 的 `CHANGELOG.md@vX.Y.Z` → raw.githubusercontent.com 同名文件 → `releases.atom` 正文）
+- 点「下载更新」后走应用内置下载器，弹窗内显示百分比进度，下载完成直接拉起系统安装界面（需允许「安装未知应用」）
 
 ## adb 调试接口（仅 debug 构建，只接受 uid 0/2000）
 

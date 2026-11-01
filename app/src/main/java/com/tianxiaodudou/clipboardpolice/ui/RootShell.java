@@ -66,6 +66,18 @@ public final class RootShell {
         return out;
     }
 
+    /** 原样读字符串设置（用于过滤规则 JSON） */
+    public static String readSettingRaw(String key) {
+        return run("settings get global " + key);
+    }
+
+    /** 写字符串设置：值整体用单引号包裹，内部单引号做 shell 转义 */
+    public static boolean writeSettingString(String key, String value) {
+        String escaped = value.replace("'", "'\\''");
+        String out = run("settings put global " + key + " '" + escaped + "'; echo OK_$?").trim();
+        return out.endsWith("OK_0");
+    }
+
     public static boolean copyToDownload(String srcPath, String dstPath) {
         String out = run("cp -f " + srcPath + " " + dstPath + "; chmod 644 " + dstPath
                 + "; echo OK_$?").trim();

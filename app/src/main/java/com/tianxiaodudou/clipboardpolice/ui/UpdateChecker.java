@@ -1,9 +1,6 @@
 package com.tianxiaodudou.clipboardpolice.ui;
 
-import android.app.DownloadManager;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -16,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-/** 查 GitHub Releases 最新版；比当前 versionName 新则用 DownloadManager 下载（不自动安装）。 */
+/** 查 GitHub Releases 最新版，并带回更新日志（四路兜底）。 */
 public final class UpdateChecker {
 
     private static final String REPO = "Tianxiaodudou/ClipboardPolice";
@@ -25,7 +22,7 @@ public final class UpdateChecker {
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     public interface Callback {
-        void onResult(boolean ok, String version, String apkUrl, String message);
+        void onResult(boolean ok, String version, String apkUrl, String changelog, String message);
     }
 
     private UpdateChecker() {
@@ -44,36 +41,37 @@ public final class UpdateChecker {
         String current = currentVersion(context);
         new Thread(() -> {
             boolean ok = false;
-            String version = "";
+            String version = current;
             String apkUrl = "";
+            String changelog = "";
             String message = "";
             try {
                 JSONObject release = fetch(new URL(API));
-                version = normalize(release.optString("tag_name", ""));
+                String tag = normalize(release.optString("tag_name", ""));
+                String body = release.optString("body", "");
                 JSONArray assets = release.optJSONArray("assets");
                 if (assets != null) {
                     for (int i = 0; i < assets.length(); i++) {
                         JSONObject asset = assets.optJSONObject(i);
                         if (asset == null) continue;
                         String name = asset.optString("name", "");
-                        if (name.endsWith(".apk")) {
-                            apkUrl = asset.optString("browser_download_url", "");
-                            if (name.contains("ClipboardPolice")) break;
-                        }
+                        if (!name.endsWith(".apk")) continue;
+                        String url = asset.optString("browser_download_url", "");
+                        if (name.contains("ClipboardPolice") || apkUrl.isEmpty()) apkUrl = url;
                     }
                 }
-                if (version.isEmpty()) {
-                    message = "Release 缺少 tag_name";
-                } else if (compare(version, current) > 0) {
+                if (tag.isEmpty()) {
+                    message = "Release 缺少版本号";
+                } else if (compare(tag, current) > 0) {
                     if (apkUrl.isEmpty()) {
                         message = "Release 中没有 APK 附件";
                     } else {
+                        version = tag;
+                        changelog = ChangelogFetcher.fetch(tag, body);
                         ok = true;
                     }
                 } else {
-                    message = "";
                     ok = true;
-                    version = current;
                 }
             } catch (Throwable t) {
                 message = t.getClass().getSimpleName() + ": " + t.getMessage();
@@ -81,25 +79,12 @@ public final class UpdateChecker {
             boolean finalOk = ok;
             String finalVersion = version;
             String finalUrl = apkUrl;
+            String finalLog = changelog;
             String finalMessage = message;
             if (callback != null) {
-                MAIN.post(() -> callback.onResult(finalOk, finalVersion, finalUrl, finalMessage));
+                MAIN.post(() -> callback.onResult(finalOk, finalVersion, finalUrl, finalLog, finalMessage));
             }
         }, "update-check").start();
-    }
-
-    public static void download(Context context, String version, String apkUrl) {
-        String fileName = (version.isEmpty() ? "latest" : version) + "-ClipboardPolice.apk";
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkUrl));
-        request.setTitle(fileName);
-        request.setDescription("剪贴板警察新版本下载");
-        request.setNotificationVisibility(
-                DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-        request.setMimeType("application/vnd.android.package-archive");
-        DownloadManager manager =
-                (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-        if (manager != null) manager.enqueue(request);
     }
 
     private static JSONObject fetch(URL url) throws Exception {
