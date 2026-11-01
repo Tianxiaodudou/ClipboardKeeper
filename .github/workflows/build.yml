@@ -26,7 +26,11 @@ jobs:
           CUR_NAME="$(read_prop versionName)"
           if [ "${{ github.ref_type }}" = "tag" ]; then
             VN="${GITHUB_REF_NAME#v}"
-            VC=$((CUR_CODE + 1))
+            if [ "${VN}" = "${CUR_NAME}" ]; then
+              VC="${CUR_CODE}"
+            else
+              VC=$((CUR_CODE + 1))
+            fi
           else
             VN="$CUR_NAME"
             VC="$CUR_CODE"
