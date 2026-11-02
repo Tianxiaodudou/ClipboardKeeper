@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -13,10 +13,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/** 持久化数据库：/data/data/&lt;pkg&gt;/databases/clipboard.db */
+/** 持久化数据库：/data/data/&lt;pkg&gt;/databases/clipboard_keeper.db */
 public class ClipDatabase extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "clipboard.db";
+    private static final String DB_NAME = "clipboard_keeper.db";
     private static final int DB_VERSION = 1;
     private static final String TABLE = "clipboard_records";
 

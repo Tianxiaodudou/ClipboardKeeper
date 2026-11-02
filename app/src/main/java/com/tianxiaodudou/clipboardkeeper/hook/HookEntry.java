@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.hook;
+package com.tianxiaodudou.clipboardkeeper.hook;
 
 import android.content.ClipData;
 import android.content.Context;
@@ -31,12 +31,12 @@ public class HookEntry extends XposedModule {
     private static final String TAG = "ClipboardKeeper";
 
     /** 模块包名（字符串常量，禁止 import 模块类）。 */
-    public static final String MODULE_PKG = "com.tianxiaodudou.clipboardpolice";
+    public static final String MODULE_PKG = "com.tianxiaodudou.clipboardkeeper";
     private static final String ACTION_UPDATED = MODULE_PKG + ".CLIP_UPDATED";
 
     /** Hook 侧临时缓冲文件：优先 /data/local/tmp，不可写时退回 /data/system。 */
-    private static final String PRIMARY_TMP = "/data/local/tmp/clipboard_watch.tmp";
-    private static final String FALLBACK_TMP = "/data/system/clipboard_watch.tmp";
+    private static final String PRIMARY_TMP = "/data/local/tmp/clipboard_keeper.tmp";
+    private static final String FALLBACK_TMP = "/data/system/clipboard_keeper.tmp";
     private static final int MAX_LINES = 200;
     private static final long MAX_BYTES = 200L * 1024L;
 

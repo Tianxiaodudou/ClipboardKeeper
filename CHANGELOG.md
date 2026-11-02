@@ -1,11 +1,23 @@
 # 更新日志
 
+## [0.4.1] - 2026-11-02
+
+### 变更（重要）
+- 应用包名改为 `com.tianxiaodudou.clipboardkeeper`，与更名一致
+- 内部文件名同步改为 `clipboard_keeper.db`、`clipboard_keeper.tmp`（导出文件 `clipboard_keeper_export.txt`）
+
+### 升级须知
+- 包名变了，这在系统里是**另一个应用**：旧版（`...clipboardpolice`）不会自动覆盖，建议先卸载旧版
+- LSPosed 里需要给新包名重新启用模块（作用域仍勾「系统框架」）并重启
+- KernelSU 里需要给新应用重新打开 Root 开关
+- 旧的剪贴板记录不会迁移（数据库文件名与目录都变了），如有需要请先用旧版导出
+
 ## [0.4.0] - 2026-11-02
 
 ### 更名
 - 应用正式更名为「剪贴板管家」（英文名 ClipboardKeeper），GitHub 仓库同步改名
 - 应用内所有显示文案、日志 TAG、主题名、APK 文件名一并更新
-- 包名保持不变（`com.tianxiaodudou.clipboardpolice`），避免 LSPosed 作用域与 KernelSU 授权失效
+- 包名保持不变（`com.tianxiaodudou.clipboardkeeper`），避免 LSPosed 作用域与 KernelSU 授权失效
 - 安装包文件名改为 `<versionName>-ClipboardKeeper.apk`
 
 ## [0.3.0] - 2026-11-02

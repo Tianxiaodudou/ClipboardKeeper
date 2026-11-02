@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.Context;
 import android.os.Handler;

@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.graphics.Color;
 import android.content.Intent;
@@ -24,7 +24,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.tianxiaodudou.clipboardpolice.R;
+import com.tianxiaodudou.clipboardkeeper.R;
 
 /** 设置项全部写入 Settings.Global（su 写，Hook 读）。 */
 public class SettingsActivity extends AppCompatActivity {

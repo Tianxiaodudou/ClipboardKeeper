@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.Context;
 import android.os.Handler;
@@ -12,7 +12,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.tianxiaodudou.clipboardpolice.R;
+import com.tianxiaodudou.clipboardkeeper.R;
 
 /**
  * 刷新流程：su 读临时文件 → 解析还原转义 → 批量插入 → 按规则裁剪 → 清空临时文件 → 查列表。

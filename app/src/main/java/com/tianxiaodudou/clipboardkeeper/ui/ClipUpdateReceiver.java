@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +8,7 @@ import android.content.IntentFilter;
 /** 动态注册（onResume 注册 / onPause 注销）：Hook 节流后发出的刷新通知。 */
 public class ClipUpdateReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_UPDATED = "com.tianxiaodudou.clipboardpolice.CLIP_UPDATED";
+    public static final String ACTION_UPDATED = "com.tianxiaodudou.clipboardkeeper.CLIP_UPDATED";
 
     private final Runnable onUpdate;
 

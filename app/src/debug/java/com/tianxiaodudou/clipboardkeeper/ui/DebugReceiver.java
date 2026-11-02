@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,18 +14,18 @@ import java.util.List;
 
 /**
  * adb 调试接口（仅 debug 构建）。
- * adb shell am broadcast -a com.tianxiaodudou.clipboardpolice.DEBUG.REFRESH
+ * adb shell am broadcast -a com.tianxiaodudou.clipboardkeeper.DEBUG.REFRESH
  * 仅允许 shell(2000) 与 root(0)。
  */
 public class DebugReceiver extends BroadcastReceiver {
 
     private static final String TAG = "ClipboardKeeper";
-    private static final String PREFIX = "com.tianxiaodudou.clipboardpolice.DEBUG.";
+    private static final String PREFIX = "com.tianxiaodudou.clipboardkeeper.DEBUG.";
     public static final String ACTION_REFRESH = PREFIX + "REFRESH";
     public static final String ACTION_CLEAR = PREFIX + "CLEAR";
     public static final String ACTION_EXPORT = PREFIX + "EXPORT";
 
-    private static final String EXPORT_PATH = "/sdcard/Download/clipboard_export.txt";
+    private static final String EXPORT_PATH = "/sdcard/Download/clipboard_keeper_export.txt";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -80,7 +80,7 @@ public class DebugReceiver extends BroadcastReceiver {
                     .append(record.sourcePackage).append('\t')
                     .append(record.content.replace("\n", "\\n")).append('\n');
         }
-        File cacheFile = new File(context.getCacheDir(), "clipboard_export.txt");
+        File cacheFile = new File(context.getCacheDir(), "clipboard_keeper_export.txt");
         try (FileOutputStream fos = new FileOutputStream(cacheFile)) {
             fos.write(sb.toString().getBytes(StandardCharsets.UTF_8));
         } catch (Throwable t) {

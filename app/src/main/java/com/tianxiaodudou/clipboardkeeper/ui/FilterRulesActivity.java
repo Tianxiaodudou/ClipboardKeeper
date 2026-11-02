@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,7 +21,7 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tianxiaodudou.clipboardpolice.R;
+import com.tianxiaodudou.clipboardkeeper.R;
 
 import java.util.ArrayList;
 import java.util.List;

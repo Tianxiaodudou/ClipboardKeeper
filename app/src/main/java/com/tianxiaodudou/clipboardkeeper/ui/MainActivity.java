@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -24,7 +24,7 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.tianxiaodudou.clipboardpolice.R;
+import com.tianxiaodudou.clipboardkeeper.R;
 
 /** 主界面：列表 + 刷新 / 清空 / 设置。 */
 public class MainActivity extends AppCompatActivity implements ClipAdapter.Listener {

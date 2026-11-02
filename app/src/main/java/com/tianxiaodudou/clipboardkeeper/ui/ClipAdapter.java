@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.tianxiaodudou.clipboardpolice.R;
+import com.tianxiaodudou.clipboardkeeper.R;
 
 /** 记录列表：卡片条目，内容默认 3 行折叠，单击展开/收起，长按复制。 */
 public class ClipAdapter extends RecyclerView.Adapter<ClipAdapter.ClipViewHolder> {

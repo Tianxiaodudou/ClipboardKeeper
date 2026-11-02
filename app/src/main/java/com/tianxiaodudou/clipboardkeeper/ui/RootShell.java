@@ -1,4 +1,4 @@
-package com.tianxiaodudou.clipboardpolice.ui;
+package com.tianxiaodudou.clipboardkeeper.ui;
 
 import android.text.TextUtils;
 
@@ -10,8 +10,8 @@ import java.util.List;
 /** 所有需要 root 的操作集中在此，避免散落 su 调用。 */
 public final class RootShell {
 
-    public static final String TMP_PRIMARY = "/data/local/tmp/clipboard_watch.tmp";
-    public static final String TMP_FALLBACK = "/data/system/clipboard_watch.tmp";
+    public static final String TMP_PRIMARY = "/data/local/tmp/clipboard_keeper.tmp";
+    public static final String TMP_FALLBACK = "/data/system/clipboard_keeper.tmp";
 
     private static volatile boolean checked = false;
     private static volatile boolean granted = false;

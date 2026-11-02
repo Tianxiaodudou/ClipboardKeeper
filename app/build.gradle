@@ -18,11 +18,11 @@ def keystoreAlias = System.getenv('KEY_ALIAS')
 def keystoreKeyPassword = System.getenv('KEY_PASSWORD')
 
 android {
-    namespace 'com.tianxiaodudou.clipboardpolice'
+    namespace 'com.tianxiaodudou.clipboardkeeper'
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.tianxiaodudou.clipboardpolice"
+        applicationId "com.tianxiaodudou.clipboardkeeper"
         minSdk 34
         targetSdk 35
         versionCode appVersionCode

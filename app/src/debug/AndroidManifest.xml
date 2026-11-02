@@ -7,9 +7,9 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.tianxiaodudou.clipboardpolice.DEBUG.REFRESH" />
-                <action android:name="com.tianxiaodudou.clipboardpolice.DEBUG.CLEAR" />
-                <action android:name="com.tianxiaodudou.clipboardpolice.DEBUG.EXPORT" />
+                <action android:name="com.tianxiaodudou.clipboardkeeper.DEBUG.REFRESH" />
+                <action android:name="com.tianxiaodudou.clipboardkeeper.DEBUG.CLEAR" />
+                <action android:name="com.tianxiaodudou.clipboardkeeper.DEBUG.EXPORT" />
             </intent-filter>
         </receiver>
     </application>

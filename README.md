@@ -14,7 +14,7 @@ LSPosed 模块（libxposed API 102）：记录系统剪贴板的**写入**与**�
         ├── UpdateChecker.java       # GitHub Releases + DownloadManager
         ├── SettingsActivity.java    # 4 个设置项（写 Settings.Global）
         ├── ClipSync.java            # 刷新流程：读临时文件 → 解析 → 入库 → 裁剪 → 清空
-        ├── ClipDatabase.java        # SQLite / clipboard.db
+        ├── ClipDatabase.java        # SQLite / clipboard_keeper.db
         ├── ClipRecord.java
         └── RootShell.java           # 全部 su 调用
     app/src/main/resources/META-INF/xposed/
@@ -100,13 +100,13 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 
 ## adb 调试接口（仅 debug 构建，只接受 uid 0/2000）
 
-    adb shell am broadcast -a com.tianxiaodudou.clipboardpolice.DEBUG.REFRESH
-    adb shell am broadcast -a com.tianxiaodudou.clipboardpolice.DEBUG.CLEAR
-    adb shell am broadcast -a com.tianxiaodudou.clipboardpolice.DEBUG.EXPORT   # /sdcard/Download/clipboard_export.txt
+    adb shell am broadcast -a com.tianxiaodudou.clipboardkeeper.DEBUG.REFRESH
+    adb shell am broadcast -a com.tianxiaodudou.clipboardkeeper.DEBUG.CLEAR
+    adb shell am broadcast -a com.tianxiaodudou.clipboardkeeper.DEBUG.EXPORT   # /sdcard/Download/clipboard_keeper_export.txt
 
 ## 验证要点
 
-1. `adb shell cmd clipboard set-text "TEST_MARKER_12345"` → `tail -5 /data/local/tmp/clipboard_watch.tmp` 有四列制表符、操作=`write`。
+1. `adb shell cmd clipboard set-text "TEST_MARKER_12345"` → `tail -5 /data/local/tmp/clipboard_keeper.tmp` 有四列制表符、操作=`write`。
 2. `DEBUG.REFRESH` 后数据库含该记录（或 `EXPORT` 后比对），临时文件已清空。
 3. 纯写入不产生 `read` 记录；模块内长按复制会以模块包名被记录。
 4. 节流：`settings put global clipboard_watch_broadcast_throttle_ms 5000` 后 1 秒内多次同包名写入 → 多行日志、一次广播。
@@ -115,6 +115,6 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 
 ## 已知事项
 
-- **临时文件路径回退**：Hook 优先写 `/data/local/tmp/clipboard_watch.tmp`；若 DAC/SELinux 拒绝（system_server 写 shell 数据目录可能被拒），自动回退 `/data/system/clipboard_watch.tmp`。APK 刷新时两个文件都会读，并按 `su` 预创建 + `chmod 666` 尽量保证主路径可写。
+- **临时文件路径回退**：Hook 优先写 `/data/local/tmp/clipboard_keeper.tmp`；若 DAC/SELinux 拒绝（system_server 写 shell 数据目录可能被拒），自动回退 `/data/system/clipboard_keeper.tmp`。APK 刷新时两个文件都会读，并按 `su` 预创建 + `chmod 666` 尽量保证主路径可写。
 - **检查更新**：调用 GitHub API 未带 token，仓库为私有或暂无 Release 时返回 404，界面会提示「仓库可能为私有或暂无 Release」。要让应用内更新可用，需把仓库设为公开。
 - **动态广播**：`CLIP_UPDATED` 由 system_server 发出，App 以 `RECEIVER_EXPORTED` 注册（非同 uid 必须导出），因此其它应用也能触发一次刷新——它只会读取 root 临时文件，风险可控。
