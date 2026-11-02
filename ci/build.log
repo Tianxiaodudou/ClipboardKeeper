@@ -23,19 +23,18 @@ Daemon will be stopped at the end of the build
 > Task :app:processReleaseManifest
 > Task :app:desugarReleaseFileDependencies
 > Task :app:mergeReleaseStartupProfile
-> Task :app:mergeReleaseShaders
-> Task :app:mergeReleaseArtProfile
-> Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:processReleaseManifestForPackage
+> Task :app:mergeReleaseArtProfile
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
 > Task :app:mergeReleaseAssets
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:processReleaseJavaRes
 > Task :app:collectReleaseDependencies
-> Task :app:sdkReleaseDependencyData
 > Task :app:processReleaseResources
-> Task :app:validateSigningRelease
+> Task :app:sdkReleaseDependencyData
 > Task :app:mergeReleaseJavaResource
 > Task :app:mergeExtDexRelease
 
@@ -45,6 +44,7 @@ Note: Recompile with -Xlint:deprecation for details.
 
 > Task :app:dexBuilderRelease
 > Task :app:mergeReleaseGlobalSynthetics
+> Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
 > Task :app:writeReleaseSigningConfigVersions
 > Task :app:optimizeReleaseResources
@@ -53,12 +53,12 @@ Note: Recompile with -Xlint:deprecation for details.
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793621714964.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793622169268.json
 
-BUILD SUCCESSFUL in 22s
+BUILD SUCCESSFUL in 24s
 40 actionable tasks: 40 executed
 == APK entries ==
-  6036172  1981-01-01 01:01   classes.dex
+  6036188  1981-01-01 01:01   classes.dex
        49  1981-01-01 01:01   META-INF/xposed/java_init.list
        56  1981-01-01 01:01   META-INF/xposed/module.prop
         7  1981-01-01 01:01   META-INF/xposed/scope.list
@@ -70,7 +70,7 @@ staticScope=true
 == scope.list ==
 system
 == java_init.list ==
-com.tianxiaodudou.clipboardpolice.hook.HookEntry
+com.tianxiaodudou.clipboardkeeper.hook.HookEntry
 == signing ==
 V2 Signer: certificate DN: O=ClipboardPolice, CN=ClipboardPolice
 V2 Signer: certificate SHA-256 digest: 18e60aa90bf6a349bdff432efa61e59dfbefedc38f87138726018f330b6e18c1
