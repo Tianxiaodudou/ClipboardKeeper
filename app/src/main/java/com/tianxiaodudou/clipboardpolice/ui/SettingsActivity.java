@@ -11,11 +11,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowCompat;
@@ -38,6 +40,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Spinner spReadThrottle;
     private Spinner spMaxRecords;
     private Button btnCheckUpdate;
+    private TextView tvVersionState;
     private View rowWriteThrottle;
     private View rowReadThrottle;
 
@@ -60,6 +63,8 @@ public class SettingsActivity extends AppCompatActivity {
         spReadThrottle = findViewById(R.id.spReadThrottle);
         spMaxRecords = findViewById(R.id.spMaxRecords);
         btnCheckUpdate = findViewById(R.id.btnCheckUpdate);
+        tvVersionState = findViewById(R.id.tvVersionState);
+        renderVersionState(R.string.state_idle, null, 0);
         rowWriteThrottle = findViewById(R.id.rowWriteThrottle);
         rowReadThrottle = findViewById(R.id.rowReadThrottle);
 
@@ -236,24 +241,46 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void checkUpdate() {
-        toast(getString(R.string.checking_update));
-        UpdateChecker.check(this, (ok, version, apkUrl, changelog, message) -> {
-            String current = UpdateChecker.currentVersion(this);
-            if (!ok) {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.update_title)
-                        .setMessage(getString(R.string.update_failed, message))
-                        .setPositiveButton(R.string.ok, null)
-                        .show();
-                return;
-            }
-            if (UpdateChecker.compare(version, current) > 0) {
-                // 始终带更新日志：四路兜底后仍为空时弹窗内显示占位文案
-                UpdateDialog.show(this, version, apkUrl, changelog);
-            } else {
-                toast(getString(R.string.update_none, current));
+        renderVersionState(R.string.state_checking, null, 0);
+        btnCheckUpdate.setEnabled(false);
+        UpdateChecker.check(this, result -> {
+            btnCheckUpdate.setEnabled(true);
+            switch (result.state) {
+                case UpdateChecker.STATE_NEWER:
+                    renderVersionState(R.string.state_newer, result.remoteVersion, R.color.ok_green);
+                    UpdateDialog.show(this, result.remoteVersion, result.apkUrl, result.changelog);
+                    break;
+                case UpdateChecker.STATE_SAME:
+                    renderVersionState(R.string.state_same, null, R.color.ok_green);
+                    toast(getString(R.string.update_none, result.localVersion));
+                    break;
+                case UpdateChecker.STATE_LOCAL_AHEAD:
+                    renderVersionState(R.string.state_local_ahead, result.remoteVersion, R.color.text_secondary);
+                    toast(getString(R.string.state_local_ahead_toast,
+                            result.localVersion, result.remoteVersion));
+                    break;
+                default:
+                    int textRes;
+                    if (result.errorKind == UpdateChecker.ERROR_NETWORK) {
+                        textRes = R.string.state_error_network;
+                    } else if (result.errorKind == UpdateChecker.ERROR_REPO) {
+                        textRes = R.string.state_error_repo;
+                    } else {
+                        textRes = R.string.state_error_unknown;
+                    }
+                    renderVersionState(textRes, result.message, R.color.blocked_red);
             }
         });
+    }
+
+    /** 检查更新按钮下方：始终显示本地版本，后面跟最近一次检查结果 */
+    private void renderVersionState(int statusRes, String arg, int colorRes) {
+        String local = UpdateChecker.currentVersion(this);
+        String status = arg == null ? getString(statusRes) : getString(statusRes, arg);
+        tvVersionState.setText(getString(R.string.version_state_base, local) + " · " + status);
+        if (colorRes != 0) {
+            tvVersionState.setTextColor(ContextCompat.getColor(this, colorRes));
+        }
     }
 
     private void toast(String message) {
