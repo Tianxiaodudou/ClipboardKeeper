@@ -34,10 +34,10 @@ Note: Recompile with -Xlint:deprecation for details.
 > Task :app:dexBuilderRelease
 > Task :app:mergeReleaseArtProfile
 > Task :app:mergeDexRelease
-> Task :app:mergeReleaseGlobalSynthetics
 > Task :app:mergeReleaseShaders
 > Task :app:compileReleaseShaders NO-SOURCE
 > Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseGlobalSynthetics
 > Task :app:mergeReleaseAssets
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
@@ -46,19 +46,19 @@ Note: Recompile with -Xlint:deprecation for details.
 > Task :app:optimizeReleaseResources
 > Task :app:collectReleaseDependencies
 > Task :app:sdkReleaseDependencyData
-> Task :app:mergeReleaseJavaResource
 > Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
+> Task :app:mergeReleaseJavaResource
 > Task :app:writeReleaseSigningConfigVersions
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793549570049.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793618064007.json
 
-BUILD SUCCESSFUL in 22s
+BUILD SUCCESSFUL in 29s
 40 actionable tasks: 40 executed
 == APK entries ==
-  6033648  1981-01-01 01:01   classes.dex
+  6036172  1981-01-01 01:01   classes.dex
        49  1981-01-01 01:01   META-INF/xposed/java_init.list
        56  1981-01-01 01:01   META-INF/xposed/module.prop
         7  1981-01-01 01:01   META-INF/xposed/scope.list
