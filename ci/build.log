@@ -17,8 +17,8 @@ Daemon will be stopped at the end of the build
 > Task :app:packageReleaseResources
 > Task :app:createReleaseCompatibleScreenManifests
 > Task :app:extractDeepLinksRelease
-> Task :app:mergeReleaseResources
 > Task :app:parseReleaseLocalResources
+> Task :app:mergeReleaseResources
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
 > Task :app:desugarReleaseFileDependencies
@@ -32,9 +32,8 @@ Daemon will be stopped at the end of the build
 > Task :app:compressReleaseAssets
 > Task :app:extractReleaseVersionControlInfo
 > Task :app:processReleaseJavaRes
-> Task :app:collectReleaseDependencies
 > Task :app:processReleaseResources
-> Task :app:sdkReleaseDependencyData
+> Task :app:collectReleaseDependencies
 > Task :app:mergeReleaseJavaResource
 > Task :app:mergeExtDexRelease
 
@@ -44,6 +43,7 @@ Note: Recompile with -Xlint:deprecation for details.
 
 > Task :app:dexBuilderRelease
 > Task :app:mergeReleaseGlobalSynthetics
+> Task :app:sdkReleaseDependencyData
 > Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
 > Task :app:writeReleaseSigningConfigVersions
@@ -53,9 +53,9 @@ Note: Recompile with -Xlint:deprecation for details.
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793622169268.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793622249221.json
 
-BUILD SUCCESSFUL in 24s
+BUILD SUCCESSFUL in 25s
 40 actionable tasks: 40 executed
 == APK entries ==
   6036188  1981-01-01 01:01   classes.dex
