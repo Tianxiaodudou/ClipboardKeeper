@@ -95,13 +95,13 @@ public final class UpdateDialog {
                 if (old.isFile()) old.delete();
             }
         }
-        File target = new File(dir, version + "-ClipboardPolice.apk");
+        File target = new File(dir, version + "-ClipboardKeeper.apk");
         HttpURLConnection connection = null;
         try {
             connection = (HttpURLConnection) new URL(apkUrl).openConnection();
             connection.setConnectTimeout(15000);
             connection.setReadTimeout(30000);
-            connection.setRequestProperty("User-Agent", "ClipboardPolice-Updater");
+            connection.setRequestProperty("User-Agent", "ClipboardKeeper-Updater");
             connection.setInstanceFollowRedirects(true);
             int code = connection.getResponseCode();
             if (code != 200) throw new IllegalStateException("HTTP " + code);

@@ -40,9 +40,9 @@ public final class UpdateChecker {
     /** 其它未知错误 */
     public static final int ERROR_UNKNOWN = 2;
 
-    private static final String REPO = "Tianxiaodudou/ClipboardPolice";
+    private static final String REPO = "Tianxiaodudou/ClipboardKeeper";
     private static final String API = "https://api.github.com/repos/" + REPO + "/releases/latest";
-    private static final String USER_AGENT = "ClipboardPolice-UpdateChecker";
+    private static final String USER_AGENT = "ClipboardKeeper-UpdateChecker";
     private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
     public static final class Result {
@@ -124,7 +124,7 @@ public final class UpdateChecker {
             String name = asset.optString("name", "");
             if (!name.endsWith(".apk")) continue;
             String url = asset.optString("browser_download_url", "");
-            if (name.contains("ClipboardPolice")) return url;
+            if (name.contains("ClipboardKeeper")) return url;
             if (fallback.isEmpty()) fallback = url;
         }
         return fallback;

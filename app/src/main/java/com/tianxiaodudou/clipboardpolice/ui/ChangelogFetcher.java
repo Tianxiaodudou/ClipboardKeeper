@@ -12,8 +12,8 @@ import java.nio.charset.StandardCharsets;
  */
 public final class ChangelogFetcher {
 
-    private static final String REPO = "Tianxiaodudou/ClipboardPolice";
-    private static final String USER_AGENT = "ClipboardPolice-UpdateChecker";
+    private static final String REPO = "Tianxiaodudou/ClipboardKeeper";
+    private static final String USER_AGENT = "ClipboardKeeper-UpdateChecker";
 
     private ChangelogFetcher() {
     }

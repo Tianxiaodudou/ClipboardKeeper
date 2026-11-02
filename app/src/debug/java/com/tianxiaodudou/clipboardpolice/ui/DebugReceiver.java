@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class DebugReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "ClipboardPolice";
+    private static final String TAG = "ClipboardKeeper";
     private static final String PREFIX = "com.tianxiaodudou.clipboardpolice.DEBUG.";
     public static final String ACTION_REFRESH = PREFIX + "REFRESH";
     public static final String ACTION_CLEAR = PREFIX + "CLEAR";

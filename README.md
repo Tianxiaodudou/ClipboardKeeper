@@ -1,4 +1,4 @@
-# 剪贴板警察 ClipboardPolice
+# 剪贴板管家 ClipboardKeeper
 
 LSPosed 模块（libxposed API 102）：记录系统剪贴板的**写入**与**读取**事件，APK 侧提供列表、复制、设置与更新检查。
 运行环境：KernelSU + ZygiskNext + LSPosed，Android 14~16。
@@ -34,7 +34,7 @@ Release 创建成功后自动删除旧 Release，只保留最新一个。
 版本号存放在仓库根 `version.properties`（`versionCode` / `versionName`），规则 `a.b.c`：`c` 超 9 进 `b`，`b` 超 9 进 `a`。
 CI 用 `GITHUB_TOKEN` 查 `v<versionName>` 对应的 **Release** 是否存在（不看 git tag，删 tag 也不影响）：
 已发布则先算出下一个版本再构建（`-PversionCodeOverride/-PversionNameOverride`），查询失败时同样递增，保证版本单调不重复；
-构建成功后再提交 `chore(release): vX [skip ci]` 并创建 tag/Release；APK 命名 `<versionName>-ClipboardPolice.apk`。
+构建成功后再提交 `chore(release): vX [skip ci]` 并创建 tag/Release；APK 命名 `<versionName>-ClipboardKeeper.apk`。
 Release 创建成功后，workflow 会自动删掉仓库里其它旧 Release（只保留刚发的这一个，tag 保留不动）。
 每次构建（成功或失败）都会把 `ci/status.txt`（run/branch/version/status/各步骤 outcome）和 `ci/build.log`
 推到 `ci-log` 分支，便于在没有 Actions 权限时查结果。提交信息含 `[skip ci]` 时 workflow 直接跳过。
@@ -59,7 +59,7 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 生成密钥（一次性，产物别入库）：
 
     openssl req -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem \
-      -days 36500 -subj "/CN=ClipboardPolice/O=ClipboardPolice"
+      -days 36500 -subj "/CN=ClipboardKeeper/O=ClipboardKeeper"
     openssl pkcs12 -export -in cert.pem -inkey key.pem -name clipboardpolice \
       -out release.p12 -passout pass:<密码>
     base64 -w0 release.p12 > keystore.b64

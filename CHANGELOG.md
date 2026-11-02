@@ -1,5 +1,13 @@
 # 更新日志
 
+## [0.4.0] - 2026-11-02
+
+### 更名
+- 应用正式更名为「剪贴板管家」（英文名 ClipboardKeeper），GitHub 仓库同步改名
+- 应用内所有显示文案、日志 TAG、主题名、APK 文件名一并更新
+- 包名保持不变（`com.tianxiaodudou.clipboardpolice`），避免 LSPosed 作用域与 KernelSU 授权失效
+- 安装包文件名改为 `<versionName>-ClipboardKeeper.apk`
+
 ## [0.3.0] - 2026-11-02
 
 ### 变更（重要）

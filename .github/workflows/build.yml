@@ -104,7 +104,7 @@ jobs:
           SRC="$(find app/build/outputs/apk/release -name '*.apk' -print -quit || true)"
           echo "apk source: ${SRC}"
           if [ -z "${SRC}" ]; then echo "no apk produced"; exit 1; fi
-          cp "$SRC" "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk"
+          cp "$SRC" "dist/${{ steps.version.outputs.VN }}-ClipboardKeeper.apk"
           ls -l dist
 
       - name: Verify APK payload
@@ -141,7 +141,7 @@ jobs:
         continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
-          name: ClipboardPolice-${{ steps.version.outputs.VN }}
+          name: ClipboardKeeper-${{ steps.version.outputs.VN }}
           path: dist/*.apk
 
       - name: Commit version bump
@@ -167,7 +167,7 @@ jobs:
         run: |
           set -euo pipefail
           gh release create "v${{ steps.version.outputs.VN }}" \
-            "dist/${{ steps.version.outputs.VN }}-ClipboardPolice.apk" \
+            "dist/${{ steps.version.outputs.VN }}-ClipboardKeeper.apk" \
             --title "v${{ steps.version.outputs.VN }}" \
             --notes-file release_body.md
 

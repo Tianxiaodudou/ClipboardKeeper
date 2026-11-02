@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.ClipboardPolice" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.ClipboardKeeper" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>
@@ -8,7 +8,7 @@
         <item name="android:statusBarColor">@color/primary_dark</item>
     </style>
 
-    <style name="Theme.ClipboardPolice.Settings" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.ClipboardKeeper.Settings" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/primary</item>

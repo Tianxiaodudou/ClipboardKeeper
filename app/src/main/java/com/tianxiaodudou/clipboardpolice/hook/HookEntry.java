@@ -28,7 +28,7 @@ import io.github.libxposed.api.XposedModuleInterface;
  */
 public class HookEntry extends XposedModule {
 
-    private static final String TAG = "ClipboardPolice";
+    private static final String TAG = "ClipboardKeeper";
 
     /** 模块包名（字符串常量，禁止 import 模块类）。 */
     public static final String MODULE_PKG = "com.tianxiaodudou.clipboardpolice";

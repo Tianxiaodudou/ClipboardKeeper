@@ -25,7 +25,7 @@ public final class ClipSync {
     }
 
     /** 列表最多展示最近 500 条 */
-    private static final String TAG = "ClipboardPolice";
+    private static final String TAG = "ClipboardKeeper";
 
     public static final int LIST_LIMIT = 500;
     public static final String KEY_MAX_RECORDS = "clipboard_watch_max_records";
