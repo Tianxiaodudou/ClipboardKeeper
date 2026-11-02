@@ -1,5 +1,5 @@
-run=26
-ref=main
+run=27
+ref=v0.2.2
 version=0.2.2 (9)
 status=success
 
@@ -7,4 +7,4 @@ status=success
 build=success pack=success upload=success
 == ls dist ==
 total 6420
--rw-r--r-- 1 runner runner 6572396 Nov  2 11:14 0.2.2-ClipboardPolice.apk
+-rw-r--r-- 1 runner runner 6572396 Nov  2 11:16 0.2.2-ClipboardPolice.apk
