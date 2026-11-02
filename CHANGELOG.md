@@ -1,5 +1,15 @@
 # 更新日志
 
+## [0.4.2] - 2026-11-02
+
+### 变更
+- `Settings.Global` 键前缀由 `clipboard_watch_*` 改为 `clipboard_keeper_*`，共 6 个键：
+  `write_enabled`、`broadcast_throttle_ms`、`read_enabled`、`read_throttle_ms`、`max_records`、`filter_rules`
+
+### 升级须知
+- 旧键值不会迁移：升级后设置回到默认（写入监测开、读取监测关、节流 1000ms、上限 10000）
+- 过滤规则存在 `clipboard_keeper_filter_rules` 里，需要在应用内重新创建
+
 ## [0.4.1] - 2026-11-02
 
 ### 变更（重要）

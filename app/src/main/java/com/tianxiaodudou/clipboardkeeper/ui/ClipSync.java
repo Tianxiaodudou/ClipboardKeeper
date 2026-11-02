@@ -28,7 +28,7 @@ public final class ClipSync {
     private static final String TAG = "ClipboardKeeper";
 
     public static final int LIST_LIMIT = 500;
-    public static final String KEY_MAX_RECORDS = "clipboard_watch_max_records";
+    public static final String KEY_MAX_RECORDS = "clipboard_keeper_max_records";
     public static final int DEFAULT_MAX_RECORDS = 10000;
 
     private static final ExecutorService IO = Executors.newSingleThreadExecutor(r -> {

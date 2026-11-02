@@ -29,10 +29,10 @@ import com.tianxiaodudou.clipboardkeeper.R;
 /** 设置项全部写入 Settings.Global（su 写，Hook 读）。 */
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final String KEY_WRITE_ENABLED = "clipboard_watch_write_enabled";
-    public static final String KEY_WRITE_THROTTLE = "clipboard_watch_broadcast_throttle_ms";
-    public static final String KEY_READ_ENABLED = "clipboard_watch_read_enabled";
-    public static final String KEY_READ_THROTTLE = "clipboard_watch_read_throttle_ms";
+    public static final String KEY_WRITE_ENABLED = "clipboard_keeper_write_enabled";
+    public static final String KEY_WRITE_THROTTLE = "clipboard_keeper_broadcast_throttle_ms";
+    public static final String KEY_READ_ENABLED = "clipboard_keeper_read_enabled";
+    public static final String KEY_READ_THROTTLE = "clipboard_keeper_read_throttle_ms";
 
     private SwitchCompat swWriteEnabled;
     private SwitchCompat swReadEnabled;

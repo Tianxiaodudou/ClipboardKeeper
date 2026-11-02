@@ -9,7 +9,7 @@ import java.util.List;
 /** 过滤规则存 Settings.Global 的一个字符串键里，APK 用 su 写，Hook 侧直接读。 */
 public final class FilterStore {
 
-    public static final String KEY = "clipboard_watch_filter_rules";
+    public static final String KEY = "clipboard_keeper_filter_rules";
 
     private FilterStore() {
     }

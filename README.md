@@ -77,12 +77,12 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 
 | 键 | 可选值 | 默认 |
 |---|---|---|
-| `clipboard_watch_write_enabled` | 0/1 | 1 |
-| `clipboard_watch_broadcast_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
-| `clipboard_watch_read_enabled` | 0/1 | 0 |
-| `clipboard_watch_read_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
-| `clipboard_watch_max_records` | 1000/5000/10000/20000/50000 | 10000 |
-| `clipboard_watch_filter_rules` | JSON 字符串（由界面维护） | 空 |
+| `clipboard_keeper_write_enabled` | 0/1 | 1 |
+| `clipboard_keeper_broadcast_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
+| `clipboard_keeper_read_enabled` | 0/1 | 0 |
+| `clipboard_keeper_read_throttle_ms` | 0/500/1000/2000/5000 | 1000 |
+| `clipboard_keeper_max_records` | 1000/5000/10000/20000/50000 | 10000 |
+| `clipboard_keeper_filter_rules` | JSON 字符串（由界面维护） | 空 |
 
 ## 过滤规则
 
@@ -91,7 +91,7 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 - 条件之间可选「满足全部（与）」或「满足任一（或）」，整条规则可再取反（非）
 - 条件类型：包含、不包含、开头是、开头不是、结尾是、结尾不是、完全等于、不等于、正则匹配、正则不匹配
 - 命中时 Hook 直接短路这次写入：内容不会进入剪贴板，记录以 [拦] 入库
-- 规则以 JSON 存在 `Settings.Global` 的 `clipboard_watch_filter_rules`，Hook 侧按原始串变化重新解析
+- 规则以 JSON 存在 `Settings.Global` 的 `clipboard_keeper_filter_rules`，Hook 侧按原始串变化重新解析
 
 ## 检查更新
 
@@ -109,7 +109,7 @@ release **只使用固定密钥签名**，密钥只存在于 GitHub Actions Secr
 1. `adb shell cmd clipboard set-text "TEST_MARKER_12345"` → `tail -5 /data/local/tmp/clipboard_keeper.tmp` 有四列制表符、操作=`write`。
 2. `DEBUG.REFRESH` 后数据库含该记录（或 `EXPORT` 后比对），临时文件已清空。
 3. 纯写入不产生 `read` 记录；模块内长按复制会以模块包名被记录。
-4. 节流：`settings put global clipboard_watch_broadcast_throttle_ms 5000` 后 1 秒内多次同包名写入 → 多行日志、一次广播。
+4. 节流：`settings put global clipboard_keeper_broadcast_throttle_ms 5000` 后 1 秒内多次同包名写入 → 多行日志、一次广播。
 5. 上限：设 1000 填 1200 → 留 1000；连续插 200 条 → 裁剪只在第 100、200 条后触发。
 6. 重启后记录仍在；单条 >100KB 被截断并标记。
 
