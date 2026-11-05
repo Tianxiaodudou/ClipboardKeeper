@@ -150,7 +150,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(if (index >= 0) R.string.filter_edit else R.string.filter_add),
                     navigationIcon = {
-                        TextButton(text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
@@ -221,11 +221,11 @@ class FilterRuleEditActivity : ComponentActivity() {
                     Card {
                         Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                TextButton(
+                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                                     text = OP_LABELS[opIndex(conditions[position].op)],
                                     onClick = { opPickerFor = position }
                                 )
-                                TextButton(
+                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                                     text = getString(R.string.filter_remove_condition),
                                     onClick = {
                                         if (conditions.size > 1) conditions.removeAt(position)
@@ -241,13 +241,13 @@ class FilterRuleEditActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    TextButton(
+                    TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                         text = getString(R.string.filter_add_condition),
                         onClick = { conditions.add(CondState(FilterRule.OP_VALUES[0], "")) }
                     )
                 }
                 item {
-                    Button(
+                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                         onClick = { save() },
                         colors = ButtonDefaults.buttonColorsPrimary(),
                         modifier = Modifier.fillMaxWidth()

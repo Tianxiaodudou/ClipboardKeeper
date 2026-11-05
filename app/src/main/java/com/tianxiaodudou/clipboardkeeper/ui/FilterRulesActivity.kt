@@ -111,7 +111,7 @@ class FilterRulesActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(R.string.filter_title),
                     navigationIcon = {
-                        TextButton(text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
@@ -154,11 +154,11 @@ class FilterRulesActivity : ComponentActivity() {
                                         modifier = Modifier.padding(start = 2.dp, top = 2.dp)
                                     )
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                        TextButton(
+                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                                             text = getString(R.string.filter_edit),
                                             onClick = { openEditor(index) }
                                         )
-                                        TextButton(
+                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                                             text = getString(R.string.filter_delete),
                                             onClick = { pendingDelete = index }
                                         )
@@ -168,7 +168,7 @@ class FilterRulesActivity : ComponentActivity() {
                         }
                     }
                 }
-                Button(
+                Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                     onClick = { openEditor(-1) },
                     colors = ButtonDefaults.buttonColorsPrimary(),
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
@@ -189,12 +189,12 @@ class FilterRulesActivity : ComponentActivity() {
                     onDismissRequest = { pendingDelete = null }
                 ) {
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        TextButton(
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                             text = getString(R.string.cancel),
                             onClick = { pendingDelete = null },
                             modifier = Modifier.weight(1f)
                         )
-                        TextButton(
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
                             text = getString(R.string.confirm),
                             onClick = {
                                 val updated = rules.toMutableList()
