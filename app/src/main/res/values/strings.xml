@@ -100,6 +100,8 @@
     <string name="pat_not_set">未设置</string>
     <string name="pat_set">已设置 %1$s</string>
     <string name="pat_hint">粘贴经典 PAT（需 repo 权限）</string>
+    <string name="pat_open_page">打开 GitHub Token 页面</string>
+    <string name="pat_guide">获取步骤（经典 PAT）：\n\n1. 点下面「打开 GitHub Token 页面」\n2. 点 Generate new token → Generate new token (classic)\n3. Note 随便写，例如 ClipboardKeeper\n4. Expiration 选 90 days 或 No expiration\n5. 勾选 repo（私有仓库必需；公开仓库可不勾，勾了配额更高）\n6. 拉到最下面点 Generate token\n7. 复制 ghp_ 开头的那串，回来粘贴 → 保存\n\n为什么不填会 403：匿名访问 GitHub API 每个 IP 每小时只有 60 次，反复点检查更新很容易被限流；填了 PAT 是 5000 次/小时。</string>
     <string name="pat_save">保存</string>
     <string name="pat_clear">清除</string>
     <string name="pat_saved">令牌已保存</string>
@@ -121,5 +123,6 @@
     <string name="state_error_network">网络问题：%1$s</string>
     <string name="state_error_repo">仓库问题：%1$s</string>
     <string name="state_error_unknown">检查失败：%1$s</string>
+    <string name="state_error_rate_limit">被 GitHub 限流了（匿名 60 次/小时）：填 PAT 可提升到 5000 次/小时，或稍后再试</string>
     <string name="update_installing">下载完成，正在启动安装…</string>
 </resources>

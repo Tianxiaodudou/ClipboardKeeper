@@ -39,6 +39,8 @@ public final class UpdateChecker {
     public static final int ERROR_REPO = 1;
     /** 其它未知错误 */
     public static final int ERROR_UNKNOWN = 2;
+    /** GitHub 接口限流（未登录 60 次/小时，或认证令牌配额用尽） */
+    public static final int ERROR_RATE_LIMIT = 3;
 
     private static final String REPO = "Tianxiaodudou/ClipboardKeeper";
     private static final String API = "https://api.github.com/repos/" + REPO + "/releases/latest";
@@ -136,7 +138,7 @@ public final class UpdateChecker {
         Throwable cause = throwable;
         int depth = 0;
         while (cause != null && depth++ < 8) {
-            if (cause instanceof RepoException) return ERROR_REPO;
+            if (cause instanceof RepoException) return ((RepoException) cause).kind;
             if (cause instanceof UnknownHostException
                     || cause instanceof ConnectException
                     || cause instanceof SocketTimeoutException
@@ -175,19 +177,33 @@ public final class UpdateChecker {
             }
             int code = connection.getResponseCode();
             if (code != 200) {
+                String errBody = readAll(connection.getErrorStream());
+                boolean rateLimited = errBody.toLowerCase().contains("rate limit")
+                        || errBody.toLowerCase().contains("secondary rate")
+                        || connection.getHeaderField("X-RateLimit-Remaining") != null
+                        && "0".equals(connection.getHeaderField("X-RateLimit-Remaining"));
+                if (rateLimited) {
+                    String remaining = connection.getHeaderField("X-RateLimit-Remaining");
+                    throw new RepoException(
+                            "GitHub 接口限流（HTTP " + code + "，剩余配额 " + (remaining == null ? "0" : remaining)
+                                    + "）：未登录只有 60 次/小时，填 PAT 可提到 5000 次/小时",
+                            ERROR_RATE_LIMIT);
+                }
                 String hint;
                 switch (code) {
                     case 404:
                         hint = "仓库不存在、为私有或暂无 Release";
                         break;
                     case 401:
+                        hint = "PAT 无效或已过期";
+                        break;
                     case 403:
-                        hint = "访问被拒（限流或私有仓库）";
+                        hint = "访问被拒（令牌权限不足或被 GitHub 屏蔽）";
                         break;
                     default:
                         hint = code >= 500 ? "GitHub 服务端异常" : "仓库接口返回异常";
                 }
-                throw new RepoException("HTTP " + code + "（" + hint + "）");
+                throw new RepoException("HTTP " + code + "（" + hint + "）", ERROR_REPO);
             }
             StringBuilder sb = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -233,8 +249,23 @@ public final class UpdateChecker {
 
     /** 仓库侧异常（HTTP 非 200 等），与网络异常区分开 */
     static final class RepoException extends Exception {
-        RepoException(String message) {
+        final int kind;
+
+        RepoException(String message, int kind) {
             super(message);
+            this.kind = kind;
+        }
+    }
+
+    private static String readAll(java.io.InputStream in) {
+        if (in == null) return "";
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) sb.append(line);
+            return sb.toString();
+        } catch (Throwable t) {
+            return "";
         }
     }
 }

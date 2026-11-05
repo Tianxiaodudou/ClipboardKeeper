@@ -1,6 +1,7 @@
 package com.tianxiaodudou.clipboardkeeper.ui
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import java.io.File
 import android.widget.Toast
@@ -189,6 +190,7 @@ class SettingsActivity : ComponentActivity() {
                         val text = when (result.errorKind) {
                             UpdateChecker.ERROR_NETWORK -> getString(R.string.state_error_network, result.message)
                             UpdateChecker.ERROR_REPO -> getString(R.string.state_error_repo, result.message)
+                            UpdateChecker.ERROR_RATE_LIMIT -> getString(R.string.state_error_rate_limit)
                             else -> getString(R.string.state_error_unknown, result.message)
                         }
                         versionState = base + text
@@ -441,6 +443,36 @@ class SettingsActivity : ComponentActivity() {
                     onDismissRequest = { showPatDialog = false }
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 300.dp)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            Text(
+                                text = getString(R.string.pat_guide),
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
+                            text = getString(R.string.pat_open_page),
+                            onClick = {
+                                try {
+                                    startActivity(
+                                        Intent(
+                                            Intent.ACTION_VIEW,
+                                            Uri.parse("https://github.com/settings/tokens")
+                                        )
+                                    )
+                                } catch (_: Throwable) {
+                                    toast("https://github.com/settings/tokens")
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
                         TextField(
                             value = patInput,
                             onValueChange = { patInput = it },
