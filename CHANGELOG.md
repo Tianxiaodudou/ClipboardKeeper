@@ -1,5 +1,13 @@
 # 更新日志
 
+## [0.5.7] - 2026-11-05
+
+### 变更
+- 检查更新继续使用 [android-updater](https://github.com/Tianxiaodudou/android-updater) v1.2.1，但改为**内嵌同源代码**（`com.tianxiaodudou.updater`，Apache-2.0）：
+  该库发布在私有 GitHub Packages，CI 里拉不到包（Could not find com.tianxiaodudou:updater:1.2.1），内嵌可去掉私有仓库凭据依赖
+- 依赖改为直接使用 okhttp 4.12.0；FileProvider 换成库内置的 `.updater.files`，删除本地 file_paths
+- 检查/下载/安装逻辑与 v1.2.1 一致；更新日志优先 Release 正文，为空时四路兜底
+
 ## [0.5.6] - 2026-11-05
 
 ### 变更
