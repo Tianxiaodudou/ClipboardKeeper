@@ -144,22 +144,6 @@ jobs:
           name: ClipboardKeeper-${{ steps.version.outputs.VN }}
           path: dist/*.apk
 
-      - name: Commit version bump
-        if: github.ref_type == 'tag' && success()
-        run: |
-          set -euo pipefail
-          printf 'versionCode=%s\nversionName=%s\n' \
-            "${{ steps.version.outputs.VC }}" "${{ steps.version.outputs.VN }}" > version.properties
-          if git diff --quiet -- version.properties; then
-            echo "版本号未变化，跳过提交"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add version.properties
-          git commit -m "chore(release): v${{ steps.version.outputs.VN }} [skip ci]"
-          git push origin HEAD:main
-
       - name: Create GitHub Release
         if: github.ref_type == 'tag' && success()
         env:
@@ -170,27 +154,6 @@ jobs:
             "dist/${{ steps.version.outputs.VN }}-ClipboardKeeper.apk" \
             --title "v${{ steps.version.outputs.VN }}" \
             --notes-file release_body.md
-
-      - name: Prune old releases
-        if: github.ref_type == 'tag' && success()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          KEEP="v${{ steps.version.outputs.VN }}"
-          gh release list --limit 200 --json tagName,createdAt \
-            --jq 'sort_by(.createdAt) | reverse | .[].tagName' > "$RUNNER_TEMP/releases.txt"
-          while IFS= read -r tag; do
-            [ -z "$tag" ] && continue
-            if [ "$tag" = "$KEEP" ]; then
-              echo "keep $tag"
-              continue
-            fi
-            echo "delete old release: $tag"
-            gh release delete "$tag" --yes || true
-          done < "$RUNNER_TEMP/releases.txt"
-          echo "== remaining releases =="
-          gh release list --limit 20
 
       - name: Remove signing key
         if: always()
