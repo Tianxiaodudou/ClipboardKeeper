@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -142,7 +143,9 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun MainScreen() {
         Scaffold(
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier.fillMaxSize()
+                .background(AppColors.pageBackground())
+                .systemBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = getString(R.string.app_name),
@@ -159,7 +162,7 @@ class MainActivity : ComponentActivity() {
         ) { padding ->
             Column(modifier = Modifier.fillMaxSize().padding(padding)) {
                 if (!rootGranted) {
-                    Card(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                    AppCard(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                         Text(
                             text = getString(R.string.root_missing),
                             color = Color(0xFFB25000),
@@ -227,7 +230,7 @@ class MainActivity : ComponentActivity() {
         }
         val expanded = expandedIds.contains(record.id)
 
-        Card(modifier = Modifier.fillMaxWidth()) {
+        AppCard(modifier = Modifier.fillMaxWidth()) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()

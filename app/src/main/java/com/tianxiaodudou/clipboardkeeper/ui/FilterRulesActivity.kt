@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -106,7 +107,9 @@ class FilterRulesActivity : ComponentActivity() {
     @Composable
     private fun RulesScreen() {
         Scaffold(
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier.fillMaxSize()
+                .background(AppColors.pageBackground())
+                .systemBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = getString(R.string.filter_title),
@@ -136,7 +139,7 @@ class FilterRulesActivity : ComponentActivity() {
                         verticalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         itemsIndexed(rules) { index, rule ->
-                            Card {
+                            AppCard {
                                 Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                                     SwitchPreference(
                                         title = if (rule.enabled) ruleName(rule)

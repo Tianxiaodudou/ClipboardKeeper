@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -145,7 +146,9 @@ class FilterRuleEditActivity : ComponentActivity() {
     @Composable
     private fun EditScreen() {
         Scaffold(
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier.fillMaxSize()
+                .background(AppColors.pageBackground())
+                .systemBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = getString(if (index >= 0) R.string.filter_edit else R.string.filter_add),
@@ -161,7 +164,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 item {
-                    Card {
+                    AppCard {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Text(text = getString(R.string.filter_name), fontSize = 13.sp, color = Color.Gray)
                             Spacer(modifier = Modifier.height(6.dp))
@@ -174,7 +177,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    Card {
+                    AppCard {
                         SwitchPreference(
                             title = getString(R.string.filter_enabled),
                             checked = enabled,
@@ -183,7 +186,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    Card {
+                    AppCard {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Text(text = getString(R.string.filter_logic), fontSize = 13.sp, color = Color.Gray)
                             Spacer(modifier = Modifier.height(4.dp))
@@ -201,7 +204,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    Card {
+                    AppCard {
                         SwitchPreference(
                             title = getString(R.string.filter_negate),
                             checked = negate,
@@ -218,7 +221,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                     )
                 }
                 items(conditions.size) { position ->
-                    Card {
+                    AppCard {
                         Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 

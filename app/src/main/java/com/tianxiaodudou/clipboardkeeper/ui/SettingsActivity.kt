@@ -182,7 +182,9 @@ class SettingsActivity : ComponentActivity() {
     @Composable
     private fun SettingsScreen() {
         Scaffold(
-            modifier = Modifier.systemBarsPadding(),
+            modifier = Modifier.fillMaxSize()
+                .background(AppColors.pageBackground())
+                .systemBarsPadding(),
             topBar = {
                 SmallTopAppBar(
                     title = getString(R.string.settings_title),
@@ -198,7 +200,7 @@ class SettingsActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 item {
-                    Card {
+                    AppCard {
                         SwitchPreference(
                             title = getString(R.string.set_write_enabled),
                             checked = writeEnabled,
@@ -219,7 +221,7 @@ class SettingsActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    Card {
+                    AppCard {
                         SwitchPreference(
                             title = getString(R.string.set_read_enabled),
                             checked = readEnabled,
@@ -271,7 +273,7 @@ class SettingsActivity : ComponentActivity() {
                     )
                 }
                 item {
-                    Card {
+                    AppCard {
                         Text(
                             text = getString(R.string.about_body),
                             fontSize = 13.sp,
@@ -449,7 +451,7 @@ class SettingsActivity : ComponentActivity() {
 
     @Composable
     private fun PickerRow(title: String, value: String, onClick: () -> Unit) {
-        Card(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
+        AppCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(14.dp),
                 verticalAlignment = Alignment.CenterVertically
@@ -464,7 +466,7 @@ class SettingsActivity : ComponentActivity() {
 
     @Composable
     private fun FilterRulesEntry() {
-        Card(
+        AppCard(
             modifier = Modifier.fillMaxWidth().clickable {
                 startActivity(Intent(this@SettingsActivity, FilterRulesActivity::class.java))
             }
