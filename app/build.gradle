@@ -46,8 +46,9 @@ android {
         release {
             // 只使用固定签名密钥；未提供时产物不签名（CI 会直接拦截，绝不回退 debug 签名）
             signingConfig keystoreFile ? signingConfigs.release : null
-            minifyEnabled false
-            shrinkResources false
+            // 开启 R8 混淆 + 资源压缩（Hook 入口与 libsu 的 keep 规则见 proguard-rules.pro）
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

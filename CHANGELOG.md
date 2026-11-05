@@ -1,5 +1,11 @@
 # 更新日志
 
+## [0.5.1] - 2026-11-05
+
+### 优化
+- 开启 R8 代码混淆 + 资源压缩（minifyEnabled / shrinkResources），APK 体积明显下降
+- 保留规则：Hook 入口（java_init.list 反射加载）、libsu 反射实现类；libxposed API 为 compileOnly，仅忽略缺失告警
+
 ## [0.5.0] - 2026-11-05
 
 ### 重构
