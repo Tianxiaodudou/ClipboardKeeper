@@ -2,11 +2,20 @@ package com.tianxiaodudou.clipboardkeeper.ui
 
 import android.content.Intent
 import android.os.Bundle
+import java.io.File
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -68,6 +77,11 @@ class SettingsActivity : ComponentActivity() {
     private var versionColor by mutableStateOf(Color.Gray)
     private var checking by mutableStateOf(false)
     private var picker by mutableStateOf<Picker?>(null)
+    private var updateVersion by mutableStateOf<String?>(null)
+    private var updateUrl by mutableStateOf("")
+    private var updateLog by mutableStateOf("")
+    private var downloadPercent by mutableStateOf<Int?>(null)
+    private var downloadError by mutableStateOf<String?>(null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,7 +148,11 @@ class SettingsActivity : ComponentActivity() {
                 UpdateChecker.STATE_NEWER -> {
                     versionState = base + getString(R.string.state_newer, result.remoteVersion)
                     versionColor = Color(0xFF2E7D32)
-                    UpdateDialog.show(this, result.remoteVersion, result.apkUrl, result.changelog)
+                    updateVersion = result.remoteVersion
+                    updateUrl = result.apkUrl
+                    updateLog = result.changelog
+                    downloadPercent = null
+                    downloadError = null
                 }
                 UpdateChecker.STATE_SAME -> {
                     versionState = base + getString(R.string.state_same)
@@ -318,7 +336,115 @@ class SettingsActivity : ComponentActivity() {
                     }
                 }
             }
+
+            val newVersion = updateVersion
+            if (newVersion != null) {
+                OverlayDialog(
+                    title = getString(R.string.update_title) + " · " + getString(R.string.update_changelog),
+                    show = true,
+                    onDismissRequest = { if (downloadPercent == null) updateVersion = null }
+                ) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = getString(
+                                R.string.update_found, newVersion,
+                                UpdateChecker.currentVersion(this@SettingsActivity)
+                            ),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 240.dp)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            Text(
+                                text = updateLog.ifBlank { getString(R.string.update_no_changelog) },
+                                fontSize = 13.sp
+                            )
+                        }
+                        val percent = downloadPercent
+                        if (percent != null) {
+                            Spacer(modifier = Modifier.height(12.dp))
+                            UpdateProgress(percent)
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                text = getString(R.string.update_downloading, percent),
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                        }
+                        val error = downloadError
+                        if (error != null) {
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = getString(R.string.update_download_failed, error),
+                                fontSize = 12.sp,
+                                color = Color(0xFFD32F2F)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            TextButton(
+                                text = getString(R.string.cancel),
+                                onClick = { if (downloadPercent == null) updateVersion = null },
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(
+                                text = getString(R.string.update_download),
+                                onClick = { startDownload(newVersion) },
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    @Composable
+    private fun UpdateProgress(percent: Int) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(6.dp)
+                .clip(RoundedCornerShape(3.dp))
+                .background(Color(0x22000000))
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(percent / 100f)
+                    .height(6.dp)
+                    .clip(RoundedCornerShape(3.dp))
+                    .background(Color(0xFF1565C0))
+            )
+        }
+    }
+
+    private fun startDownload(version: String) {
+        downloadError = null
+        downloadPercent = 0
+        UpdateDownloader.download(
+            this,
+            updateUrl,
+            version,
+            onProgress = { value -> runOnUiThread { downloadPercent = value } },
+            onFinished = { file, error ->
+                runOnUiThread {
+                    if (file != null) {
+                        updateVersion = null
+                        downloadPercent = null
+                        toast(getString(R.string.update_installing))
+                        UpdateDownloader.install(this, file)
+                    } else {
+                        downloadPercent = null
+                        downloadError = error ?: getString(R.string.refresh_internal)
+                    }
+                }
+            }
+        )
     }
 
     @Composable
