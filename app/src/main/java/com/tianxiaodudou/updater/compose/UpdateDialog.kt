@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tianxiaodudou.clipboardkeeper.R
 import com.tianxiaodudou.updater.Updater
 import com.tianxiaodudou.updater.Updater.CheckResult
 import kotlinx.coroutines.CoroutineScope
