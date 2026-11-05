@@ -1,5 +1,14 @@
 # 更新日志
 
+## [0.5.6] - 2026-11-05
+
+### 变更
+- 检查更新接入自研 [android-updater](https://github.com/Tianxiaodudou/android-updater)（`com.tianxiaodudou:updater`）：版本检查、APK 下载（带进度）、安装全部交给库
+- 弹窗仍为 Miuix 风格：更新日志优先用 Release 正文，为空时再用四路兜底（jsDelivr / raw / atom）
+- 库返回 null 时用原有诊断逻辑区分「已是最新 / 网络问题 / 仓库问题」
+- 删除自研的 UpdateDownloader（下载与安装改由库负责）
+- CI 增加 `packages: read` 权限与 GitHub Packages 凭据注入（库发布在私有 Packages）
+
 ## [0.5.5] - 2026-11-05
 
 ### 优化

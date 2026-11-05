@@ -89,4 +89,7 @@ dependencies {
     implementation 'androidx.activity:activity-compose:1.13.0'
     implementation 'top.yukonga.miuix.kmp:miuix-ui:0.9.4'
     implementation 'top.yukonga.miuix.kmp:miuix-preference:0.9.4'
+    // 检查更新 / 下载 / 安装：自己的 android-updater 库
+    implementation 'com.tianxiaodudou:updater:1.2.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
 }

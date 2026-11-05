@@ -5,6 +5,7 @@ import android.os.Bundle
 import java.io.File
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,6 +39,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tianxiaodudou.clipboardkeeper.R
+import com.tianxiaodudou.updater.Updater
+import kotlinx.coroutines.launch
 import top.yukonga.miuix.kmp.basic.Button
 import top.yukonga.miuix.kmp.basic.ButtonDefaults
 import top.yukonga.miuix.kmp.basic.Card
@@ -78,7 +81,7 @@ class SettingsActivity : ComponentActivity() {
     private var checking by mutableStateOf(false)
     private var picker by mutableStateOf<Picker?>(null)
     private var updateVersion by mutableStateOf<String?>(null)
-    private var updateUrl by mutableStateOf("")
+    private var pendingRelease by mutableStateOf<Updater.Release?>(null)
     private var updateLog by mutableStateOf("")
     private var downloadPercent by mutableStateOf<Int?>(null)
     private var downloadError by mutableStateOf<String?>(null)
@@ -141,35 +144,54 @@ class SettingsActivity : ComponentActivity() {
         versionState = getString(R.string.version_state_base, UpdateChecker.currentVersion(this)) +
                 " · " + getString(R.string.state_checking)
         versionColor = Color.Gray
-        UpdateChecker.check(this) { result ->
+        val current = UpdateChecker.currentVersion(this)
+        Updater.init(
+            Updater.Config(
+                owner = "Tianxiaodudou",
+                repo = "ClipboardKeeper",
+                currentVersion = current
+            )
+        )
+        lifecycleScope.launch {
+            val release = Updater.check(current)
             checking = false
-            val base = getString(R.string.version_state_base, result.localVersion) + " · "
-            when (result.state) {
-                UpdateChecker.STATE_NEWER -> {
-                    versionState = base + getString(R.string.state_newer, result.remoteVersion)
-                    versionColor = Color(0xFF2E7D32)
-                    updateVersion = result.remoteVersion
-                    updateUrl = result.apkUrl
-                    updateLog = result.changelog
-                    downloadPercent = null
-                    downloadError = null
-                }
-                UpdateChecker.STATE_SAME -> {
-                    versionState = base + getString(R.string.state_same)
-                    versionColor = Color(0xFF2E7D32)
-                }
-                UpdateChecker.STATE_LOCAL_AHEAD -> {
-                    versionState = base + getString(R.string.state_local_ahead, result.remoteVersion)
-                    versionColor = Color.Gray
-                }
-                else -> {
-                    val text = when (result.errorKind) {
-                        UpdateChecker.ERROR_NETWORK -> getString(R.string.state_error_network, result.message)
-                        UpdateChecker.ERROR_REPO -> getString(R.string.state_error_repo, result.message)
-                        else -> getString(R.string.state_error_unknown, result.message)
+            if (release != null && UpdateChecker.compare(release.version, current) > 0) {
+                versionState = getString(R.string.version_state_base, current) + " · " +
+                        getString(R.string.state_newer, release.version)
+                versionColor = Color(0xFF2E7D32)
+                pendingRelease = release
+                updateVersion = release.version
+                // 库只给 Release 正文，正文为空时用四路兜底再取一次
+                updateLog = release.notes.ifBlank { ChangelogFetcher.fetch(release.version, "") }
+                downloadPercent = null
+                downloadError = null
+                return@launch
+            }
+            // 库返回 null 分不清"已是最新/网络问题/仓库问题"，用原有诊断补一次
+            UpdateChecker.check(this@SettingsActivity) { result ->
+                val base = getString(R.string.version_state_base, result.localVersion) + " · "
+                when (result.state) {
+                    UpdateChecker.STATE_SAME -> {
+                        versionState = base + getString(R.string.state_same)
+                        versionColor = Color(0xFF2E7D32)
                     }
-                    versionState = base + text
-                    versionColor = Color(0xFFD32F2F)
+                    UpdateChecker.STATE_LOCAL_AHEAD -> {
+                        versionState = base + getString(R.string.state_local_ahead, result.remoteVersion)
+                        versionColor = Color.Gray
+                    }
+                    UpdateChecker.STATE_ERROR -> {
+                        val text = when (result.errorKind) {
+                            UpdateChecker.ERROR_NETWORK -> getString(R.string.state_error_network, result.message)
+                            UpdateChecker.ERROR_REPO -> getString(R.string.state_error_repo, result.message)
+                            else -> getString(R.string.state_error_unknown, result.message)
+                        }
+                        versionState = base + text
+                        versionColor = Color(0xFFD32F2F)
+                    }
+                    else -> {
+                        versionState = base + getString(R.string.state_newer, result.remoteVersion)
+                        versionColor = Color(0xFF2E7D32)
+                    }
                 }
             }
         }
@@ -396,7 +418,7 @@ class SettingsActivity : ComponentActivity() {
                             )
                             TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                 text = getString(R.string.update_download),
-                                onClick = { startDownload(newVersion) },
+                                onClick = { startDownload() },
                                 modifier = Modifier.weight(1f)
                             )
                         }
@@ -425,28 +447,29 @@ class SettingsActivity : ComponentActivity() {
         }
     }
 
-    private fun startDownload(version: String) {
+    private fun startDownload() {
+        val release = pendingRelease ?: return
         downloadError = null
         downloadPercent = 0
-        UpdateDownloader.download(
-            this,
-            updateUrl,
-            version,
-            onProgress = { value -> runOnUiThread { downloadPercent = value } },
-            onFinished = { file, error ->
-                runOnUiThread {
-                    if (file != null) {
-                        updateVersion = null
-                        downloadPercent = null
-                        toast(getString(R.string.update_installing))
-                        UpdateDownloader.install(this, file)
-                    } else {
-                        downloadPercent = null
-                        downloadError = error ?: getString(R.string.refresh_internal)
+        lifecycleScope.launch {
+            val apk = Updater.download(this@SettingsActivity, release) { percent ->
+                runOnUiThread { downloadPercent = percent }
+            }
+            runOnUiThread {
+                if (apk != null) {
+                    updateVersion = null
+                    downloadPercent = null
+                    toast(getString(R.string.update_installing))
+                    val installed = Updater.install(this@SettingsActivity, apk)
+                    if (!installed) {
+                        downloadError = getString(R.string.update_install_failed)
                     }
+                } else {
+                    downloadPercent = null
+                    downloadError = getString(R.string.update_download_failed, getString(R.string.refresh_internal))
                 }
             }
-        )
+        }
     }
 
     @Composable
