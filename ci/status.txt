@@ -1,5 +1,5 @@
-run=44
-ref=main
+run=45
+ref=v0.5.1
 version=0.5.1 (15)
 status=success
 
@@ -7,4 +7,4 @@ status=success
 build=success pack=success upload=success
 == ls dist ==
 total 2888
--rw-r--r-- 1 runner runner 2954503 Nov  5 04:59 0.5.1-ClipboardKeeper.apk
+-rw-r--r-- 1 runner runner 2954503 Nov  5 05:01 0.5.1-ClipboardKeeper.apk
