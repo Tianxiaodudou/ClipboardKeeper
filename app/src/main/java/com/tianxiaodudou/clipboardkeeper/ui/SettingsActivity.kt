@@ -1,24 +1,15 @@
 package com.tianxiaodudou.clipboardkeeper.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import java.io.File
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,18 +28,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tianxiaodudou.clipboardkeeper.R
 import com.tianxiaodudou.updater.Updater
-import kotlinx.coroutines.launch
+import com.tianxiaodudou.updater.compose.showUpdateDialog
 import top.yukonga.miuix.kmp.basic.Button
 import top.yukonga.miuix.kmp.basic.ButtonDefaults
-import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Scaffold
-import top.yukonga.miuix.kmp.basic.SmallTopAppBar
 import top.yukonga.miuix.kmp.basic.Text
-import top.yukonga.miuix.kmp.basic.TextField
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.overlay.OverlayDialog
 import top.yukonga.miuix.kmp.preference.RadioButtonPreference
@@ -57,7 +46,10 @@ import top.yukonga.miuix.kmp.theme.ColorSchemeMode
 import top.yukonga.miuix.kmp.theme.MiuixTheme
 import top.yukonga.miuix.kmp.theme.ThemeController
 
-/** 设置页：全部使用 Miuix 组件，业务逻辑沿用 RootShell / UpdateChecker / FilterStore。 */
+/**
+ * 设置页。更新相关一律交给 android-updater v1.5.1 的 showUpdateDialog：
+ * 弹窗自带「访问令牌 / PAT 七步教程 / 401·403·404 错误分类」，这里不再自己实现任何检查逻辑。
+ */
 class SettingsActivity : ComponentActivity() {
 
     companion object {
@@ -78,30 +70,32 @@ class SettingsActivity : ComponentActivity() {
     private var readThrottle by mutableStateOf("1000")
     private var maxRecords by mutableStateOf("10000")
     private var rootGranted by mutableStateOf(false)
-    private var versionState by mutableStateOf("")
-    private var versionColor by mutableStateOf(Color.Gray)
-    private var checking by mutableStateOf(false)
     private var picker by mutableStateOf<Picker?>(null)
-    private var updateVersion by mutableStateOf<String?>(null)
-    private var pendingRelease by mutableStateOf<Updater.Release?>(null)
-    private var updateLog by mutableStateOf("")
-    private var downloadPercent by mutableStateOf<Int?>(null)
-    private var downloadError by mutableStateOf<String?>(null)
-    private var pat by mutableStateOf("")
-    private var showPatDialog by mutableStateOf(false)
-    private var patInput by mutableStateOf("")
+    private var currentVersion by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        versionState = getString(R.string.version_state_base, UpdateChecker.currentVersion(this)) +
-                " · " + getString(R.string.state_idle)
-        pat = UpdatePrefs.token(this)
+        currentVersion = readVersionName()
+        Updater.init(
+            applicationContext,
+            Updater.Config(
+                owner = "Tianxiaodudou",
+                repo = "ClipboardKeeper",
+                currentVersion = currentVersion
+            )
+        )
         setContent {
             MiuixTheme(controller = remember { ThemeController(ColorSchemeMode.System) }) {
                 SettingsScreen()
             }
         }
         loadSettings()
+    }
+
+    private fun readVersionName(): String = try {
+        packageManager.getPackageInfo(packageName, 0).versionName.orEmpty()
+    } catch (_: Throwable) {
+        ""
     }
 
     private fun loadSettings() {
@@ -145,66 +139,6 @@ class SettingsActivity : ComponentActivity() {
         else -> if (value == "1") getString(R.string.state_on) else getString(R.string.state_off)
     }
 
-    private fun checkUpdate() {
-        checking = true
-        versionState = getString(R.string.version_state_base, UpdateChecker.currentVersion(this)) +
-                " · " + getString(R.string.state_checking)
-        versionColor = Color.Gray
-        val current = UpdateChecker.currentVersion(this)
-        Updater.init(
-            Updater.Config(
-                owner = "Tianxiaodudou",
-                repo = "ClipboardKeeper",
-                currentVersion = current,
-                token = pat.ifBlank { null }
-            )
-        )
-        lifecycleScope.launch {
-            val release = Updater.check(current)
-            checking = false
-            if (release != null && UpdateChecker.compare(release.version, current) > 0) {
-                versionState = getString(R.string.version_state_base, current) + " · " +
-                        getString(R.string.state_newer, release.version)
-                versionColor = Color(0xFF2E7D32)
-                pendingRelease = release
-                updateVersion = release.version
-                // 库只给 Release 正文，正文为空时用四路兜底再取一次
-                updateLog = release.notes.ifBlank { ChangelogFetcher.fetch(release.version, "") }
-                downloadPercent = null
-                downloadError = null
-                return@launch
-            }
-            // 库返回 null 分不清"已是最新/网络问题/仓库问题"，用原有诊断补一次
-            UpdateChecker.check(this@SettingsActivity) { result ->
-                val base = getString(R.string.version_state_base, result.localVersion) + " · "
-                when (result.state) {
-                    UpdateChecker.STATE_SAME -> {
-                        versionState = base + getString(R.string.state_same)
-                        versionColor = Color(0xFF2E7D32)
-                    }
-                    UpdateChecker.STATE_LOCAL_AHEAD -> {
-                        versionState = base + getString(R.string.state_local_ahead, result.remoteVersion)
-                        versionColor = Color.Gray
-                    }
-                    UpdateChecker.STATE_ERROR -> {
-                        val text = when (result.errorKind) {
-                            UpdateChecker.ERROR_NETWORK -> getString(R.string.state_error_network, result.message)
-                            UpdateChecker.ERROR_REPO -> getString(R.string.state_error_repo, result.message)
-                            UpdateChecker.ERROR_RATE_LIMIT -> getString(R.string.state_error_rate_limit)
-                            else -> getString(R.string.state_error_unknown, result.message)
-                        }
-                        versionState = base + text
-                        versionColor = Color(0xFFD32F2F)
-                    }
-                    else -> {
-                        versionState = base + getString(R.string.state_newer, result.remoteVersion)
-                        versionColor = Color(0xFF2E7D32)
-                    }
-                }
-            }
-        }
-    }
-
     private fun toast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -219,14 +153,15 @@ class SettingsActivity : ComponentActivity() {
                 AppTopBar(
                     title = getString(R.string.settings_title),
                     navigationIcon = {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
+                            text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(AppDims.PagePadding),
+                contentPadding = PaddingValues(AppDims.PagePadding),
                 verticalArrangement = Arrangement.spacedBy(AppDims.Gap)
             ) {
                 item {
@@ -278,11 +213,17 @@ class SettingsActivity : ComponentActivity() {
                     ) { picker = Picker.MAX_RECORDS }
                 }
                 item { FilterRulesEntry() }
-                item { PatEntry() }
                 item {
-                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
-                        onClick = { if (!checking) checkUpdate() },
+                    Button(
+                        onClick = {
+                            // 完全使用库自带的更新弹窗（含 PAT 入口与错误分类）
+                            showUpdateDialog(this@SettingsActivity)
+                        },
                         colors = ButtonDefaults.buttonColorsPrimary(),
+                        insideMargin = CompactButton.InsideMargin,
+                        minHeight = CompactButton.MinHeight,
+                        minWidth = CompactButton.MinWidth,
+                        cornerRadius = CompactButton.CornerRadius,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(getString(R.string.set_check_update))
@@ -290,9 +231,9 @@ class SettingsActivity : ComponentActivity() {
                 }
                 item {
                     Text(
-                        text = versionState,
-                        color = versionColor,
-                        fontSize = 12.sp
+                        text = getString(R.string.version_state_base, currentVersion),
+                        fontSize = 12.sp,
+                        color = Color.Gray
                     )
                 }
                 item {
@@ -322,15 +263,18 @@ class SettingsActivity : ComponentActivity() {
                 }
             }
 
-            val current = picker
-            if (current != null) {
-                val (title, values, selected) = when (current) {
-                    Picker.WRITE_THROTTLE -> Triple(getString(R.string.set_write_throttle),
-                        THROTTLE_VALUES, writeThrottle)
-                    Picker.READ_THROTTLE -> Triple(getString(R.string.set_read_throttle),
-                        THROTTLE_VALUES, readThrottle)
-                    Picker.MAX_RECORDS -> Triple(getString(R.string.set_max_records),
-                        MAX_RECORD_VALUES, maxRecords)
+            val chosen = picker
+            if (chosen != null) {
+                val (title, values, selected) = when (chosen) {
+                    Picker.WRITE_THROTTLE -> Triple(
+                        getString(R.string.set_write_throttle), THROTTLE_VALUES, writeThrottle
+                    )
+                    Picker.READ_THROTTLE -> Triple(
+                        getString(R.string.set_read_throttle), THROTTLE_VALUES, readThrottle
+                    )
+                    Picker.MAX_RECORDS -> Triple(
+                        getString(R.string.set_max_records), MAX_RECORD_VALUES, maxRecords
+                    )
                 }
                 OverlayDialog(
                     title = title,
@@ -340,12 +284,12 @@ class SettingsActivity : ComponentActivity() {
                     Column {
                         values.forEach { value ->
                             RadioButtonPreference(
-                                title = if (current == Picker.MAX_RECORDS) getString(R.string.value_records, value)
+                                title = if (chosen == Picker.MAX_RECORDS) getString(R.string.value_records, value)
                                 else if (value == "0") getString(R.string.value_no_throttle)
                                 else getString(R.string.value_ms, value),
                                 selected = value == selected,
                                 onClick = {
-                                    when (current) {
+                                    when (chosen) {
                                         Picker.WRITE_THROTTLE -> {
                                             writeThrottle = value
                                             saveSetting(KEY_WRITE_THROTTLE, value,
@@ -368,219 +312,6 @@ class SettingsActivity : ComponentActivity() {
                         }
                     }
                 }
-            }
-
-            val newVersion = updateVersion
-            if (newVersion != null) {
-                OverlayDialog(
-                    title = getString(R.string.update_title) + " · " + getString(R.string.update_changelog),
-                    show = true,
-                    onDismissRequest = { if (downloadPercent == null) updateVersion = null }
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Text(
-                            text = getString(
-                                R.string.update_found, newVersion,
-                                UpdateChecker.currentVersion(this@SettingsActivity)
-                            ),
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 240.dp)
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            Text(
-                                text = updateLog.ifBlank { getString(R.string.update_no_changelog) },
-                                fontSize = 13.sp
-                            )
-                        }
-                        val percent = downloadPercent
-                        if (percent != null) {
-                            Spacer(modifier = Modifier.height(12.dp))
-                            UpdateProgress(percent)
-                            Spacer(modifier = Modifier.height(6.dp))
-                            Text(
-                                text = getString(R.string.update_downloading, percent),
-                                fontSize = 12.sp,
-                                color = Color.Gray
-                            )
-                        }
-                        val error = downloadError
-                        if (error != null) {
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = getString(R.string.update_download_failed, error),
-                                fontSize = 12.sp,
-                                color = Color(0xFFD32F2F)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(12.dp))
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
-                                text = getString(R.string.cancel),
-                                onClick = { if (downloadPercent == null) updateVersion = null },
-                                modifier = Modifier.weight(1f)
-                            )
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
-                                text = getString(R.string.update_download),
-                                onClick = { startDownload() },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                    }
-                }
-            }
-
-            if (showPatDialog) {
-                OverlayDialog(
-                    title = getString(R.string.set_github_pat),
-                    summary = getString(R.string.set_github_pat_summary),
-                    show = true,
-                    onDismissRequest = { showPatDialog = false }
-                ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 300.dp)
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            Text(
-                                text = getString(R.string.pat_guide),
-                                fontSize = 12.sp,
-                                color = Color.Gray
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
-                            text = getString(R.string.pat_open_page),
-                            onClick = {
-                                try {
-                                    startActivity(
-                                        Intent(
-                                            Intent.ACTION_VIEW,
-                                            Uri.parse("https://github.com/settings/tokens")
-                                        )
-                                    )
-                                } catch (_: Throwable) {
-                                    toast("https://github.com/settings/tokens")
-                                }
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(6.dp))
-                        TextField(
-                            value = patInput,
-                            onValueChange = { patInput = it },
-                            label = getString(R.string.pat_hint)
-                        )
-                        Spacer(modifier = Modifier.height(10.dp))
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
-                                text = getString(R.string.pat_clear),
-                                onClick = {
-                                    pat = ""
-                                    UpdatePrefs.save(this@SettingsActivity, "")
-                                    showPatDialog = false
-                                    toast(getString(R.string.pat_cleared))
-                                },
-                                modifier = Modifier.weight(1f)
-                            )
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
-                                text = getString(R.string.pat_save),
-                                onClick = {
-                                    pat = patInput.trim()
-                                    UpdatePrefs.save(this@SettingsActivity, pat)
-                                    showPatDialog = false
-                                    toast(getString(R.string.pat_saved))
-                                },
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun UpdateProgress(percent: Int) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(6.dp)
-                .clip(RoundedCornerShape(3.dp))
-                .background(Color(0x22000000))
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(percent / 100f)
-                    .height(6.dp)
-                    .clip(RoundedCornerShape(3.dp))
-                    .background(Color(0xFF1565C0))
-            )
-        }
-    }
-
-    private fun startDownload() {
-        val release = pendingRelease ?: return
-        downloadError = null
-        downloadPercent = 0
-        lifecycleScope.launch {
-            val apk = Updater.download(this@SettingsActivity, release) { percent ->
-                runOnUiThread { downloadPercent = percent }
-            }
-            runOnUiThread {
-                if (apk != null) {
-                    updateVersion = null
-                    downloadPercent = null
-                    toast(getString(R.string.update_installing))
-                    val installed = Updater.install(this@SettingsActivity, apk)
-                    if (!installed) {
-                        downloadError = getString(R.string.update_install_failed)
-                    }
-                } else {
-                    downloadPercent = null
-                    downloadError = getString(R.string.update_download_failed, getString(R.string.refresh_internal))
-                }
-            }
-        }
-    }
-
-    @Composable
-    private fun PatEntry() {
-        AppCard(
-            modifier = Modifier.fillMaxWidth().clickable {
-                patInput = pat
-                showPatDialog = true
-            }
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = getString(R.string.set_github_pat),
-                        fontSize = 15.sp,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = if (pat.isEmpty()) getString(R.string.set_github_pat_summary)
-                        else getString(R.string.pat_set, UpdatePrefs.masked(pat)),
-                        fontSize = 12.sp,
-                        color = Color.Gray,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                }
-                Text(text = "›", fontSize = 18.sp, color = Color.Gray)
             }
         }
     }

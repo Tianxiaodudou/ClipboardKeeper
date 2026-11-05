@@ -1,5 +1,13 @@
 # 更新日志
 
+## [0.6.0] - 2026-11-05
+
+### 变更
+- 更新功能**完全照搬 android-updater v1.5.1**：直接内嵌 `updater` + `updater-compose` 源码，设置页「检查更新」只是调用 `showUpdateDialog(activity)`
+- 弹窗、下载进度、安装、PAT 七步教程、「访问令牌」入口、401/403/404 错误分类全部由库负责
+- 删除自研的 UpdateChecker / ChangelogFetcher / UpdatePrefs / 更新相关 UI 状态与弹窗
+- 设置页只保留「当前版本 x.y.z」一行文本
+
 ## [0.5.9] - 2026-11-05
 
 ### 新增/修复
