@@ -114,7 +114,7 @@ class FilterRulesActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(R.string.filter_title),
                     navigationIcon = {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
@@ -157,11 +157,11 @@ class FilterRulesActivity : ComponentActivity() {
                                         modifier = Modifier.padding(start = 2.dp, top = 2.dp)
                                     )
                                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                             text = getString(R.string.filter_edit),
                                             onClick = { openEditor(index) }
                                         )
-                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                             text = getString(R.string.filter_delete),
                                             onClick = { pendingDelete = index }
                                         )
@@ -171,7 +171,7 @@ class FilterRulesActivity : ComponentActivity() {
                         }
                     }
                 }
-                Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                     onClick = { openEditor(-1) },
                     colors = ButtonDefaults.buttonColorsPrimary(),
                     modifier = Modifier.fillMaxWidth().padding(16.dp)
@@ -192,12 +192,12 @@ class FilterRulesActivity : ComponentActivity() {
                     onDismissRequest = { pendingDelete = null }
                 ) {
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.cancel),
                             onClick = { pendingDelete = null },
                             modifier = Modifier.weight(1f)
                         )
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.confirm),
                             onClick = {
                                 val updated = rules.toMutableList()

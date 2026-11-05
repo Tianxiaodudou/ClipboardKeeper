@@ -150,9 +150,9 @@ class MainActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(R.string.app_name),
                     actions = {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.refresh), onClick = { refresh(true) })
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.clear), onClick = { showClearDialog = true })
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.refresh), onClick = { refresh(true) })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.clear), onClick = { showClearDialog = true })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.settings),
                             onClick = { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) }
                         )
@@ -194,12 +194,12 @@ class MainActivity : ComponentActivity() {
                     onDismissRequest = { showClearDialog = false }
                 ) {
                     Row(modifier = Modifier.fillMaxWidth()) {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.cancel),
                             onClick = { showClearDialog = false },
                             modifier = Modifier.weight(1f)
                         )
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.confirm),
                             onClick = {
                                 showClearDialog = false

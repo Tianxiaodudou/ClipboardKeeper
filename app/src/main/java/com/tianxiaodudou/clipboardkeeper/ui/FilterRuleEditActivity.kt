@@ -153,7 +153,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(if (index >= 0) R.string.filter_edit else R.string.filter_add),
                     navigationIcon = {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
@@ -224,11 +224,11 @@ class FilterRuleEditActivity : ComponentActivity() {
                     AppCard {
                         Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                     text = OP_LABELS[opIndex(conditions[position].op)],
                                     onClick = { opPickerFor = position }
                                 )
-                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                                TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                     text = getString(R.string.filter_remove_condition),
                                     onClick = {
                                         if (conditions.size > 1) conditions.removeAt(position)
@@ -244,13 +244,13 @@ class FilterRuleEditActivity : ComponentActivity() {
                     }
                 }
                 item {
-                    TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                    TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                         text = getString(R.string.filter_add_condition),
                         onClick = { conditions.add(CondState(FilterRule.OP_VALUES[0], "")) }
                     )
                 }
                 item {
-                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                         onClick = { save() },
                         colors = ButtonDefaults.buttonColorsPrimary(),
                         modifier = Modifier.fillMaxWidth()

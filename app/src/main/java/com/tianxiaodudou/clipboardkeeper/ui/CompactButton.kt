@@ -8,4 +8,5 @@ object CompactButton {
     val InsideMargin = PaddingValues(4.dp)
     val MinHeight = 28.dp
     val MinWidth = 0.dp
+    val CornerRadius = 8.dp
 }

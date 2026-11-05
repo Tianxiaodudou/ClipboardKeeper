@@ -189,7 +189,7 @@ class SettingsActivity : ComponentActivity() {
                 SmallTopAppBar(
                     title = getString(R.string.settings_title),
                     navigationIcon = {
-                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, text = getString(R.string.back), onClick = { finish() })
+                        TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
                     }
                 )
             }
@@ -249,7 +249,7 @@ class SettingsActivity : ComponentActivity() {
                 }
                 item { FilterRulesEntry() }
                 item {
-                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                    Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                         onClick = { if (!checking) checkUpdate() },
                         colors = ButtonDefaults.buttonColorsPrimary(),
                         modifier = Modifier.fillMaxWidth()
@@ -389,12 +389,12 @@ class SettingsActivity : ComponentActivity() {
                         }
                         Spacer(modifier = Modifier.height(12.dp))
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                 text = getString(R.string.cancel),
                                 onClick = { if (downloadPercent == null) updateVersion = null },
                                 modifier = Modifier.weight(1f)
                             )
-                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, 
+                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                 text = getString(R.string.update_download),
                                 onClick = { startDownload(newVersion) },
                                 modifier = Modifier.weight(1f)
