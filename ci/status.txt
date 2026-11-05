@@ -1,10 +1,10 @@
-run=52
-ref=v0.5.8
-version=0.5.8 (22)
+run=53
+ref=v0.5.9
+version=0.5.9 (23)
 status=success
 
 == step outcomes ==
 build=success pack=success upload=success
 == ls dist ==
-total 3092
--rw-r--r-- 1 runner runner 3163882 Nov  5 12:39 0.5.8-ClipboardKeeper.apk
+total 3108
+-rw-r--r-- 1 runner runner 3182138 Nov  5 12:43 0.5.9-ClipboardKeeper.apk
