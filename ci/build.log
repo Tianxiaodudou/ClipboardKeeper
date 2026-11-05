@@ -3,62 +3,30 @@ Daemon will be stopped at the end of the build
 > Task :app:preBuild UP-TO-DATE
 > Task :app:preReleaseBuild UP-TO-DATE
 > Task :app:mergeReleaseJniLibFolders
-> Task :app:mergeReleaseNativeLibs
-> Task :app:checkReleaseDuplicateClasses
-> Task :app:generateReleaseBuildConfig
-> Task :app:generateReleaseResources
-
-> Task :app:stripReleaseDebugSymbols
-Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so. Run with --info option to learn more.
-
-> Task :app:packageReleaseResources
-> Task :app:extractReleaseNativeSymbolTables
-> Task :app:processReleaseNavigationResources
-> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
-> Task :app:javaPreCompileRelease
-> Task :app:mergeReleaseArtProfile
-> Task :app:parseReleaseLocalResources
-> Task :app:checkReleaseAarMetadata
-> Task :app:mapReleaseSourceSetPaths
-> Task :app:compileReleaseNavigationResources
-> Task :app:generateReleaseRFile
-> Task :app:mergeReleaseResources
-> Task :app:createReleaseCompatibleScreenManifests
-> Task :app:extractDeepLinksRelease
-> Task :app:processReleaseMainManifest
-> Task :app:processReleaseManifest
-> Task :app:extractProguardFiles
-> Task :app:mergeReleaseStartupProfile
-> Task :app:processReleaseManifestForPackage
-> Task :app:generateReleaseAssets UP-TO-DATE
-> Task :app:mergeReleaseAssets
-> Task :app:compressReleaseAssets
-> Task :app:extractReleaseVersionControlInfo
-> Task :app:collectReleaseDependencies
-> Task :app:processReleaseResources
-> Task :app:sdkReleaseDependencyData
-> Task :app:validateSigningRelease
-> Task :app:writeReleaseAppMetadata
-> Task :app:writeReleaseSigningConfigVersions
-> Task :app:compileReleaseKotlin
-> Task :app:compileReleaseJavaWithJavac
-> Task :app:mergeReleaseGeneratedProguardFiles
-> Task :app:compressReleaseJavaRes
-> Task :app:mergeReleaseJavaResource
-> Task :app:expandReleaseArtProfileWildcards
-> Task :app:produceReleaseComposeMapping
-> Task :app:reportReleaseComposeMappingErrors
-> Task :app:minifyReleaseWithR8
-> Task :app:mergeReleaseComposeMapping
-> Task :app:convertShrunkResourcesToBinaryRelease
-> Task :app:optimizeReleaseResources
-> Task :app:compileReleaseArtProfile
-> Task :app:packageRelease
-> Task :app:createReleaseApkListingFileRedirect
-> Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793877727347.json
+> Task :app:mergeReleaseNativeLibs FAILED
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793881690684.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/ClipboardKeeper/ClipboardKeeper/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:mergeReleaseNativeLibs' (registered by plugin 'com.android.internal.application').
+> Could not resolve all files for configuration ':app:releaseRuntimeClasspath'.
+   > Could not find com.tianxiaodudou:updater:1.2.1.
+     Searched in the following locations:
+       - https://dl.google.com/dl/android/maven2/com/tianxiaodudou/updater/1.2.1/updater-1.2.1.pom
+       - https://repo.maven.apache.org/maven2/com/tianxiaodudou/updater/1.2.1/updater-1.2.1.pom
+       - https://jitpack.io/com/tianxiaodudou/updater/1.2.1/updater-1.2.1.pom
+       - https://maven.pkg.github.com/Tianxiaodudou/android-updater/com/tianxiaodudou/updater/1.2.1/updater-1.2.1.pom
+     Required by:
+         project ':app'
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights from a Build Scan (powered by Develocity).
+> Get more help at https://help.gradle.org.
 
 Deprecated Gradle features were used in this build, making it incompatible with Gradle 10.
 
@@ -66,25 +34,5 @@ You can use '--warning-mode all' to show the individual deprecation warnings and
 
 For more on this, please refer to https://docs.gradle.org/9.8.2/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
 
-BUILD SUCCESSFUL in 2m 15s
-48 actionable tasks: 48 executed
-Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
-== APK entries ==
-  2477496  1981-01-01 01:01   classes.dex
-       49  1981-01-01 01:01   META-INF/xposed/java_init.list
-       56  1981-01-01 01:01   META-INF/xposed/module.prop
-        7  1981-01-01 01:01   META-INF/xposed/scope.list
-     7472  1981-01-01 01:01   AndroidManifest.xml
-== module.prop ==
-minApiVersion=101
-targetApiVersion=102
-staticScope=true
-== scope.list ==
-system
-== java_init.list ==
-com.tianxiaodudou.clipboardkeeper.hook.HookEntry
-== signing ==
-V2 Signer: certificate DN: O=ClipboardPolice, CN=ClipboardPolice
-V2 Signer: certificate SHA-256 digest: 18e60aa90bf6a349bdff432efa61e59dfbefedc38f87138726018f330b6e18c1
-V2 Signer: certificate SHA-1 digest: a5db6603cba6ff1449b917a483913e1d3175b0f5
-V2 Signer: certificate MD5 digest: 3b39e384bb47747252a230db98cc60d6
+BUILD FAILED in 25s
+2 actionable tasks: 2 executed
