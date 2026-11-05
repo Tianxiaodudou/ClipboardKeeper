@@ -1,10 +1,8 @@
-run=36
+run=37
 ref=main
 version=0.4.2 (13)
-status=success
+status=failure
 
 == step outcomes ==
-build=success pack=success upload=success
+build=failure pack=skipped upload=skipped
 == ls dist ==
-total 6708
--rw-r--r-- 1 runner runner 6867951 Nov  5 04:15 0.4.2-ClipboardKeeper.apk
