@@ -186,7 +186,7 @@ class SettingsActivity : ComponentActivity() {
                 .background(AppColors.pageBackground())
                 .systemBarsPadding(),
             topBar = {
-                SmallTopAppBar(
+                AppTopBar(
                     title = getString(R.string.settings_title),
                     navigationIcon = {
                         TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
@@ -196,8 +196,8 @@ class SettingsActivity : ComponentActivity() {
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                contentPadding = androidx.compose.foundation.layout.PaddingValues(AppDims.PagePadding),
+                verticalArrangement = Arrangement.spacedBy(AppDims.Gap)
             ) {
                 item {
                     AppCard {
@@ -277,7 +277,7 @@ class SettingsActivity : ComponentActivity() {
                         Text(
                             text = getString(R.string.about_body),
                             fontSize = 13.sp,
-                            modifier = Modifier.padding(14.dp)
+                            modifier = Modifier.padding(AppDims.CardPadding)
                         )
                     }
                 }
@@ -453,11 +453,18 @@ class SettingsActivity : ComponentActivity() {
     private fun PickerRow(title: String, value: String, onClick: () -> Unit) {
         AppCard(modifier = Modifier.fillMaxWidth().clickable(onClick = onClick)) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(14.dp),
+                modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = title, fontSize = 15.sp, modifier = Modifier.weight(1f))
-                Text(text = value, fontSize = 13.sp, color = Color.Gray)
+                Text(
+                    text = title,
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(text = value, fontSize = 13.sp, color = Color.Gray, maxLines = 1)
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(text = "›", fontSize = 18.sp, color = Color.Gray)
             }
@@ -472,7 +479,7 @@ class SettingsActivity : ComponentActivity() {
             }
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(14.dp),
+                modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {

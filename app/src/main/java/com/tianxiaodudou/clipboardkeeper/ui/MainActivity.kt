@@ -147,7 +147,7 @@ class MainActivity : ComponentActivity() {
                 .background(AppColors.pageBackground())
                 .systemBarsPadding(),
             topBar = {
-                SmallTopAppBar(
+                AppTopBar(
                     title = getString(R.string.app_name),
                     actions = {
                         TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.refresh), onClick = { refresh(true) })
@@ -162,12 +162,12 @@ class MainActivity : ComponentActivity() {
         ) { padding ->
             Column(modifier = Modifier.fillMaxSize().padding(padding)) {
                 if (!rootGranted) {
-                    AppCard(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                    AppCard(modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding)) {
                         Text(
                             text = getString(R.string.root_missing),
                             color = Color(0xFFB25000),
                             fontSize = 13.sp,
-                            modifier = Modifier.padding(14.dp)
+                            modifier = Modifier.padding(AppDims.CardPadding)
                         )
                     }
                 }
@@ -177,8 +177,8 @@ class MainActivity : ComponentActivity() {
                     }
                 } else {
                     LazyColumn(
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        contentPadding = PaddingValues(AppDims.PagePadding),
+                        verticalArrangement = Arrangement.spacedBy(AppDims.Gap)
                     ) {
                         items(records, key = { it.id }) { record ->
                             ClipCard(record)
@@ -238,15 +238,23 @@ class MainActivity : ComponentActivity() {
                         onClick = { toggleExpanded(record) },
                         onLongClick = { copy(getString(R.string.copy_content), record.content) }
                     )
-                    .padding(12.dp)
+                    .padding(AppDims.CardPadding)
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = badge, color = badgeColor, fontSize = 12.sp, fontWeight = FontWeight.Bold)
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = badge,
+                        color = badgeColor,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 1
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = timeFormat.format(Date(record.timestamp)),
                         fontSize = 12.sp,
-                        color = Color.Gray
+                        color = Color.Gray,
+                        maxLines = 1,
+                        modifier = Modifier.weight(1f)
                     )
                 }
                 Spacer(modifier = Modifier.height(4.dp))
@@ -254,6 +262,8 @@ class MainActivity : ComponentActivity() {
                     text = record.sourcePackage,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.combinedClickable(
                         onClick = { },
                         onLongClick = { copy(getString(R.string.copy_package), record.sourcePackage) }

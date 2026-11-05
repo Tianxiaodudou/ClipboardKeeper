@@ -150,7 +150,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                 .background(AppColors.pageBackground())
                 .systemBarsPadding(),
             topBar = {
-                SmallTopAppBar(
+                AppTopBar(
                     title = getString(if (index >= 0) R.string.filter_edit else R.string.filter_add),
                     navigationIcon = {
                         TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
@@ -160,12 +160,12 @@ class FilterRuleEditActivity : ComponentActivity() {
         ) { padding ->
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(padding),
-                contentPadding = PaddingValues(12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                contentPadding = PaddingValues(AppDims.PagePadding),
+                verticalArrangement = Arrangement.spacedBy(AppDims.Gap)
             ) {
                 item {
                     AppCard {
-                        Column(modifier = Modifier.padding(14.dp)) {
+                        Column(modifier = Modifier.padding(AppDims.CardPadding)) {
                             Text(text = getString(R.string.filter_name), fontSize = 13.sp, color = Color.Gray)
                             Spacer(modifier = Modifier.height(6.dp))
                             TextField(
@@ -187,7 +187,7 @@ class FilterRuleEditActivity : ComponentActivity() {
                 }
                 item {
                     AppCard {
-                        Column(modifier = Modifier.padding(14.dp)) {
+                        Column(modifier = Modifier.padding(AppDims.CardPadding)) {
                             Text(text = getString(R.string.filter_logic), fontSize = 13.sp, color = Color.Gray)
                             Spacer(modifier = Modifier.height(4.dp))
                             RadioButtonPreference(
@@ -222,19 +222,20 @@ class FilterRuleEditActivity : ComponentActivity() {
                 }
                 items(conditions.size) { position ->
                     AppCard {
-                        Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                        Column(modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding)) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                                 TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                                     text = OP_LABELS[opIndex(conditions[position].op)],
                                     onClick = { opPickerFor = position }
                                 )
                                 TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
-                                    text = getString(R.string.filter_remove_condition),
+                                    text = getString(R.string.filter_delete),
                                     onClick = {
                                         if (conditions.size > 1) conditions.removeAt(position)
                                     }
                                 )
                             }
+                            Spacer(modifier = Modifier.height(AppDims.Gap))
                             TextField(
                                 value = conditions[position].value,
                                 onValueChange = { conditions[position] = CondState(conditions[position].op, it) },

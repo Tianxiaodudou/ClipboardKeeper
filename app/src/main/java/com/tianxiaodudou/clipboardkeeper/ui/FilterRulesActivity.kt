@@ -111,7 +111,7 @@ class FilterRulesActivity : ComponentActivity() {
                 .background(AppColors.pageBackground())
                 .systemBarsPadding(),
             topBar = {
-                SmallTopAppBar(
+                AppTopBar(
                     title = getString(R.string.filter_title),
                     navigationIcon = {
                         TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, text = getString(R.string.back), onClick = { finish() })
@@ -122,7 +122,7 @@ class FilterRulesActivity : ComponentActivity() {
             Column(modifier = Modifier.fillMaxSize().padding(padding)) {
                 if (rules.isEmpty()) {
                     Column(
-                        modifier = Modifier.weight(1f).fillMaxWidth().padding(24.dp),
+                        modifier = Modifier.weight(1f).fillMaxWidth().padding(12.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -135,12 +135,12 @@ class FilterRulesActivity : ComponentActivity() {
                 } else {
                     LazyColumn(
                         modifier = Modifier.weight(1f),
-                        contentPadding = PaddingValues(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        contentPadding = PaddingValues(AppDims.PagePadding),
+                        verticalArrangement = Arrangement.spacedBy(AppDims.Gap)
                     ) {
                         itemsIndexed(rules) { index, rule ->
                             AppCard {
-                                Column(modifier = Modifier.fillMaxWidth().padding(12.dp)) {
+                                Column(modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding)) {
                                     SwitchPreference(
                                         title = if (rule.enabled) ruleName(rule)
                                         else getString(R.string.filter_disabled_name, ruleName(rule)),
@@ -174,7 +174,7 @@ class FilterRulesActivity : ComponentActivity() {
                 Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                     onClick = { openEditor(-1) },
                     colors = ButtonDefaults.buttonColorsPrimary(),
-                    modifier = Modifier.fillMaxWidth().padding(16.dp)
+                    modifier = Modifier.fillMaxWidth().padding(10.dp)
                 ) {
                     Text(getString(R.string.filter_add))
                 }
