@@ -74,9 +74,10 @@ public final class UpdateChecker {
     public static void check(Context context, Callback callback) {
         Result result = new Result();
         result.localVersion = currentVersion(context);
+        final String token = UpdatePrefs.INSTANCE.token(context);
         new Thread(() -> {
             try {
-                JSONObject release = fetch(new URL(API));
+                JSONObject release = fetch(new URL(API), token);
                 String tag = normalize(release.optString("tag_name", ""));
                 String body = release.optString("body", "");
                 String apkUrl = pickApkUrl(release.optJSONArray("assets"));
@@ -162,13 +163,16 @@ public final class UpdateChecker {
                 ? throwable.getClass().getSimpleName() : message;
     }
 
-    private static JSONObject fetch(URL url) throws IOException, RepoException, org.json.JSONException {
+    private static JSONObject fetch(URL url, String token) throws IOException, RepoException, org.json.JSONException {
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         try {
             connection.setConnectTimeout(12000);
             connection.setReadTimeout(12000);
             connection.setRequestProperty("Accept", "application/vnd.github+json");
             connection.setRequestProperty("User-Agent", USER_AGENT);
+            if (token != null && !token.trim().isEmpty()) {
+                connection.setRequestProperty("Authorization", "Bearer " + token.trim());
+            }
             int code = connection.getResponseCode();
             if (code != 200) {
                 String hint;

@@ -47,6 +47,7 @@ import top.yukonga.miuix.kmp.basic.Card
 import top.yukonga.miuix.kmp.basic.Scaffold
 import top.yukonga.miuix.kmp.basic.SmallTopAppBar
 import top.yukonga.miuix.kmp.basic.Text
+import top.yukonga.miuix.kmp.basic.TextField
 import top.yukonga.miuix.kmp.basic.TextButton
 import top.yukonga.miuix.kmp.overlay.OverlayDialog
 import top.yukonga.miuix.kmp.preference.RadioButtonPreference
@@ -85,11 +86,15 @@ class SettingsActivity : ComponentActivity() {
     private var updateLog by mutableStateOf("")
     private var downloadPercent by mutableStateOf<Int?>(null)
     private var downloadError by mutableStateOf<String?>(null)
+    private var pat by mutableStateOf("")
+    private var showPatDialog by mutableStateOf(false)
+    private var patInput by mutableStateOf("")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         versionState = getString(R.string.version_state_base, UpdateChecker.currentVersion(this)) +
                 " · " + getString(R.string.state_idle)
+        pat = UpdatePrefs.token(this)
         setContent {
             MiuixTheme(controller = remember { ThemeController(ColorSchemeMode.System) }) {
                 SettingsScreen()
@@ -149,7 +154,8 @@ class SettingsActivity : ComponentActivity() {
             Updater.Config(
                 owner = "Tianxiaodudou",
                 repo = "ClipboardKeeper",
-                currentVersion = current
+                currentVersion = current,
+                token = pat.ifBlank { null }
             )
         )
         lifecycleScope.launch {
@@ -270,6 +276,7 @@ class SettingsActivity : ComponentActivity() {
                     ) { picker = Picker.MAX_RECORDS }
                 }
                 item { FilterRulesEntry() }
+                item { PatEntry() }
                 item {
                     Button(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                         onClick = { if (!checking) checkUpdate() },
@@ -425,6 +432,46 @@ class SettingsActivity : ComponentActivity() {
                     }
                 }
             }
+
+            if (showPatDialog) {
+                OverlayDialog(
+                    title = getString(R.string.set_github_pat),
+                    summary = getString(R.string.set_github_pat_summary),
+                    show = true,
+                    onDismissRequest = { showPatDialog = false }
+                ) {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        TextField(
+                            value = patInput,
+                            onValueChange = { patInput = it },
+                            label = getString(R.string.pat_hint)
+                        )
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
+                                text = getString(R.string.pat_clear),
+                                onClick = {
+                                    pat = ""
+                                    UpdatePrefs.save(this@SettingsActivity, "")
+                                    showPatDialog = false
+                                    toast(getString(R.string.pat_cleared))
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                            TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius,
+                                text = getString(R.string.pat_save),
+                                onClick = {
+                                    pat = patInput.trim()
+                                    UpdatePrefs.save(this@SettingsActivity, pat)
+                                    showPatDialog = false
+                                    toast(getString(R.string.pat_saved))
+                                },
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -468,6 +515,40 @@ class SettingsActivity : ComponentActivity() {
                     downloadPercent = null
                     downloadError = getString(R.string.update_download_failed, getString(R.string.refresh_internal))
                 }
+            }
+        }
+    }
+
+    @Composable
+    private fun PatEntry() {
+        AppCard(
+            modifier = Modifier.fillMaxWidth().clickable {
+                patInput = pat
+                showPatDialog = true
+            }
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(AppDims.CardPadding),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = getString(R.string.set_github_pat),
+                        fontSize = 15.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = if (pat.isEmpty()) getString(R.string.set_github_pat_summary)
+                        else getString(R.string.pat_set, UpdatePrefs.masked(pat)),
+                        fontSize = 12.sp,
+                        color = Color.Gray,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
+                Text(text = "›", fontSize = 18.sp, color = Color.Gray)
             }
         }
     }

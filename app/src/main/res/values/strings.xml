@@ -95,6 +95,16 @@
     <string name="op_regex">正则匹配</string>
     <string name="op_not_regex">正则不匹配</string>
 
+    <string name="set_github_pat">GitHub 访问令牌（PAT）</string>
+    <string name="set_github_pat_summary">私有仓库检查更新需要；公开仓库可留空</string>
+    <string name="pat_not_set">未设置</string>
+    <string name="pat_set">已设置 %1$s</string>
+    <string name="pat_hint">粘贴经典 PAT（需 repo 权限）</string>
+    <string name="pat_save">保存</string>
+    <string name="pat_clear">清除</string>
+    <string name="pat_saved">令牌已保存</string>
+    <string name="pat_cleared">令牌已清除</string>
+
     <string name="update_changelog">更新日志</string>
     <string name="update_no_changelog">（本次更新未提供更新日志）</string>
     <string name="update_download">下载更新</string>
