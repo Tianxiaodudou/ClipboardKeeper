@@ -1,5 +1,13 @@
 # 更新日志
 
+## [0.5.0] - 2026-11-05
+
+### 重构
+- UI 全面重写：XML 布局 + AppCompat/RecyclerView 换成 **Jetpack Compose**，组件全部换成 **Miuix**（compose-miuix-ui）
+- 覆盖范围：主页列表、设置页、过滤规则列表、规则编辑、检查更新弹窗、清空确认弹窗
+- 工具链随之上移：Gradle 9.8.2 / AGP 9.5.0 / Kotlin 2.4.21 / compileSdk 37（Miuix 的 aar 要求 compileSdk 37）
+- 业务逻辑零改动：Hook、数据库、刷新入库、过滤匹配、更新检查、下载安装仍复用原实现
+
 ## [0.4.2] - 2026-11-02
 
 ### 变更

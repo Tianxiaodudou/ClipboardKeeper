@@ -17,6 +17,7 @@ LSPosed 模块（libxposed API 102）：记录系统剪贴板的**写入**与**�
         ├── ClipDatabase.java        # SQLite / clipboard_keeper.db
         ├── ClipRecord.java
         └── RootShell.java           # 全部 su 调用
+    app/src/main/java/.../ui/*.kt    # 界面：Jetpack Compose + Miuix
     app/src/main/resources/META-INF/xposed/
     ├── java_init.list               # HookEntry 全限定名
     ├── scope.list                   # system
