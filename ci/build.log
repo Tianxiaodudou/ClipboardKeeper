@@ -18,17 +18,16 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:javaPreCompileRelease
 > Task :app:mergeReleaseArtProfile
 > Task :app:parseReleaseLocalResources
-> Task :app:mapReleaseSourceSetPaths
 > Task :app:checkReleaseAarMetadata
-> Task :app:compileReleaseNavigationResources
+> Task :app:mapReleaseSourceSetPaths
 > Task :app:generateReleaseRFile
+> Task :app:compileReleaseNavigationResources
 > Task :app:mergeReleaseResources
 > Task :app:createReleaseCompatibleScreenManifests
 > Task :app:extractDeepLinksRelease
 > Task :app:processReleaseMainManifest
 > Task :app:processReleaseManifest
 > Task :app:extractProguardFiles
-> Task :app:processReleaseManifestForPackage
 > Task :app:mergeReleaseStartupProfile
 > Task :app:generateReleaseAssets UP-TO-DATE
 > Task :app:mergeReleaseAssets
@@ -39,6 +38,7 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:validateSigningRelease
 > Task :app:writeReleaseAppMetadata
 > Task :app:writeReleaseSigningConfigVersions
+> Task :app:processReleaseManifestForPackage
 > Task :app:processReleaseResources
 > Task :app:compileReleaseKotlin
 > Task :app:compileReleaseJavaWithJavac
@@ -56,7 +56,7 @@ Unable to strip the following libraries, packaging them as they are: libandroidx
 > Task :app:packageRelease
 > Task :app:createReleaseApkListingFileRedirect
 > Task :app:assembleRelease
-gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793886096770.json
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1793963572801.json
 
 [Incubating] Problems report is available at: file:///home/runner/work/ClipboardKeeper/ClipboardKeeper/build/reports/problems/problems-report.html
 
@@ -70,7 +70,7 @@ BUILD SUCCESSFUL in 2m 10s
 48 actionable tasks: 48 executed
 Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.8.2/userguide/configuration_cache_enabling.html
 == APK entries ==
-  2681304  1981-01-01 01:01   classes.dex
+  2684596  1981-01-01 01:01   classes.dex
        49  1981-01-01 01:01   META-INF/xposed/java_init.list
        56  1981-01-01 01:01   META-INF/xposed/module.prop
         7  1981-01-01 01:01   META-INF/xposed/scope.list
