@@ -387,6 +387,14 @@ public class HookEntry extends XposedModule {
             this.pattern = compiled;
         }
 
+        private static int asInt(String raw, int defValue) {
+            try {
+                return Integer.parseInt(raw.trim());
+            } catch (Throwable t) {
+                return defValue;
+            }
+        }
+
         boolean matches(String text) {
             switch (op) {
                 case "contains":
@@ -409,6 +417,22 @@ public class HookEntry extends XposedModule {
                     return pattern != null && pattern.matcher(text).find();
                 case "not_regex":
                     return pattern != null && !pattern.matcher(text).find();
+                case "char_at": {
+                    // value = "位置|字符"，位置从 1 开始
+                    String[] parts = value.split("\\|", 2);
+                    if (parts.length < 2) return false;
+                    int pos = asInt(parts[0], -1);
+                    if (pos < 1) return false;
+                    int start = pos - 1;
+                    String expect = parts[1];
+                    return start + expect.length() <= text.length() && text.startsWith(expect, start);
+                }
+                case "length_equals":
+                    return text.length() == asInt(value, -1);
+                case "length_greater":
+                    return text.length() > asInt(value, Integer.MAX_VALUE);
+                case "length_less":
+                    return text.length() < asInt(value, Integer.MIN_VALUE);
                 default:
                     return false;
             }

@@ -41,5 +41,9 @@
         <item>@string/op_not_equals</item>
         <item>@string/op_regex</item>
         <item>@string/op_not_regex</item>
+        <item>@string/op_char_at</item>
+        <item>@string/op_length_equals</item>
+        <item>@string/op_length_greater</item>
+        <item>@string/op_length_less</item>
     </string-array>
 </resources>

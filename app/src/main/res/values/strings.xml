@@ -94,6 +94,13 @@
     <string name="op_not_equals">不等于</string>
     <string name="op_regex">正则匹配</string>
     <string name="op_not_regex">正则不匹配</string>
+    <string name="op_char_at">第 N 位是</string>
+    <string name="op_length_equals">字数等于</string>
+    <string name="op_length_greater">字数大于</string>
+    <string name="op_length_less">字数小于</string>
+    <string name="filter_hint_position">第几位（从 1 开始）</string>
+    <string name="filter_hint_char">该位置开始的字符</string>
+    <string name="filter_hint_count">字数</string>
 
     <string name="set_github_pat">GitHub 访问令牌（PAT）</string>
     <string name="set_github_pat_summary">私有仓库检查更新需要；公开仓库可留空</string>

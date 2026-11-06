@@ -16,7 +16,9 @@ public class FilterRule {
     /** 与 Hook 侧约定的条件类型（JSON 里同名） */
     public static final String[] OP_VALUES = {
             "contains", "not_contains", "starts_with", "not_starts_with",
-            "ends_with", "not_ends_with", "equals", "not_equals", "regex", "not_regex"
+            "ends_with", "not_ends_with", "equals", "not_equals", "regex", "not_regex",
+            // 位置/长度类：char_at 的 value 用 "位置|字符" 表示（位置从 1 开始）
+            "char_at", "length_equals", "length_greater", "length_less"
     };
 
     public String name = "";

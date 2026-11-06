@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,7 +51,8 @@ class FilterRuleEditActivity : ComponentActivity() {
         const val EXTRA_INDEX = "index"
         private val OP_LABELS = arrayOf(
             "包含", "不包含", "开头是", "开头不是", "结尾是",
-            "结尾不是", "完全等于", "不等于", "正则匹配", "正则不匹配"
+            "结尾不是", "完全等于", "不等于", "正则匹配", "正则不匹配",
+            "第 N 位是", "字数等于", "字数大于", "字数小于"
         )
     }
 
@@ -236,11 +238,48 @@ class FilterRuleEditActivity : ComponentActivity() {
                                 )
                             }
                             Spacer(modifier = Modifier.height(AppDims.Gap))
-                            TextField(
-                                value = conditions[position].value,
-                                onValueChange = { conditions[position] = CondState(conditions[position].op, it) },
-                                label = getString(R.string.filter_value_hint)
-                            )
+                            val cond = conditions[position]
+                            when (cond.op) {
+                                "char_at" -> {
+                                    // value 存成 "位置|字符"
+                                    val parts = cond.value.split("|", limit = 2)
+                                    val pos = parts.getOrElse(0) { "" }
+                                    val expect = parts.getOrElse(1) { "" }
+                                    Row(modifier = Modifier.fillMaxWidth()) {
+                                        TextField(
+                                            value = pos,
+                                            onValueChange = {
+                                                conditions[position] = CondState("char_at", it + "|" + expect)
+                                            },
+                                            label = getString(R.string.filter_hint_position),
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        TextField(
+                                            value = expect,
+                                            onValueChange = {
+                                                conditions[position] = CondState("char_at", pos + "|" + it)
+                                            },
+                                            label = getString(R.string.filter_hint_char),
+                                            modifier = Modifier.weight(1f)
+                                        )
+                                    }
+                                }
+                                "length_equals", "length_greater", "length_less" -> TextField(
+                                    value = cond.value,
+                                    onValueChange = {
+                                        conditions[position] = CondState(cond.op, it)
+                                    },
+                                    label = getString(R.string.filter_hint_count)
+                                )
+                                else -> TextField(
+                                    value = cond.value,
+                                    onValueChange = {
+                                        conditions[position] = CondState(cond.op, it)
+                                    },
+                                    label = getString(R.string.filter_value_hint)
+                                )
+                            }
                         }
                     }
                 }

@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -47,7 +48,7 @@ import top.yukonga.miuix.kmp.theme.ThemeController
 /** 过滤规则列表：启用/停用、编辑、删除。 */
 class FilterRulesActivity : ComponentActivity() {
 
-    private var rules by mutableStateOf<List<FilterRule>>(emptyList())
+    private val rules = mutableStateListOf<FilterRule>()
     private var rootGranted by mutableStateOf(false)
     private var pendingDelete by mutableStateOf<Int?>(null)
 
@@ -71,19 +72,35 @@ class FilterRulesActivity : ComponentActivity() {
             val loaded = if (granted) FilterStore.load() else emptyList()
             runOnUiThread {
                 rootGranted = granted
-                rules = loaded
+                rules.clear()
+                rules.addAll(loaded)
             }
         }.start()
     }
 
-    private fun persist(updated: List<FilterRule>) {
-        rules = updated
+    private fun persist() {
+        val snapshot = ArrayList(rules.toList())
         Thread {
-            val ok = FilterStore.save(ArrayList(updated))
+            val ok = FilterStore.save(snapshot)
             if (!ok) runOnUiThread {
                 toast(getString(R.string.filter_save_failed, getString(R.string.refresh_internal)))
             }
         }.start()
+    }
+
+    private fun copyRule(rule: FilterRule): FilterRule {
+        val copy = FilterRule()
+        copy.name = rule.name
+        copy.enabled = rule.enabled
+        copy.logicOr = rule.logicOr
+        copy.negate = rule.negate
+        rule.conditions.forEach { source ->
+            val cond = FilterRule.Cond()
+            cond.op = source.op
+            cond.value = source.value
+            copy.conditions.add(cond)
+        }
+        return copy
     }
 
     private fun openEditor(index: Int) {
@@ -146,8 +163,11 @@ class FilterRulesActivity : ComponentActivity() {
                                         else getString(R.string.filter_disabled_name, ruleName(rule)),
                                         checked = rule.enabled,
                                         onCheckedChange = { checked ->
-                                            rule.enabled = checked
-                                            persist(rules.toList())
+                                            // 换新实例，SnapshotStateList 才会触发重组
+                                            val copy = copyRule(rules[index])
+                                            copy.enabled = checked
+                                            rules[index] = copy
+                                            persist()
                                         }
                                     )
                                     Text(
@@ -200,10 +220,9 @@ class FilterRulesActivity : ComponentActivity() {
                         TextButton(insideMargin = CompactButton.InsideMargin, minHeight = CompactButton.MinHeight, minWidth = CompactButton.MinWidth, cornerRadius = CompactButton.CornerRadius, 
                             text = getString(R.string.confirm),
                             onClick = {
-                                val updated = rules.toMutableList()
-                                updated.removeAt(index)
+                                if (index < rules.size) rules.removeAt(index)
                                 pendingDelete = null
-                                persist(updated)
+                                persist()
                             },
                             modifier = Modifier.weight(1f)
                         )
